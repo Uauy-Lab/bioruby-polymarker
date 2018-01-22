@@ -1,14 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>BiorubyPolymarker</title>
-    <%= csrf_meta_tags %>
+<head>
+	<title>PolyMarker</title>
+	<%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+	<%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
 
-  <body>
-    <%= yield %>
-  </body>
+<body>
+	<!-- Use this navigation div as your menu bar div -->
+	<div class="navigation">
+		<ul class="nav">
+			<li>
+				<a href="${pageContext.request.contextPath}/">Request primers</a>
+			</li>
+			<li><a href="${pageContext.request.contextPath}/Markdown?md=DesignedPrimers">Designed primers</a></li>
+			<li>
+				<a href="${pageContext.request.contextPath}/Markdown?md=About">About</a>
+			</li>
+		</ul>
+	</div>
+	<div id="main-body">
+		<%= yield %>
+	</div>
+</body>
 </html>

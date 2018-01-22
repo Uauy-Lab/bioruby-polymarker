@@ -1,2 +1,20 @@
-<h1>SnpFiles#new</h1>
-<p>Find me in app/views/snp_files/new.html.erb</p>
+
+    <h1>Request primers</h1>
+    <p>
+        PolyMarker is an automated bioinformatics pipeline for SNP assay
+        development which increases the probability of generating
+        homoeologue-specific assays for polyploid wheat.
+        PolyMarker generates a multiple alignment between the target SNP
+        sequence and the IWGSC chromosome survey sequences
+        (<a href=" http://www.sciencemag.org/content/345/6194/1251788.abstract" >IWGSC, 2014</a> )
+        for each of the three wheat genomes. It then generates a mask with
+        informative positions which are highlighted with respect to the target genome.
+        <br/>
+        See <a href="/Markdown?md=About">About</a> to know how to prepare your input.
+        <br/>
+        We have <a href="/Markdown?md=DesignedPrimers">designed primers</a> for the iSelect 90K chip
+</p>
+
+<div class="well">
+  <%= render "form" %>
+</div>

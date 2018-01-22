@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
-  get 'snp_files/show'
+  resources :snp_files, except: [:show]
+  #get 'snp_files/show'
 
-  get 'snp_files/index'
+  #get 'snp_files/index'
 
-  get 'snp_files/new'
+  #get 'snp_files/new'
 
   #get 'snp_files/create'
 
