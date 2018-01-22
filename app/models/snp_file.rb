@@ -4,6 +4,7 @@ class SnpFile
   include Mongoid::Timestamps::Updated
   field :filename, type:String
   field :email, type: String
+  field :email_hash, type: String
   field :status, type:String
   field :snps,  type: Hash
   field :polymarker_output, type: String
