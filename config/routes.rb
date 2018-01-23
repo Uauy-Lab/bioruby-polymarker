@@ -14,6 +14,8 @@ Rails.application.routes.draw do
 
   #get 'snp_files/destroy'
 
+  get ':page' => 'markdown#show'
+
   root to: "snp_files#new"
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

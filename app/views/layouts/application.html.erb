@@ -8,16 +8,20 @@
 	<%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 </head>
 
-<body>
+<body id="page-wrap">
+	<%= image_tag "polymarker_header.png" %>
 	<!-- Use this navigation div as your menu bar div -->
 	<div class="navigation">
 		<ul class="nav">
 			<li>
-				<a href="${pageContext.request.contextPath}/">Request primers</a>
+				<%= link_to "Request primers", root_path %>
 			</li>
-			<li><a href="${pageContext.request.contextPath}/Markdown?md=DesignedPrimers">Designed primers</a></li>
 			<li>
-				<a href="${pageContext.request.contextPath}/Markdown?md=About">About</a>
+				<%= link_to "Designed primers", "designed_primers" %>
+			</li>
+				
+			<li>
+				<%= link_to "About", "about" %>
 			</li>
 		</ul>
 	</div>

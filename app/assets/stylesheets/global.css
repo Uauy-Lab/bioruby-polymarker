@@ -1,28 +1,44 @@
 #page-wrap {
-	width: 960px;
-	margin: 0 auto;
+    width: 960px;
+     margin: 0 auto;
 }
 
 .main-header {
-	text-align: center;
-	position: absolute;
-	top: 0px;
+  text-align: center;
+  position: absolute;
+  top: 0px;
 }
 
 #main-body{
-	position: absolute;
+    position: absolute;
     top: 200px;
     width: 960px;
     font-family: Calibri, OpenSans, sans-serif;
     color: gray;
     padding: 10px;
 }
+
+#wrapper {
+
+}
+#content {
+  float: left;
+  width: 35em;
+}
+#sidebar {
+  float: right;
+  padding-top: 85px;
+}
+#cleared {
+  clear: both;
+}
+
 .navigation{
-	width: 960px;
-	height: 34px;
-	background: #F6F6F6;
-	position: absolute;
-	top: 170px;
+    width: 960px;
+    height: 34px;
+    background: #F6F6F6;
+    position: absolute;
+    top: 170px;
 }
 
 .nav {
@@ -46,7 +62,7 @@
 
 .nav li a:hover {
 	color: #F6F6F6;
-	background: #2C4295;
+    background: #2C4295;
 }
 
 /*=== submenu ===*/

@@ -1,9 +1,12 @@
 
-<%= form_for @snp_file do |f| %>
-<div class="form-group">
-    <%= f.label :email %>
-    <%= f.text_field :email, class: "form-control" %>
-  </div>
-  
+<div class="form-group" id="sidebar">
 
-<% end %>  
+	<%= form_for @snp_file do |f| %>
+	<%= f.label :email %> 
+	<%= f.text_field :email, class: "form-control" %><br/>
+	<%= f.label :file %> 
+	<%= f.file_field :polymarker_input %><br/>
+	<%= f.submit "Upload" %></p><br/>
+	<% end %>  
+
+</div>
