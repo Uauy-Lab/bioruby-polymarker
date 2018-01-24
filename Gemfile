@@ -30,6 +30,10 @@ gem 'paperclip', '~> 5.1'
 
 gem 'redcarpet', '~> 3.4'
 
+gem 'bio-samtools', '~> 2.6'
+
+gem 'bio-polyploid-tools'
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
