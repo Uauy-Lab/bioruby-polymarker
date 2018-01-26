@@ -8,8 +8,13 @@ class Reference
 	field :arm_selection, type: String
 	field :description, type: String
 	field :chromosomes, type: Array
+
 	def set_from_hash(h)
 		h.each {|k,v| public_send("#{k}=",v)}
+	end
+
+	def valid_chromosome?(chr)
+		chromosomes.include? chr
 	end
 
 end

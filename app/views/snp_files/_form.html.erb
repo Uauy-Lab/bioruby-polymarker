@@ -3,10 +3,19 @@
 
 	<%= form_for @snp_file do |f| %>
 	<%= f.label :email %> 
-	<%= f.text_field :email, class: "form-control" %><br/>
+	<%= f.text_field :email, class: "form-control" %>
+	<br/>
 	<%= f.label :file %> 
-	<%= f.file_field :polymarker_input %><br/>
-	<%= f.submit "Upload" %></p><br/>
+	<%= f.file_field :polymarker_input %>
+	<br/>
+	<%= f.label :reference %>
+	<%= f.select(:reference) do %>
+	<% Reference.all.each do |ref| -%>
+	<%= content_tag(:option, ref.name, value: ref.name, "data-descriptipn": ref.description) %>
+	<% end %>
+	<% end %>
+	<br/>
+	<%= f.submit "Upload" %>
+	<br/>
 	<% end %>  
-
 </div>
