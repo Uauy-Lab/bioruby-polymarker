@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'reference/show'
+
   resources :snp_files, except: [:show]
   #get 'snp_files/show'
 

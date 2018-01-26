@@ -1,32 +1,26 @@
 require 'bio-samtools'
 require 'bioruby-polyploid-tools'
+require 'yaml'
 
 namespace :reference do
 	desc "Add a fasta file"
 	task :add, [:file] => :environment do |t, args|
-		fasta_file = args[:file]
-		fasta_samtools = Bio::DB::Fasta::FastaFile.new(
-			fasta: fasta_file,
-			samtools: true)
-		if File.exists?  "#{args[:file]}.fai"
-			$stdout.puts "#{args[:file]} already indexed"
-		else
-			$stdout.puts "Indexing #{args[:file]}"
-			$stdout.flush
-			fasta_samtools.index() 
+		refs = YAML.load_file(args[:file])
+		refs.each_pair do | k, v|
+			insert = false
+			ref = Reference.find_by({:name => v["name"]})
+			insert = true if ref.nil?
+			ref = Reference.new unless ref
+			ref.set_from_hash v
+			ReferenceHelper.index_reference(ref)
+
+			if insert
+				ref.save!
+			else
+				ref.update!
+			end
+			
 		end
-
-		if File.exists? "#{fasta_file}.nal" or File.exists? "#{fasta_file}.nhr"
-			$stdout.puts "#{fasta_file} seems to be have a blast database already"
-		else
-			$stdout.puts "Creating blast database for #{fasta_file}"
-			$stdout.flush
-			cmd = "makeblastdb  -dbtype 'nucl' -in #{fasta_file} -out #{fasta_file}"
-			system cmd
-		end
-
-		
-
 	end
 
 	desc "TODO"
