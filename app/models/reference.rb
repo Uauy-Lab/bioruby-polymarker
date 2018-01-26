@@ -7,7 +7,7 @@ class Reference
 	field :genome_count, type: String
 	field :arm_selection, type: String
 	field :description, type: String
-
+	field :chromosomes, type: Array
 	def set_from_hash(h)
 		h.each {|k,v| public_send("#{k}=",v)}
 	end

@@ -13,7 +13,11 @@ namespace :reference do
 			ref = Reference.new unless ref
 			ref.set_from_hash v
 			fasta_file = ReferenceHelper.index_reference(ref)
-			puts fasta_file.inspect
+			
+		
+			chromosomes = ReferenceHelper.get_chromosomes(ref, fasta_file)
+			$stdout.puts "Observed chromosomes: #{chromosomes.join(", ")}"
+			ref.chromosomes = chromosomes
 			if insert
 				ref.save!
 			else
