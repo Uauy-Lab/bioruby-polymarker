@@ -12,8 +12,8 @@ namespace :reference do
 			insert = true if ref.nil?
 			ref = Reference.new unless ref
 			ref.set_from_hash v
-			ReferenceHelper.index_reference(ref)
-
+			fasta_file = ReferenceHelper.index_reference(ref)
+			puts fasta_file.inspect
 			if insert
 				ref.save!
 			else
