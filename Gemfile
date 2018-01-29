@@ -32,7 +32,7 @@ gem 'redcarpet', '~> 3.4'
 
 gem 'bio-samtools', '~> 2.6'
 
-gem 'bio-polyploid-tools'
+gem 'bio-polyploid-tools', '~> 0.8.3'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'

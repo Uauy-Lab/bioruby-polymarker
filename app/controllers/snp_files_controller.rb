@@ -27,7 +27,7 @@ class SnpFilesController < ApplicationController
     if @snp_file.save!
       puts @snp_file.inspect
 
-      redirect_to snp_file_path, notice: "The snp_file has been created!" and return
+      redirect_to snp_file_path(@snp_file), notice: "The snp_file has been created!" and return
     end
     render 'new'
   end
@@ -42,6 +42,7 @@ class SnpFilesController < ApplicationController
   end
 
   def show
+    @snp_file = SnpFile.find params["id"]
   end
 
   def snp_file_params

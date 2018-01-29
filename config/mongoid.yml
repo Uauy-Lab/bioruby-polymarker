@@ -3,7 +3,7 @@ development:
   clients:
     # Defines the default client. (required)
     default:
-      uri: 'mongodb://localhost:27017/bioruby_polymarker_development'
+      uri: 'mongodb://0.0.0.0:27017/bioruby_polymarker_development'
       options:
     
         # Change the default write concern. (default = { w: 1 })
@@ -130,7 +130,7 @@ development:
     # Set the Mongoid and Ruby driver log levels when not in a Rails
     # environment. The Mongoid logger will be set to the Rails logger
     # otherwise.(default: :info)
-    # log_level: :info
+    log_level: :debug
 
     # Control whether `belongs_to` association is required. By default
     # `belongs_to` will trigger a validation error if the association

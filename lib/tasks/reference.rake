@@ -4,6 +4,7 @@ require 'yaml'
 
 namespace :reference do
 	desc "Add a fasta file"
+	Mongoid.load!("config/mongoid.yml")
 	task :add, [:file] => :environment do |t, args|
 		refs = YAML.load_file(args[:file])
 		refs.each_pair do | k, v|
