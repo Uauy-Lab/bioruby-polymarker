@@ -10,7 +10,12 @@ module SnpFilesHelper
 				snp_file.not_parsed << line
 			else
 				snp_file.snps[snp.gene] = [snp.gene, snp.chromosome, snp.sequence_original]
-			end	
+			end
 		end
+	end
+
+	def update_status(snp_file)
+		snp_file.status = snp_file.run_status[0] if snp_file.run_status.size > 0 
+		snp_file.save!
 	end
 end

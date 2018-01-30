@@ -3,7 +3,7 @@ require 'bioruby-polyploid-tools'
 require 'yaml'
 
 namespace :reference do
-	desc "Add a fasta file"
+	desc "Add a fasta file from a preferences file (see examples folder)"
 	Mongoid.load!("config/mongoid.yml")
 	task :add, [:file] => :environment do |t, args|
 		refs = YAML.load_file(args[:file])
@@ -14,8 +14,8 @@ namespace :reference do
 			ref = Reference.new unless ref
 			ref.set_from_hash v
 			fasta_file = ReferenceHelper.index_reference(ref)
-			
-		
+
+
 			chromosomes = ReferenceHelper.get_chromosomes(ref, fasta_file)
 			$stdout.puts "Observed chromosomes: #{chromosomes.join(", ")}"
 			ref.chromosomes = chromosomes
@@ -24,7 +24,7 @@ namespace :reference do
 			else
 				ref.update!
 			end
-			
+
 		end
 	end
 
