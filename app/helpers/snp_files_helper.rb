@@ -15,7 +15,11 @@ module SnpFilesHelper
 	end
 
 	def update_status(snp_file)
-		snp_file.status = snp_file.run_status[0] if snp_file.run_status.size > 0 
+		snp_file.status = snp_file.run_status[0] if snp_file.run_status.size > 0
+		snp_file.polymarker_log = snp_file.run_lines.join("")
+
+
+
 		snp_file.save!
 	end
 end

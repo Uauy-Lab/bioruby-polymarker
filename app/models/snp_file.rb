@@ -27,6 +27,10 @@ class SnpFile
   end
 
   def run_status
-    IO.readlines(status_file).last(1)
+    run_lines.last(1)
+  end
+
+  def run_lines
+    IO.readlines(status_file)
   end
 end

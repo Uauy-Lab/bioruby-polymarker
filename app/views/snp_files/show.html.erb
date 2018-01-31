@@ -1,17 +1,20 @@
 <h2><%= @snp_file.filename%></h2>
 
+<div>
 Status: <%= @snp_file.status %> <br/>
 Reference: <%= @snp_file.reference %> <br/>
+</div>
 
-
+<div>
 <h3>Markers file</h3>
+<div>
 <table>
 	<tr>
 		<th>Marker</th>
 		<th>Chromosome</th>
 		<th>Sequence</th>
 	</tr>
-	<% @snp_file.snps.each_pair do |key, val| %> 
+	<% @snp_file.snps.each_pair do |key, val| %>
 	<tr>
 
 		<td><%= val[0] %></td>
@@ -21,7 +24,11 @@ Reference: <%= @snp_file.reference %> <br/>
 	<% end %>
 
 </table>
+</div>
 <h4>Ignored lines</h4>
+<div>
  <% @snp_file.not_parsed.each do |line| %>
  	<%= line %> </br>
  <% end %>
+</div>
+</div>
