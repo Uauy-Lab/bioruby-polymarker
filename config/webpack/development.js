@@ -7,7 +7,7 @@ environment.plugins.set('Provide',  new webpack.ProvidePlugin({
     $: 'jquery',
     jQuery: 'jquery',
     jquery: 'jquery',
-    jqGrid: 'jqGrid',
+    w2ui: 'w2ui',
   })
 )
 
@@ -15,7 +15,7 @@ const config = environment.toWebpackConfig()
 
 config.resolve.alias = {
   jquery: "jquery/src/jquery",
-  jqGrid: "jqgrid/js/jquery.jqGrid.src",
+  w2ui: "w2ui/w2ui",
 }
 
 module.exports = environment.toWebpackConfig()

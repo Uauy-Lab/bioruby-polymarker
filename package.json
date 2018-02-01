@@ -4,8 +4,8 @@
   "dependencies": {
     "@rails/webpacker": "^3.2.1",
     "expose-loader": "^0.7.4",
-    "jqgrid": "^4.6.4",
     "jquery": "^3.3.1",
+    "w2ui": "^1.4.3",
     "webpack-jquery-ui": "^1.0.0"
   },
   "devDependencies": {

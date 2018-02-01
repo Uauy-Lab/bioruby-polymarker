@@ -8,5 +8,5 @@
 // layout file, like app/views/layouts/application.html.erb
 require('jquery')
 require('jquery-ui')
-require('jqgrid')
+require('w2ui')
 console.log('Hello World from Webpacker')
