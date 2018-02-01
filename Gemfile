@@ -32,9 +32,11 @@ gem 'redcarpet', '~> 3.4'
 
 gem 'bio-samtools', '~> 2.6'
 
+gem 'webpacker'
+
 gem 'sidekiq' #For the message queue
 
-gem 'inifile' #To parse the preference file. 
+gem 'inifile' #To parse the preference file.
 
 gem 'bio-polyploid-tools', '~> 0.8.3'
 

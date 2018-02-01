@@ -2,7 +2,13 @@
   "name": "bioruby-polymarker",
   "private": true,
   "dependencies": {
+    "@rails/webpacker": "^3.2.1",
+    "expose-loader": "^0.7.4",
+    "jqgrid": "^4.6.4",
     "jquery": "^3.3.1",
-    "jquery-ui": "^1.12.1"
+    "webpack-jquery-ui": "^1.0.0"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^2.11.1"
   }
 }
