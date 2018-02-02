@@ -6,4 +6,15 @@
   description: >
     Reference sequence available in [website](http://tada/)
     The reference contains the chromosomes assembled as pseudomolecules,
-    hence it is possible to distinguish duplications in the same chromosome. 
+    hence it is possible to distinguish duplications in the same chromosome.
+
+-reference:
+  name : RefSeq v1.0(tetraploid)
+  path: /Users/ramirezr/Documents/References/161010_Chinese_Spring_v1.0_pseudomolecules_tetraploid.fasta
+  genome_count: 2
+  arm_selection: nrgene
+  description: >
+    Reference sequence available in [website](http://tada/). This reference
+    was stripped from the D genome to work in tetraploid wheat.
+    The reference contains the chromosomes assembled as pseudomolecules,
+    hence it is possible to distinguish duplications in the same chromosome.

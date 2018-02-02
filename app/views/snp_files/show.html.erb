@@ -9,23 +9,8 @@ Reference: <%= @snp_file.reference %> <br/>
 <h3>Markers file</h3>
 <div>
 
-<div id="input_grid"></div>
-<table>
-	<tr>
-		<th>Marker</th>
-		<th>Chromosome</th>
-		<th>Sequence</th>
-	</tr>
-	<% @snp_file.snps.each_pair do |key, val| %>
-	<tr>
+<div id="input_grid"  style="width: 900px; height: 500px"></div>
 
-		<td><%= val[0] %></td>
-		<td><%= val[1] %></td>
-		<td><%= val[2] %></td>
-	</tr>
-	<% end %>
-
-</table>
 </div>
 <h4>Ignored lines</h4>
 <div>
@@ -37,12 +22,25 @@ Reference: <%= @snp_file.reference %> <br/>
 
 <script type="text/javascript">
         $(document).ready(function () {
-						var grid_div = $("#jqGrid");
+						var grid_div = $("#input_grid");
 						console.log(grid_div);
-
             $("#input_grid").w2grid({
-							name: 'input_grid'
+							name: 'input_grid',
+							method: 'GET',
+							show: {
+								toolbar: true,
+								footer: true,
+								toolbarReload: false
+							},
+							fixedBody : true,
+							url: '<%= @snp_file.id  %>/input.json',
+							columns: [
+								{field: 'ID', caption:'ID', size: '240px'},
+								{field: 'Chr', caption:'Chr', size: '50px'},
+								{field: 'Sequence', caption:'Sequence', size: '600px'}
+						]
 						});
+						//w2ui['grid'].load('./input.json');
 					});
 
    </script>

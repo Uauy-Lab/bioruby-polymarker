@@ -48,6 +48,30 @@ class SnpFilesController < ApplicationController
     end
   end
 
+  def array_to_json(records_array, fields)
+
+    records=Array.new
+    records_array.each do |record|
+      record_h = Hash.new
+      record.each_with_index do |e, i|
+        record_h[fields[i]] = e == nil ? "": e
+      end
+      records << record_h
+    end
+    {"total" => records.size, "records" =>records}
+  end
+
+  def show_input
+    @snp_file = SnpFile.find params["id"]
+     records = array_to_json(@snp_file.snps.values, ["ID", "Chr", "Sequence"] )
+     respond_to do |format|
+       format.html
+ 			format.json {
+ 				render json: records
+ 			}
+    end
+  end
+
   def snp_file_params
     params.require(:snp_file).permit(:email, :reference, :polymarker_input)
   end

@@ -1,5 +1,5 @@
 const { environment } = require('@rails/webpacker')
-
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const webpack = require('webpack')
 
 // Add an ProvidePlugin

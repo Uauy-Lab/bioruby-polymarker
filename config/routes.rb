@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :snp_files, except: [:show]
   get 'snp_files/:id' => "snp_files#show"
+  get 'snp_files/:id/input' => "snp_files#show_input"
 
   get 'snp_files/index'
 
