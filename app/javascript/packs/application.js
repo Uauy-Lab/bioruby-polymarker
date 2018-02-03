@@ -9,7 +9,9 @@
 require('jquery')
 require('jquery-ui')
 require('w2ui')
+require('msa')
 require("expose-loader?$!jquery");
 require("expose-loader?w2ui!w2ui");
+require("expose-loader?msa!msa");
 
 console.log('Hello World from Webpacker')

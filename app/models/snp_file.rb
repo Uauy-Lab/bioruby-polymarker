@@ -31,6 +31,10 @@ class SnpFile
     "#{polymarker_path}_out/primers.csv"
   end
 
+  def mask_file
+    "#{polymarker_path}_out/exons_genes_and_contigs.fa"
+  end
+
 
   def run_status
     run_lines.last(1)

@@ -1,3 +1,4 @@
+require 'bio'
 require 'bioruby-polyploid-tools'
 require 'csv'
 module SnpFilesHelper
@@ -25,11 +26,37 @@ module SnpFilesHelper
 		snp_file.polymarker_output = output
 	end
 
-	def update_status(snp_file)
-		snp_file.status = snp_file.run_status[0] if snp_file.run_status.size > 0
-		snp_file.polymarker_log = snp_file.run_lines.join("")
+	def load_masks(snp_file)
+		masks = Hash.new
+		current_marker = ""
+		print_next = true
+		current_id = ""
+		Bio::FlatFile.open(Bio::FastaFormat, snp_file.mask_file) do |fasta_file|
+		    fasta_file.each do |entry|
+					print_this = print_next
+					current_marker += entry.to_s if print_this
+					if entry.definition.start_with? "MASK"
+						print_next = false
+						masks[current_id] = current_marker
+					else
+						print_next = true
+						current_id = entry.definition.split(":")[0]
+					end
+				end
+		end
+		snp_file.mask_fasta = masks
+	end
 
-		load_primers_output(snp_file)
+	def update_status(snp_file)
+		return snp_file if snp_file.output_saved == true
+		snp_file.status = snp_file.run_status[0] if snp_file.run_status.size > 0
+		if snp_file.status.include? "DONE"
+			snp_file.polymarker_log = snp_file.run_lines.join("")
+			load_primers_output(snp_file)
+			load_masks(snp_file)
+			snp_file.output_saved = true
+		end
 		snp_file.save!
+		snp_file
 	end
 end
