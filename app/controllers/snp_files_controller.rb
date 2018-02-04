@@ -61,12 +61,20 @@ class SnpFilesController < ApplicationController
     {"total" => records.size, "records" =>records}
   end
 
+  def get_mask
+    @snp_file = SnpFile.find params["id"]
+    puts @snp_file.mask_fasta
+    @fasta = @snp_file.mask_fasta[params["marker"]]
+
+    
+  end
+
   def show_input
     @snp_file = SnpFile.find params["id"]
      records = array_to_json(@snp_file.snps.values, ["ID", "Chr", "Sequence"] )
      respond_to do |format|
        format.html
- 			format.json {
+ 			 format.json {
  				render json: records
  			}
     end
