@@ -66,12 +66,17 @@ class SnpFilesController < ApplicationController
     puts @snp_file.mask_fasta
     @fasta = @snp_file.mask_fasta[params["marker"]]
 
+  end
+
+  def merge_input_and_output(records, snp_file)
     
+
   end
 
   def show_input
     @snp_file = SnpFile.find params["id"]
      records = array_to_json(@snp_file.snps.values, ["ID", "Chr", "Sequence"] )
+    # records["records"] = records["records"].deep_merge(@snp_file.polymarker_output)
      respond_to do |format|
        format.html
  			 format.json {

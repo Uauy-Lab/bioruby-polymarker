@@ -10,8 +10,11 @@ require('jquery')
 require('jquery-ui')
 require('w2ui')
 require('msa')
+require('biojs-io-fasta')
 require("expose-loader?$!jquery");
 require("expose-loader?w2ui!w2ui");
 require("expose-loader?msa!msa");
+require("expose-loader?fasta!biojs-io-fasta");
 
-console.log('Hello World from Webpacker')
+//console.log('Hello World from Webpacker')
+//console.log(fasta)

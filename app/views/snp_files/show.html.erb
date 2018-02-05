@@ -20,27 +20,19 @@ Reference: <%= @snp_file.reference %> <br/>
 </div>
 </div>
 
-<script type="text/javascript">
-        $(document).ready(function () {
-						var grid_div = $("#input_grid");
-						console.log(grid_div);
-            $("#input_grid").w2grid({
-							name: 'input_grid',
-							method: 'GET',
-							show: {
-								toolbar: true,
-								footer: true,
-								toolbarReload: false
-							},
-							fixedBody : true,
-							url: '<%= @snp_file.id  %>/input.json',
-							columns: [
-								{field: 'ID', caption:'ID', size: '240px'},
-								{field: 'Chr', caption:'Chr', size: '50px'},
-								{field: 'Sequence', caption:'Sequence', size: '600px'}
-						]
-						});
-						//w2ui['grid'].load('./input.json');
-					});
+<div id="alignment_mask">
 
-   </script>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		load_primers_table('<%= @snp_file.id  %>', 'input_grid' );
+		//l_msa = setup_msa_div("alignment_mask");
+		//console.log(l_msa.u);
+		setup_msa_div(
+			'<%= @snp_file.id  %>', 
+			'<%= @snp_file.snps.keys[1]  %>',
+			"alignment_mask");
+	});
+
+</script>
