@@ -22,14 +22,19 @@ load_primers_table = function (snp_file_id, div) {
 	});
 };
 
+load_mask = function(snp_file_id, marker, local_msa ){
+	var fasta_url = snp_file_id + "/" + marker + ".fasta" ;
+	var seqs = fasta.read(fasta_url);
+	seqs.then(function(result) {
+		console.log(result);
+		local_msa.seqs.add(result);
+		local_msa.render();
+	});
+}
 
-setup_msa_div = function (snp_file_id, marker , div) {
+setup_msa_div = function (div) {
 	
 	var div_obj = document.getElementById(div);
-	
-	var fasta_url = snp_file_id + "/" + marker + ".fasta" ;
-	seqs = fasta.read(fasta_url);
-
 	var local_msa = new msa.msa({
 		el: div_obj,
 		//seqs: seqs,
@@ -52,20 +57,6 @@ setup_msa_div = function (snp_file_id, marker , div) {
 	local_msa.g.vis.set("registerMouseClicks", false);
 	local_msa.g.colorscheme.set("scheme", "nucleotide");
 	local_msa.g.config.set("registerMouseClicks", false);
-
-
-	console.log("setting up msa");
-	console.log(seqs);
-	console.log(seqs.value);
-
-	seqs.then(function(result) {
-		console.log(result);
-		local_msa.seqs.add(result);
-	local_msa.render();
-	console.log(local_msa);
-});
-	
-	
 	return local_msa;
 };
 

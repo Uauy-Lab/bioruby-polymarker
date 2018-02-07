@@ -29,10 +29,9 @@ Reference: <%= @snp_file.reference %> <br/>
 		load_primers_table('<%= @snp_file.id  %>', 'input_grid' );
 		//l_msa = setup_msa_div("alignment_mask");
 		//console.log(l_msa.u);
-		setup_msa_div(
-			'<%= @snp_file.id  %>', 
-			'<%= @snp_file.snps.keys[1]  %>',
-			"alignment_mask");
+		var local_msa = setup_msa_div("alignment_mask");
+		load_mask('<%= @snp_file.id  %>', 
+			'<%= @snp_file.snps.keys[1]  %>', local_msa)
 	});
 
 </script>
