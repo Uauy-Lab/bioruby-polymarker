@@ -68,15 +68,22 @@ class SnpFilesController < ApplicationController
 
   end
 
-  def merge_input_and_output(records, snp_file)
-    
-
+  def get_snps_and_markers(snp_file)
+    markers = array_to_json(snp_file.snps.values, ["ID", "Chr", "Sequence"] ) 
+    return markers if !status.nil? and not snp_file.status.include? "DONE"
+    markers_a = markers["records"] 
+    new_records = Array.new
+    markers_a.each do |e|
+      id =  e["ID"]
+      new_records << e.merge(snp_file.polymarker_output[id])
+    end
+    markers["records"] = new_records
+    markers
   end
 
   def show_input
     @snp_file = SnpFile.find params["id"]
-     records = array_to_json(@snp_file.snps.values, ["ID", "Chr", "Sequence"] )
-    # records["records"] = records["records"].deep_merge(@snp_file.polymarker_output)
+     records = get_snps_and_markers(@snp_file)
      respond_to do |format|
        format.html
  			 format.json {
