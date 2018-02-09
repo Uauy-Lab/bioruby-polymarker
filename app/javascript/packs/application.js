@@ -11,8 +11,9 @@ require('jquery-ui')
 require('w2ui')
 require('msa')
 require('biojs-io-fasta')
+require('jsgrid')
 require("expose-loader?$!jquery");
-require("expose-loader?w2ui!w2ui");
+require("expose-loader?jsgrid!jsgrid");
 require("expose-loader?msa!msa");
 require("expose-loader?fasta!biojs-io-fasta");
 

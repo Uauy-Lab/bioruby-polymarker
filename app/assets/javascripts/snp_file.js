@@ -1,26 +1,69 @@
-load_primers_table = function (snp_file_id, div) {
+load_primers_table = function (snp_file_id, div, done) {
 
 	var grid_div = $("#" + div);
-	console.log(grid_div);
-	var fasta_url =  snp_file_id  +'/input.json';
-	console.log(fasta_url);
-	grid_div.w2grid({
-		name: div,
-		method: 'GET',
-		show: {
-			toolbar: true,
-			footer: true,
-			toolbarReload: false
-		},
-		fixedBody : true,
-		url: fasta_url,
-		columns: [
-		{field: 'ID', caption:'ID', size: '240px'},
-		{field: 'Chr', caption:'Chr', size: '50px'},
-		{field: 'Sequence', caption:'Sequence', size: '600px'}
-		]
+	var primers_url =  snp_file_id  +'/input.json';
+	
+	var general = [
+		{name: 'ID', caption:'ID', width: '100px'},
+		{name: 'Chr', caption:'Chr', width: '40px'}
+	]
+
+	var polymarker_output = [
+	{name: 'total_contigs', caption:'Matches', width: '20px'},
+	{name: 'SNP_type', caption:'Type', width: '65px'},
+	{name: 'A', caption:'A', width: '150px'},
+	{name: 'B', caption:'B', width: '150px'},
+	{name: 'common', caption:'Common', width: '150px'},
+	{name: 'primer_type', caption:'Primer type', width: '80px'},
+	{name: 'errors', caption:'Errors', width: '205px'},
+	]
+
+	var sequence = [
+		{name: 'Sequence', caption:'Sequence', width: '820px'}
+	]
+
+	if(done){
+		general = general.concat(polymarker_output);
+	}else{
+		general = general.concat(sequence);
+	}
+	
+	columns_array = general
+	grid_div.jsGrid({
+		filtering: true,
+        editing: false,
+        sorting: true,
+        paging: true,
+        autoload: true,
+		
+		//url: primers_url,
+		fields: columns_array,
+		controller: {
+            loadData: function() {
+                var d = $.Deferred();
+ 				console.log("Loading?");
+                $.ajax({
+                    url: primers_url,
+                    dataType: "json"
+                }).done(function(response) {
+                	console.log("Respones");
+                	console.log(response.records);
+                	console.log(d.resolve);
+                    d.resolve(response.records);
+                });
+ 
+                return d.promise();
+            }
+        },
+		rowClick: function(event) {
+			console.log(event);
+		}
 	});
+
+	
+	
 };
+
 
 load_mask = function(snp_file_id, marker, local_msa ){
 	var fasta_url = snp_file_id + "/" + marker + ".fasta" ;
@@ -49,7 +92,8 @@ setup_msa_div = function (div) {
 			conserv: false,
 			registerMouseClicks: false,
 			scheme: "nucleotide",
-			allowRectSelect : false
+			allowRectSelect : false,
+			width: "960px"
 		}
 
 	}) ;

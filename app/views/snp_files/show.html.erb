@@ -9,7 +9,7 @@ Reference: <%= @snp_file.reference %> <br/>
 <h3>Markers file</h3>
 <div>
 
-<div id="input_grid"  style="width: 900px; height: 500px"></div>
+<div id="input_grid"  style="width: 100%; height: 500px"></div>
 
 </div>
 <h4>Ignored lines</h4>
@@ -20,18 +20,23 @@ Reference: <%= @snp_file.reference %> <br/>
 </div>
 </div>
 
-<div id="alignment_mask">
+<div id="alignment_mask" style="max-width: 100%;
+overflow-x: scroll" >
 
 </div>
 
-<script type="text/javascript">
+
+<script type="text/javascript" defer>
 	$(document).ready(function () {
-		load_primers_table('<%= @snp_file.id  %>', 'input_grid' );
+		load_primers_table('<%= @snp_file.id  %>', 'input_grid' , true);
 		//l_msa = setup_msa_div("alignment_mask");
 		//console.log(l_msa.u);
 		var local_msa = setup_msa_div("alignment_mask");
-		load_mask('<%= @snp_file.id  %>', 
-			'<%= @snp_file.snps.keys[1]  %>', local_msa)
+		//load_mask('<%= @snp_file.id  %>', 
+		//	'<%= @snp_file.snps.keys[1]  %>', local_msa)
+		//console.log(w2ui);
 	});
+
+	
 
 </script>

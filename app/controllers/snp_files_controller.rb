@@ -65,7 +65,6 @@ class SnpFilesController < ApplicationController
     @snp_file = SnpFile.find params["id"]
     puts @snp_file.mask_fasta
     @fasta = @snp_file.mask_fasta[params["marker"]]
-
   end
 
   def get_snps_and_markers(snp_file)
@@ -75,8 +74,13 @@ class SnpFilesController < ApplicationController
     new_records = Array.new
     markers_a.each do |e|
       id =  e["ID"]
-      new_records << e.merge(snp_file.polymarker_output[id])
+      p = snp_file.polymarker_output[id]
+      p["primer_type"] = p["primer_type"].sub("chromosome_","") if p["primer_type"]
+      p["SNP_type"] = p["SNP_type"].sub("homoeologous","hom") if p["SNP_type"]
+      
+      new_records << e.merge(p)
     end
+    new_records.first.keys.each { |e| puts "{field: '#{e}', caption:'#{e}', size: '50px'}, \n" }
     markers["records"] = new_records
     markers
   end
@@ -84,6 +88,7 @@ class SnpFilesController < ApplicationController
   def show_input
     @snp_file = SnpFile.find params["id"]
      records = get_snps_and_markers(@snp_file)
+     records["value"] = records["records"]
      respond_to do |format|
        format.html
  			 format.json {
