@@ -51,30 +51,69 @@ load_primers_table = function (snp_file_id, div, done, local_msa) {
 	});
 };
 
+unction find_end_with_gaps(opts){
+    var args = {start:0, length:0, seq:null, validate:null, skip:false} ;
+    if (opts.start) args.start = opts.start;
+    if (opts.length)args.length = opts.length;
+    if (opts.seq)args.seq = opts.seq;
+    if (opts.validate)args.validate = opts.validate;
+    if (opts.skip)args.skip = opts.skip;
+    var sequence = args.seq.seq.toUpperCase();
+    var to_count = args.length;
+    var i;
+
+    for(i = args.start; i < sequence.length && to_count > 0; i++){
+        if(sequence[i] != '-'){
+           to_count--;
+       }
+    }
+
+    var ret ={};
+    ret.sequence = sequence.substring(args.start, i)  ;
+    ret.end = i;
+    return ret;
+
+}
+
+function find_start_with_gaps(opts){
+    var args = {end:50, length:0, seq:null, validate:null, skip:false}     ;
+    if (opts.end) args.end = opts.end;
+    if (opts.length) args.length = opts.length;
+    if (opts.seq) args.seq = opts.seq;
+    if (opts.validate)args.validate = opts.validate;
+    if (opts.skip) args.skip = opts.skip;
+    var sequence = args.seq.seq.toUpperCase();
+    var to_count = args.length;
+    var i;
+    for(i = args.end; i > 0 && to_count > 0; i--){
+       if(sequence[i] != '-'  ){
+           to_count--;
+       }
+    }
+
+    var ret ={};
+    ret.sequence = sequence.substring(i, args.end)  ;
+    ret.start = i;
+    return ret;
+
+}
+
 find_target_sequence = function(item, seqs){
 	var target = item["Chr"];
-	console.log("Target: " + target);
 	var chr_index = 0;
 	var i = 0;
 	current_best = 0;
 	seqs.map( function(seq) {
 		var split = seq.name.split("-");
 		var name_tmp = split[split.length - 1];
-		console.log(split)
-		console.log(name_tmp);
-		console.log(split.length);
 		if(split.length > 1) {
 			var split_2 = name_tmp.split("_")
 			console.log(split_2);
 			var name = split_2[0];
 			var score = parseFloat(split_2[2])
-			console.log(name);
-			console.log(score);
-
 			if(name== target && score > current_best){
 				chr_index = i;
 				current_best = score;
-				console.log("The best!")
 			}
 		}
 		i++;
@@ -93,7 +132,7 @@ load_mask = function(snp_file_id, item, local_msa ){
 	local_msa.seqs.reset();
 	seqs.then(function(result) {
 		console.log(result);
-		find_target_sequence(item, result);
+		var chr_index = find_target_sequence(item, result);
 		local_msa.seqs.add(result);
 		local_msa.render();
 	});
