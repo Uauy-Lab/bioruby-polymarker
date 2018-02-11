@@ -51,7 +51,7 @@ load_primers_table = function (snp_file_id, div, done, local_msa) {
 	});
 };
 
-unction find_end_with_gaps(opts){
+function find_end_with_gaps(opts){
     var args = {start:0, length:0, seq:null, validate:null, skip:false} ;
     if (opts.start) args.start = opts.start;
     if (opts.length)args.length = opts.length;
@@ -121,9 +121,65 @@ find_target_sequence = function(item, seqs){
 	return chr_index;
 }
 
+function reverse_complement(s) {
+    var r; // Final reverse - complemented string
+    var x; // nucleotide to convert
+    var n; // converted nucleotide
+    var i;
+    var k;
+
+    var r = ""; // Final processed string
+    var i;
+    var k;
+
+    if (s.length==0)
+        return ""; // Nothing to do
+    // Go in reverse
+    for (k=s.length-1; k>=0; k--) {
+        x = s.substr(k,1);
+
+        if (x=="a") n="t"; else
+        if (x=="A") n="T"; else
+        if (x=="g") n="c"; else
+        if (x=="G") n="C"; else
+        if (x=="c") n="g"; else
+        if (x=="C") n="G"; else
+        if (x=="t") n="a"; else
+        if (x=="T") n="A"; else
+        // RNA?
+        if (x=="u") n="a"; else
+        if (x=="U") n="A"; else
+
+        // IUPAC? (see http://www.bioinformatics.org/sms/iupac.html)
+        if (x=="r") n="y"; else
+        if (x=="R") n="Y"; else
+        if (x=="y") n="r"; else
+        if (x=="Y") n="R"; else
+        if (x=="k") n="m"; else
+        if (x=="K") n="M"; else
+        if (x=="m") n="k"; else
+        if (x=="M") n="K"; else
+        if (x=="b") n="v"; else
+        if (x=="B") n="V"; else
+        if (x=="d") n="h"; else
+        if (x=="D") n="H"; else
+        if (x=="h") n="d"; else
+        if (x=="H") n="D"; else
+        if (x=="v") n="b"; else
+        if (x=="V") n="B"; else
+
+        // Leave characters we do not understand as they are.
+        // Also S and W are left unchanged.
+
+            n = x;
+        if(n.length == 1)
+        r = r + n;
+    }
+    return r;
+}
 
 
-load_mask = function(snp_file_id, item, local_msa ){
+function load_mask(snp_file_id, item, local_msa ){
 	var marker = item["ID"];
 	var fasta_url = snp_file_id + "/" + marker + ".fasta" ;
 	var seqs = fasta.read(fasta_url);
@@ -139,7 +195,7 @@ load_mask = function(snp_file_id, item, local_msa ){
 
 }
 
-setup_msa_div = function (div) {
+function setup_msa_div (div) {
 	
 	var div_obj = document.getElementById(div);
 	var local_msa = new msa.msa({
