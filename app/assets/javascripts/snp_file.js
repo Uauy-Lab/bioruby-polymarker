@@ -52,21 +52,19 @@
 };
 
 function find_end_with_gaps(opts){
-    var args = {start:0, length:0, seq:null, skip:false} ;
+    var args = {start:0, length:0, seq:null} ;
     if (opts.start) args.start = opts.start;
     if (opts.length)args.length = opts.length;
     if (opts.seq)args.seq = opts.seq;
-    if (opts.skip)args.skip = opts.skip;
-    var sequence = args.seq.seq.toUpperCase();
+    console.log(args);
+    var sequence = args.seq.toUpperCase();
     var to_count = args.length;
     var i;
-
     for(i = args.start; i < sequence.length && to_count > 0; i++){
         if(sequence[i] != '-'){
            to_count--;
        }
     }
-
     var ret ={};
     ret.sequence = sequence.substring(args.start, i)  ;
     ret.end = i;
@@ -75,12 +73,11 @@ function find_end_with_gaps(opts){
 }
 
 function find_start_with_gaps(opts){
-    var args = {end:50, length:0, seq:null, skip:false}     ;
+    var args = {end:50, length:0, seq:null}     ;
     if (opts.end) args.end = opts.end;
     if (opts.length) args.length = opts.length;
     if (opts.seq) args.seq = opts.seq;
-    if (opts.skip) args.skip = opts.skip;
-    var sequence = args.seq.seq.toUpperCase();
+    var sequence = args.seq.toUpperCase();
     var to_count = args.length;
     var i;
     for(i = args.end; i > 0 && to_count > 0; i--){
@@ -88,12 +85,10 @@ function find_start_with_gaps(opts){
            to_count--;
        }
     }
-
     var ret ={};
     ret.sequence = sequence.substring(i, args.end)  ;
     ret.start = i;
     return ret;
-
 }
 
 function find_target_sequence(item, seqs){
@@ -119,24 +114,107 @@ function find_target_sequence(item, seqs){
 	return chr_index;
 }
 
+
+function get_primer_coordinates(item, chr_index, seqs){
+	console.log(seqs)
+	var a=seqs[0].seq;
+	var b=seqs[1].seq;
+	var c=b;
+	var left_most = 0;
+
+	if(seqs[chr_index]){
+		c=seqs[chr_index].seq;
+	}
+	var mask = seqs[seqs.length-1];
+	var index_snp = mask.seq.indexOf("&") ;
+	if(index_snp < 0){
+		index_snp = mask.seq.indexOf(":");
+	}
+
+	var a_b_start = index_snp;
+	var lengh_a = item["A"].length
+	var lengh_c = item["common"].length
+	var product_size = item["product_size"]
+	var left_most = index_snp - lengh_a;
+
+	var end_obj = find_end_with_gaps({
+		start:index_snp,
+		length:lengh_a,
+	 	seq:c
+	});
+
+	//console.log("We passed the first search")
+	var a_c_end = end_obj.end -1;
+
+	var start_obj = find_start_with_gaps({
+		end:end_obj.end,
+		length:product_size,
+		seq:c
+	});
+	//console.log("We passed the second search")
+	var common_index = start_obj.start;
+
+	var end_obj_2 = find_end_with_gaps({
+		start:common_index,
+		length:lengh_c,
+		seq:c,
+	});
+
+	var common_start = common_index;
+	var common_end = end_obj_2.end - 1;
+	return {
+		a_start: a_b_start, 
+		a_end: a_c_end,
+		common_start: common_start,
+		common_end: common_end, 
+		c:c, 
+		b:b
+	}
+
+}
+
+
 function load_mask(snp_file_id, item, local_msa ){
 	var marker = item["ID"];
 	var fasta_url = snp_file_id + "/" + marker + ".fasta" ;
 	var seqs = fasta.read(fasta_url);
-	console.log(local_msa.seqs)
-	
+	//console.log(local_msa.seqs)
+	//console.log(item);
 	local_msa.seqs.reset();
 	seqs.then(function(result) {
 		console.log(result);
-		var chr_index = find_target_sequence(item, result);
 		local_msa.seqs.add(result);
-		local_msa.render();
-	});
 
+		var chr_index = find_target_sequence(item, result);
+		var coordinates = get_primer_coordinates(item,chr_index, result);
+		console.log(coordinates);
+		if(chr_index >= 0 && coordinates.c != coordinates.b){
+			console.log(msa.selcol.possel);
+			/*var se = new msa.selection.possel({
+		 /*	xStart: coordinates.a_start,
+				xEnd: coordinates.a_end,
+				seqId: 0});
+/*
+			var se2 = new msa.selection.possel({
+				xStart: coordinates.a_start,
+				xEnd: coordinates.a_end,
+				seqId: 1});
+
+			var se3 = new msa.selection.possel({
+				xStart: coordinates.common_start,
+				xEnd: coordinates.common_end,
+				seqId: chr_index});
+			local_msa.g.selcol.add(se);
+			local_msa.g.selcol.add(se2);
+			local_msa.g.selcol.add(se3);*/
+		}
+		local_msa.render();
+
+
+	});
 }
 
-function setup_msa_div (div) {
-	
+function setup_msa_div (div) {	
 	var div_obj = document.getElementById(div);
 	var local_msa = new msa.msa({
 		el: div_obj,
