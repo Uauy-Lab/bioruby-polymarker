@@ -63,22 +63,23 @@ class SnpFilesController < ApplicationController
 
   def get_mask
     @snp_file = SnpFile.find params["id"]
-    puts @snp_file.mask_fasta
-    @fasta = @snp_file.mask_fasta[params["marker"]]
+    #puts @snp_file.mask_fasta
+
+    @fasta = @snp_file.mask_fasta[params["marker"]]#.gsub ':', '_'
   end
 
   def get_snps_and_markers(snp_file)
-    markers = array_to_json(snp_file.snps.values, ["ID", "Chr", "Sequence"] ) 
+    markers = array_to_json(snp_file.snps.values, ["ID", "Chr", "Sequence"] )
     return markers if !status.nil? and not snp_file.status.include? "DONE"
-    markers_a = markers["records"] 
+    markers_a = markers["records"]
     new_records = Array.new
     markers_a.each do |e|
       id =  e["ID"]
-      p = snp_file.polymarker_output[id]
-      p["primer_type"] = p["primer_type"].sub("chromosome_","") if p["primer_type"]
-      p["SNP_type"] = p["SNP_type"].sub("homoeologous","hom") if p["SNP_type"]
-      
-      new_records << e.merge(p)
+      polymarker_input = snp_file.polymarker_output[id]
+      polymarker_input["primer_type"] = polymarker_input["primer_type"].sub("chromosome_","") if polymarker_input["primer_type"]
+      polymarker_input["SNP_type"] = polymarker_input["SNP_type"].sub("homoeologous","hom") if polymarker_input["SNP_type"]
+
+      new_records << e.merge(polymarker_input)
     end
     new_records.first.keys.each { |e| puts "{field: '#{e}', caption:'#{e}', size: '50px'}, \n" }
     markers["records"] = new_records
@@ -88,7 +89,7 @@ class SnpFilesController < ApplicationController
   def show_input
     @snp_file = SnpFile.find params["id"]
      records = get_snps_and_markers(@snp_file)
-     records["value"] = records["records"]
+     #records["value"] = records["records"]
      respond_to do |format|
        format.html
  			 format.json {

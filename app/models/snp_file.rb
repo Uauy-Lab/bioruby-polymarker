@@ -41,6 +41,8 @@ class SnpFile
   end
 
   def run_lines
-    IO.readlines(status_file)
+    ret = "To be started"
+    ret = IO.readlines(status_file) if File.file?(status_file)
+    ret
   end
 end
