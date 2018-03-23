@@ -173,19 +173,6 @@ function get_primer_coordinates(item, chr_index, seqs){
 
 }
 
-function coordinates_to_gff(coordinates, seqs){
-	var str = "##gff-version 3\n" +
-	 seqs[0].name + 
-	 "	gene	10	15	.	+	.	Name=A allele;Color=blue\n"+
-	 seqs[1].name + 
-	 "	gene	10	15	.	+	.	Name=B allele;Color=blue\n"
-	 +
-	 seqs[2].name + 
-	 "	gene	10	15	.	+	.	Name=common;Color=blue\n"
-	console.log(str);
-	return str;
-}
-
 
 function load_mask(snp_file_id, item, local_msa ){
 	var marker = item["ID"];
@@ -193,8 +180,6 @@ function load_mask(snp_file_id, item, local_msa ){
 	var seqs = fasta.read(fasta_url);
 	var gffParser = msa.io.gff;
 
-	//console.log(local_msa.seqs)
-	//console.log(item);
 	
 	seqs.then(function(result) {
 		console.log(result);
@@ -204,36 +189,13 @@ function load_mask(snp_file_id, item, local_msa ){
 		var chr_index = find_target_sequence(item, result);
 		var coordinates = get_primer_coordinates(item,chr_index, result);
 		console.log(coordinates);
+		
 		if(chr_index >= 0 && coordinates.c != coordinates.b){
-			console.log(msa);
-			console.log("Selection");
-			console.log(msa.selection)
-			var Feature = msa.model.feature;
-  			var f1 = new Feature({
-    			xStart: 7,
-    			xEnd: 20,
-    			text: "foo1",
-    			fillColor: "red"
-    		});
-			console.log( f1);
-			//local_msa.seqs.at(0).set("features", new msa.model.featurecol([f1]));
-			//local_msa.seqs.addFeatures()
-			//local_msa.render();
 			
-			//gff_str = coordinates_to_gff(coordinates, result);
-			//var features = gffParser.parseSeqs(gff_str);
-  			//console.log(features);
-  			//local_msa.seqs.addFeatures(features);
-  			//console.log(local_msa.seqs);
-  			//local_msa.render();
-  			//console.log("Added features");
-			//m.g.selcol.add(new msa.selection.possel({xStart: 10, xEnd: 12, seqId: "f1"}));
 			var se = new msa.selection.possel({
 		 	xStart: coordinates.a_start,
 				xEnd: coordinates.a_end,
 				seqId: 0});
-			console.log(se);
-			
 
 			var se2 = new msa.selection.possel({
 				xStart: coordinates.a_start,
