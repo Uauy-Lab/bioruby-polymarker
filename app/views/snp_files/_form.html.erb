@@ -2,9 +2,7 @@
 <div class="form-group" id="sidebar">
 
 	<%= form_for @snp_file do |f| %>
-	<%= f.label :email %> 
-	<%= f.text_field :email, class: "form-control" %>
-	<br/>
+	
 	<%= f.label :file %> 
 	<%= f.file_field :polymarker_input %>
 	<br/>
@@ -12,10 +10,16 @@
 	<%= f.select(:reference) do %>
 	<% Reference.all.each do |ref| -%>
 	<%= content_tag(:option, ref.name, value: ref.name, "data-descriptipn": ref.description) %>
+	<br/>
+	<%= f.label :email %> 
+	<%= f.text_field :email, class: "form-control" %> (optional)
 	<% end %>
 	<% end %>
 	<br/>
 	<%= f.submit "Upload" %>
 	<br/>
+
+	Your email will only be used to send you updates in the status of your job and will be deleted upon completion. 
+
 	<% end %>  
 </div>

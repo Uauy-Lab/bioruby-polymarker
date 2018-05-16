@@ -8,7 +8,7 @@ This is a server to facilitate the use of PolyMarker.
 
 This server is developed with ```ruby 2.4``` on ```rails 5.1```. Other versions may work, but it is not tested. PolyMarker is tested in MacOS X and Linux (Ubuntu). PolyMarker is queued using ```sidekiq``` which also depends in ```redis```. 
 
-You need to have installed blast.
+You need to have installed ```ncbi-blast```.
 
 
 # Setting up the server.

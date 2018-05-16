@@ -101,7 +101,6 @@ function find_target_sequence(item, seqs){
 		var name_tmp = split[split.length - 1];
 		if(split.length > 1) {
 			var split_2 = name_tmp.split("_")
-			console.log(split_2);
 			var name = split_2[0];
 			var score = parseFloat(split_2[2])
 			if(name== target && score > current_best){
@@ -206,6 +205,15 @@ function load_mask(snp_file_id, item, local_msa ){
 				xStart: coordinates.common_start,
 				xEnd: coordinates.common_end,
 				seqId: chr_index});
+
+
+			var view_start = coordinates.a_start;
+			if(view_start > coordinates.common_start){
+				view_start = coordinates.common_start
+			}
+			local_msa.g.zoomer.setLeftOffset(view_start); 
+			console.log(local_msa.g.selcol);
+			local_msa.g.selcol.reset()
 			local_msa.g.selcol.add(se);
 			local_msa.g.selcol.add(se2);
 			local_msa.g.selcol.add(se3);

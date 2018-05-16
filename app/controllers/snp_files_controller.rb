@@ -24,6 +24,7 @@ class SnpFilesController < ApplicationController
      parsed_file = helpers.parse_file(@snp_file, form_snp_file[:polymarker_input], reference)
 
      #puts "___Aabout to save____"
+     puts @snp_file.inspect
     if @snp_file.save!
       #puts @snp_file.inspect
       PolyMarkerWorker.perform_async(@snp_file.id)

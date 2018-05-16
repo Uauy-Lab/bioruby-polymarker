@@ -58,7 +58,7 @@ class PolyMarkerWorker
     end
 
     path = "#{path}/#{snp_file.id}"
-    puts "preparing input file: #{path}"
+    #puts "preparing input file: #{path}"
 
     f=File.open(path, "w")
     snp_file.snps.each_pair  do |key, row|

@@ -12,6 +12,7 @@ module SnpFilesHelper
 			if  snp.nil? or not reference.valid_chromosome? snp.chromosome
 				snp_file.not_parsed << line
 			else
+				snp.gene.gsub!(".","_")
 				snp_file.snps[snp.gene] = [snp.gene, snp.chromosome, snp.sequence_original]
 			end
 		end
@@ -42,7 +43,6 @@ module SnpFilesHelper
 						current_marker=""
 					else
 						print_next = true
-
 						current_id = entry.definition.split(":")[0]
 						current_id.chomp!
 					end
