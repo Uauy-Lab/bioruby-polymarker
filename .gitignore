@@ -37,3 +37,8 @@ yarn-error.log*
 .DS_Store
 .babelrc
 .postcssrc.yml
+/public/packs
+/public/packs-test
+/node_modules
+yarn-debug.log*
+.yarn-integrity

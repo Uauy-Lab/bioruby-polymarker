@@ -1,0 +1,19 @@
+
+-reference:
+  name : Brassica napus (AST_PRJEB5043_v1)
+  path: /References/Brassica_napus.AST_PRJEB5043_v1.dna.toplevel.fa
+  genome_count: 1
+  arm_selection: scaffold
+  description: >
+    Reference downloaded from 8 [Ensembl Plants release 38 - January 2018](http://plants.ensembl.org/Brassica_napus/Info/Annotation/).
+    
+-reference:
+  name : RefSeq v1.0(tetraploid)
+  path: /References/161010_Chinese_Spring_v1.0_pseudomolecules_tetraploid.fasta
+  genome_count: 2
+  arm_selection: nrgene
+  description: >
+    Reference sequence available in [website](http://tada/). This reference
+    was stripped from the D genome to work in tetraploid wheat.
+    The reference contains the chromosomes assembled as pseudomolecules,
+    hence it is possible to distinguish duplications in the same chromosome.
