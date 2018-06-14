@@ -40,6 +40,9 @@ gem 'inifile' #To parse the preference file.
 
 gem 'bio-polyploid-tools', '~> 0.8.3'
 
+gem 'bootstrap', '~> 4.1.1'
+
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
