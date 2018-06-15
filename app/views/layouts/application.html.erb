@@ -7,15 +7,19 @@
 	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 	<%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-	<%= javascript_pack_tag 'application' %>
-	
+	<%= javascript_pack_tag 'application' %>	
 </head>
 
-<body id="page-wrap">
-	<%= image_tag "polymarker_header.png" %>
-	<!-- Use this navigation div as your menu bar div -->
-	<div class="navigation">
-		<ul class="nav">
+<body id="page-wrap" class="container">
+
+	<!-- Logo -->
+	<div id='logo'>		
+		<%= image_tag "polymarker_header.png", :class => "logo_image"%>		
+	</div>
+
+    <!-- Navigation -->
+	<nav class="navbar">
+		<ul >
 			<li>
 				<%= link_to "Request primers", root_path %>
 			</li>
@@ -27,9 +31,12 @@
 				<%= link_to "About", "about" %>
 			</li>
 		</ul>
-	</div>
+	</nav>
+
+	<!-- Content -->
 	<div id="main-body">
 		<%= yield %>
 	</div>
+
 </body>
 </html>

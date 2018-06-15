@@ -1,4 +1,4 @@
-#page-wrap {
+/*#page-wrap {
     width: 960px;
      margin: 0 auto;
 }
@@ -64,10 +64,10 @@
 	color: #F6F6F6;
     background: #2C4295;
 }
-
+*/
 /*=== submenu ===*/
 
-.nav ul {
+/*.nav ul {
 	display: none;
 	position: absolute;
 	margin-left: 0px;
@@ -92,3 +92,4 @@
 .nav ul li a:hover {
 	color: #069;
 }
+*/

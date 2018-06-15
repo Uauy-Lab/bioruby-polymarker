@@ -13,3 +13,59 @@
  */
 
 @import "bootstrap";
+
+
+// Logo Styling
+#logo{
+	background-color: #f4f3f3;
+}
+
+.logo_image{
+	width: 100%;
+	text-align: center;
+}
+
+// Navigation Styling
+nav {
+	background-color: #f4f3f3;	
+}
+
+.navbar{
+	padding: 0px !important;
+	display: initial;
+}
+
+nav ul{
+	display: inherit;
+	padding: 0;
+}
+
+nav ul li{
+	display: grid;
+}
+
+nav a{
+	background-color: #f4f3f3 !important;
+	color: #253b91 !important;
+	padding: 10px calc(100%/9);
+	text-align: center;
+	margin: 0;
+}
+
+nav a:hover{
+	background-color: #253b91 !important;
+	color: white !important;	
+	text-decoration: none;
+}
+
+
+// Button Styling
+input, select{
+	background-color: #337ab7;
+	color: white;
+	border-radius: 7px;
+	cursor: pointer;
+	padding: 5px 8px;
+	box-shadow: 2px 2px 3px grey;
+	border: none;
+}

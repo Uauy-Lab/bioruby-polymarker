@@ -5,7 +5,7 @@
 	
 	<%= f.label :file %> 
 	<%= f.file_field :polymarker_input %>
-	<br/>
+	<br/><br/>
 	<%= f.label :reference %>
 	<%= f.select(:reference) do %>
 	<% Reference.all.each do |ref| -%>
@@ -15,7 +15,7 @@
 	<%= f.text_field :email, class: "form-control" %> (optional)
 	<% end %>
 	<% end %>
-	<br/>
+	<br/><br/>
 	<%= f.submit "Upload" %>
 	<br/>
 
