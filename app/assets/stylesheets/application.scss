@@ -85,5 +85,31 @@ select{
 	background-color: white;
 	border-radius: 25px;
 	padding: 15px;
-	margin-bottom: 5px;
+	margin-bottom: 80px;		// footer height + 5
+}
+
+
+// Footer Styling
+div.footer{
+  background-color:  #FFFFFF;
+  border-radius: 25px;   
+  max-height: 75px; 
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+img.logo{
+    height: 75px;    
+    padding:10px 0;
+    margin-left: calc(100%/15);
+  	margin-right: calc(100%/15);
+    box-sizing: border-box;
+}
+
+
+// Customizing Bootstrap Stylings ****************************************
+.container-fluid{
+    padding: 0;
 }
