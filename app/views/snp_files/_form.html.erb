@@ -1,5 +1,5 @@
 
-<div class="form-group" id="sidebar">
+<div class="container form-group" id="sidebar">
 
 	<%= form_for @snp_file do |f| %>
 	
@@ -9,12 +9,12 @@
 		<%= f.label :reference %>
 		<%= f.select(:reference) do %>
 			<% Reference.all.each do |ref| -%>
-				<%= content_tag(:option, ref.name, value: ref.name, "data-descriptipn": ref.description) %>
-				<br/>
-				<%= f.label :email %> 
-				<%= f.text_field :email, type:"email", class: "form-control" %> (optional)
+				<%= content_tag(:option, ref.name, value: ref.name, "data-descriptipn": ref.description) %>				
 			<% end %>
 		<% end %>
+		<br/>
+		<%= f.label :email %> 
+		<%= f.text_field :email, type:"email", class: "form-control" %> (optional)
 		<br/><br/>
 		<%= f.submit "Upload" %>
 		<br/>
