@@ -10,7 +10,30 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require jquery
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
 //= require snp_file.js
+
+$(document).ready(function($) {
+
+	// Spacing between logos when page initially loaded
+		var totalWidth = 0;
+		$(".footer img").each(function(){
+			totalWidth =  totalWidth + $(this).width();    
+		});  
+		$(".logo").css("margin-left", ((window.innerWidth - totalWidth)/10)-10 );
+		$(".logo").css("margin-right", ((window.innerWidth - totalWidth)/10)-10 );
+
+	// Resizing the logos dynamically 
+		var resizeLogoTimer;
+		$(window).on('resize', function(e){      
+			clearTimeout(resizeLogoTimer);  // Making sure that the reload doesn't happen if the window is resized within 1.5 seconds
+			resizeLogoTimer = setTimeout(function(){      
+				$(".logo").css("margin-left", ((window.innerWidth - totalWidth)/10)-10 );
+				$(".logo").css("margin-right", ((window.innerWidth - totalWidth)/10)-10 );
+			}, 1500);
+		});
+	
+});
