@@ -14,48 +14,52 @@
 
 @import "bootstrap";
 
+body{
+	background-color: #E6E6E6;
+}
+
+
+// Header Styling
+#header{
+	background-color: white;
+	border-radius: 25px;
+	padding: 15px;
+	margin-bottom: 5px;
+}
+
 
 // Logo Styling
-#logo{
-	background-color: #f4f3f3;
+.logo_image{
+	width: 50%;
+	text-align: center;
+	margin: 0 auto;
+	display: block;
+	margin-bottom: 5px;
 }
 
-.logo_image{
-	width: 100%;
-	text-align: center;
-}
 
 // Navigation Styling
-nav {
-	background-color: #f4f3f3;	
-}
-
 .navbar{
 	padding: 0px !important;
 	display: initial;
 }
 
-nav ul{
-	display: inherit;
-	padding: 0;
-}
-
-nav ul li{
-	display: grid;
-}
-
 nav a{
-	background-color: #f4f3f3 !important;
-	color: #253b91 !important;
-	padding: 10px calc(100%/9);
+	display: inline-block;	
+	color: #337ab7 !important;
+	padding: 10px 0;
 	text-align: center;
-	margin: 0;
+	margin: 0px 0px 0px -4px;
+	width: calc(100%/3);
+	border-radius: 10px;
 }
 
 nav a:hover{
-	background-color: #253b91 !important;
-	color: white !important;	
-	text-decoration: none;
+	background-color: #E6E6E6 !important;	
+	-webkit-transition: background-color 200ms linear;
+    -ms-transition: background-color 200ms linear;
+    transition: background-color 200ms linear;    
+    text-decoration: underline;
 }
 
 
@@ -73,4 +77,13 @@ input, select{
 // Color specific for select 
 select{
 	background-color: #489e47;
+}
+
+
+// Content Styling
+#main-body{
+	background-color: white;
+	border-radius: 25px;
+	padding: 15px;
+	margin-bottom: 5px;
 }

@@ -10,33 +10,30 @@
 	<%= javascript_pack_tag 'application' %>	
 </head>
 
-<body id="page-wrap" class="container">
+<body class="container-fluid">
 
-	<!-- Logo -->
-	<div id='logo'>		
-		<%= image_tag "polymarker_header.png", :class => "logo_image"%>		
-	</div>
+	<!-- Header -->
+	<div id="header">
+		<!-- Logo -->
+		<div id='logo' >		
+			<%= image_tag "polymarker_header.png", :class => "logo_image"%>		
+		</div>
 
-    <!-- Navigation -->
-	<nav class="navbar">
-		<ul >
-			<li>
-				<%= link_to "Request primers", root_path %>
-			</li>
-			<li>
-				<%= link_to "Designed primers", "designed_primers" %>
-			</li>
-
-			<li>
-				<%= link_to "About", "about" %>
-			</li>
-		</ul>
-	</nav>
+	    <!-- Navigation -->
+		<nav class="navbar">		
+			<%= link_to "Request primers", root_path %>			
+			<%= link_to "Designed primers", "designed_primers" %>			
+			<%= link_to "About", "about" %>			
+		</nav>
+	</div>	
 
 	<!-- Content -->
 	<div id="main-body">
 		<%= yield %>
 	</div>
+
+	<!-- Footer -->
+
 
 </body>
 </html>
