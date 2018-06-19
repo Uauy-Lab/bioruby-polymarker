@@ -19,9 +19,9 @@
 
 	    <!-- Navigation -->
 		<nav class="navbar">		
-			<%= link_to "Request primers", root_path %>			
-			<%= link_to "Designed primers", "designed_primers" %>			
-			<%= link_to "About", "about" %>			
+			<%= link_to "Request primers", root_path, :onclick => "calculateLogoMargin()"%>			
+			<%= link_to "Designed primers", "designed_primers", :onclick => "calculateLogoMargin()" %>			
+			<%= link_to "About", "about", :onclick => "calculateLogoMargin()" %>			
 		</nav>
 	</div>	
 
@@ -31,7 +31,7 @@
 	</div>
 
 	<!-- Footer -->
-	<div class="footer">
+	<div class="footer" >
 		<%= image_tag("jic.png", class: "logo" ) %>
 		<%= image_tag("EI.png", class: "logo" ) %>
 		<%= image_tag("bbsrc.png", class: "logo" ) %>

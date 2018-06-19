@@ -16,24 +16,33 @@
 //= require_tree .
 //= require snp_file.js
 
-$(document).ready(function($) {
 
+// Caldulate the margin between logos (Needs 300 milisecond delay for images to load first)
+	function calculateLogoMargin(){
+		setTimeout(function(){			
+			var totalWidth = 0;
+			$(".footer img").each(function(){
+				totalWidth =  totalWidth + $(this).width();    
+			});  
+			$(".logo").css("margin-left", ((window.innerWidth - totalWidth)/10)-10 );
+			$(".logo").css("margin-right", ((window.innerWidth - totalWidth)/10)-10 );
+		}, 300);		
+	}
+
+// Resizing the logos dynamically 
+	var resizeLogoTimer;
+	$(window).on('resize', function(e){      
+		clearTimeout(resizeLogoTimer);  // Making sure that the reload doesn't happen if the window is resized within 1.5 seconds (1200 = 1500 - 300)
+		resizeLogoTimer = setTimeout(function(){
+			calculateLogoMargin();
+		}, 1200);
+	});
+
+
+var ready;
+ready = (function() {
 	// Spacing between logos when page initially loaded
-		var totalWidth = 0;
-		$(".footer img").each(function(){
-			totalWidth =  totalWidth + $(this).width();    
-		});  
-		$(".logo").css("margin-left", ((window.innerWidth - totalWidth)/10)-10 );
-		$(".logo").css("margin-right", ((window.innerWidth - totalWidth)/10)-10 );
-
-	// Resizing the logos dynamically 
-		var resizeLogoTimer;
-		$(window).on('resize', function(e){      
-			clearTimeout(resizeLogoTimer);  // Making sure that the reload doesn't happen if the window is resized within 1.5 seconds
-			resizeLogoTimer = setTimeout(function(){      
-				$(".logo").css("margin-left", ((window.innerWidth - totalWidth)/10)-10 );
-				$(".logo").css("margin-right", ((window.innerWidth - totalWidth)/10)-10 );
-			}, 1500);
-		});
-	
+		calculateLogoMargin();
 });
+
+$( window ).on( "load", ready);
