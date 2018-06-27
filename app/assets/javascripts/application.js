@@ -17,6 +17,14 @@
 //= require snp_file.js
 
 
+
+// Hide the error message when it's clicked on
+	function hideErrorMessage(){
+		$(".alert-error").on("click", function(event) {
+			$(this).hide();
+		});
+	}
+
 // Caldulate the margin between logos (Needs 300 milisecond delay for images to load first)
 	function calculateLogoMargin(){
 		setTimeout(function(){			
@@ -43,6 +51,8 @@ var ready;
 ready = (function() {
 	// Spacing between logos when page initially loaded
 		calculateLogoMargin();
+
+	hideErrorMessage();
 });
 
 $( window ).on( "load", ready);

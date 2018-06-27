@@ -20,10 +20,19 @@
 	    <!-- Navigation -->
 		<nav class="navbar">		
 			<%= link_to "Request primers", root_path, :onclick => "calculateLogoMargin()"%>			
-			<%= link_to "Designed primers", "designed_primers", :onclick => "calculateLogoMargin()" %>			
+			<%= link_to "Designed primers", "designed_primers", :onclick => "calculateLogoMargin()" %>
 			<%= link_to "About", "about", :onclick => "calculateLogoMargin()" %>			
 		</nav>
 	</div>	
+
+	<!-- Error messages -->
+	<% flash.each do |key, value| %>
+
+		<div class="alert-<%= key %>">
+		<p> <%= value %>  </p>
+		</div>
+
+	<% end %>	
 
 	<!-- Content -->
 	<div id="main-body">

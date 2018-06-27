@@ -21,7 +21,16 @@ class SnpFilesController < ApplicationController
      reference = Reference.find_by(name: form_snp_file[:reference])
 
      @snp_file.reference = reference.name
-     parsed_file = helpers.parse_file(@snp_file, form_snp_file[:polymarker_input], reference)
+
+     begin
+      parsed_file = helpers.parse_file(@snp_file, form_snp_file[:polymarker_input], reference)
+     rescue => e    
+      flash[:error] = "Please attach a CSV file with the correct data format"
+      puts e
+      session[:return_to] ||= request.referer
+      redirect_to session.delete(:return_to)
+      return
+     end     
 
      #puts "___Aabout to save____"
      puts @snp_file.inspect

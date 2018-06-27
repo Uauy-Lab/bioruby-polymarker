@@ -107,6 +107,26 @@ img.logo{
 }
 
 
+// Alert Stylings ****************************************
+.alert-error {
+    position: fixed;
+    float: center;
+    top: 130px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    cursor:pointer;
+    width:500px;    
+    background: #FFE7E7;
+    background-position: 15px 50%;
+    text-align: left;
+    padding: 0px 0px 1px 45px;
+    border-top: 1px solid #E77D7B;
+    border-bottom: 1px solid #E77D7B;
+    border:1px solid #E77D7B;
+    overflow:auto;
+}
+
 // Customizing Bootstrap Stylings ****************************************
 .container-fluid{
     padding: 0;
