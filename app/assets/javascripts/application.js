@@ -18,9 +18,9 @@
 
 
 
-// Hide the error message when it's clicked on
-	function hideErrorMessage(){
-		$(".alert-error").on("click", function(event) {
+// Hide the messages when it's clicked on
+	function hideMessage(){
+		$(".alert").on("click", function(event) {
 			$(this).hide();
 		});
 	}
@@ -46,13 +46,13 @@
 		}, 1200);
 	});
 
-
+// Execute functions when the content of the window are loaded
 var ready;
 ready = (function() {
 	// Spacing between logos when page initially loaded
 		calculateLogoMargin();
 
-	hideErrorMessage();
+	hideMessage();
 });
 
 $( window ).on( "load", ready);

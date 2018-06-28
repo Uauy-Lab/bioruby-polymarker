@@ -4,7 +4,7 @@
 	<%= form_for @snp_file do |f| %>
 	
 		<%= f.label :file %> 
-		<%= f.file_field :polymarker_input, :required => true%>
+		<%= f.file_field :polymarker_input, :required => true, :accept => ".csv" %>
 		<br/><br/>
 		<%= f.label :reference %>
 		<%= f.select(:reference) do %>

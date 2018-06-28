@@ -28,8 +28,8 @@
 	<!-- Error messages -->
 	<% flash.each do |key, value| %>
 
-		<div class="alert-<%= key %>">
-		<p> <%= value %>  </p>
+		<div class="alert <%= key %>">
+			<p> <%= value %>  </p>
 		</div>
 
 	<% end %>	
