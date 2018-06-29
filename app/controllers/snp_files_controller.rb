@@ -56,10 +56,14 @@ class SnpFilesController < ApplicationController
   end
 
   def show
+
     @snp_file = SnpFile.find params["id"]
     if @snp_file.status != "New"
       helpers.update_status  @snp_file
     end
+
+    @is_done = ((@snp_file.status.include? "ERROR") || (@snp_file.status.include? "DONE"))
+
   end
 
   def array_to_json(records_array, fields)

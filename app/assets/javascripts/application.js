@@ -37,22 +37,27 @@
 		}, 300);		
 	}
 
-// Resizing the logos dynamically 
-	var resizeLogoTimer;
-	$(window).on('resize', function(e){      
-		clearTimeout(resizeLogoTimer);  // Making sure that the reload doesn't happen if the window is resized within 1.5 seconds (1200 = 1500 - 300)
-		resizeLogoTimer = setTimeout(function(){
-			calculateLogoMargin();
-		}, 1200);
-	});
+// Resizing the logos dynamically when window resized
+	function spaceLogosDynamically(){
+		var resizeLogoTimer;
+		$(window).on('resize', function(e){      
+			clearTimeout(resizeLogoTimer);  // Making sure that the reload doesn't happen if the window is resized within 1.5 seconds (1200 = 1500 - 300)
+			resizeLogoTimer = setTimeout(function(){
+				calculateLogoMargin();
+			}, 1200);
+		});
+	}	
 
 // Execute functions when the content of the window are loaded
 var ready;
 ready = (function() {
-	// Spacing between logos when page initially loaded
-		calculateLogoMargin();
+	
+	calculateLogoMargin();
 
-	hideMessage();
+	spaceLogosDynamically()
+
+	hideMessage();	
+
 });
 
 $( window ).on( "load", ready);
