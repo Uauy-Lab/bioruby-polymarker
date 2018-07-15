@@ -27,12 +27,38 @@ overflow-x: scroll" >
 
 
 <script type="text/javascript" defer>
+
+	function refreshPage(){
+				
+		var refreshSeconds = 10000;		
+		if(!<%= @is_done %>){
+
+			if(typeof sessionStorage.refreshSeconds === 'undefined'){
+				sessionStorage.setItem('refreshSeconds', 20000);
+			} else {
+				refreshSeconds = Number(sessionStorage.getItem('refreshSeconds'));
+				if((refreshSeconds+20000) <= 60000){					
+					sessionStorage.setItem('refreshSeconds', (refreshSeconds+20000));
+				}
+			}		
+
+			setTimeout(function(){
+				window.location.reload();
+			}, refreshSeconds);
+
+		} else {
+			delete sessionStorage.refreshSeconds;
+		}
+
+	}
+
 	$(document).ready(function () {
+		refreshPage();
 		var local_msa = setup_msa_div("alignment_mask");
 		load_primers_table('<%= @snp_file.id  %>',
 			 'input_grid' ,
 			  true, 
-			  local_msa);
-	});
+			  local_msa);			
+	});	
 
 </script>
