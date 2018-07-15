@@ -10,8 +10,6 @@ This server is developed with ```ruby 2.4``` on ```rails 5.1```. Other versions 
 
 You need to have installed ```ncbi-blast```.
 
-Somtimes you need to run ```rake webpacker:install``` and say yes to all the rest of the commands to overwirte the config files and install webpack
-
 
 # Setting up the server.
 
