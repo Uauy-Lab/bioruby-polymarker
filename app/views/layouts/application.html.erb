@@ -7,29 +7,46 @@
 	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 	<%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-	<%= javascript_pack_tag 'application' %>
-	
+	<%= javascript_pack_tag 'application' %>	
 </head>
 
-<body id="page-wrap">
-	<%= image_tag "polymarker_header.png" %>
-	<!-- Use this navigation div as your menu bar div -->
-	<div class="navigation">
-		<ul class="nav">
-			<li>
-				<%= link_to "Request primers", root_path %>
-			</li>
-			<li>
-				<%= link_to "Designed primers", "designed_primers" %>
-			</li>
+<body class="container-fluid">
 
-			<li>
-				<%= link_to "About", "about" %>
-			</li>
-		</ul>
-	</div>
+	<!-- Header -->
+	<div id="header">
+		<!-- Logo -->		
+		<%= image_tag "polymarker_header.png", :class => "logo_image"%>				
+
+	    <!-- Navigation -->
+		<nav class="navbar">		
+			<%= link_to "Request primers", root_path, :onclick => "calculateLogoMargin()"%>			
+			<%= link_to "Designed primers", "/designed_primers", :onclick => "calculateLogoMargin()" %>
+			<%= link_to "About", "/about", :onclick => "calculateLogoMargin()" %>			
+		</nav>
+	</div>	
+
+	<!-- Error messages -->
+	<% flash.each do |key, value| %>
+
+		<div class="alert <%= key %>">
+			<p> <%= value %>  </p>
+		</div>
+
+	<% end %>	
+
+	<!-- Content -->
 	<div id="main-body">
 		<%= yield %>
 	</div>
+
+	<!-- Footer -->
+	<div class="footer" >
+		<%= image_tag("jic.png", class: "logo" ) %>
+		<%= image_tag("EI.png", class: "logo" ) %>
+		<%= image_tag("bbsrc.png", class: "logo" ) %>
+		<%= image_tag("iwyp.png", class: "logo" ) %>
+		<%= image_tag("DFW.jpg", class: "logo" ) %>
+	</div>
+
 </body>
 </html>
