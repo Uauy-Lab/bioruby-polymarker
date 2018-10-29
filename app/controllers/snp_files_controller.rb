@@ -82,7 +82,8 @@ class SnpFilesController < ApplicationController
   def get_mask
     @snp_file = SnpFile.find params["id"]
     #puts @snp_file.mask_fasta
-
+    puts params["marker"]
+    puts @snp_file.mask_fasta.inspect
     @fasta = @snp_file.mask_fasta[params["marker"]]#.gsub ':', '_'
   end
 

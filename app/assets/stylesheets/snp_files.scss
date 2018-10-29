@@ -2,3 +2,20 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+#input_grid{
+	width: auto !important;
+	height: auto !important;
+	font-size: 1em !important;
+}
+
+.jsgrid-cell{
+	overflow-y: auto;	
+}
+
+.jsgrid-grid-body { 
+    overflow-y: auto;
+}
+
+.jsgrid-grid-header { 
+    overflow-y: auto;
+}

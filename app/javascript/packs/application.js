@@ -18,4 +18,4 @@ require("expose-loader?jsgrid!jsgrid");
 require("expose-loader?msa!msa");
 require("expose-loader?fasta!biojs-io-fasta");
 
-console.log('Hello World from Webpacker')
+// console.log('Hello World from Webpacker')

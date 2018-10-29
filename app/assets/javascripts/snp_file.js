@@ -30,8 +30,9 @@
         sorting: true,
         paging: true,
         autoload: true,
-		pageSize: 5,
+		pageSize: 15,
 		fields: columns_array,
+		updateOnResize: true,
 		controller: {
             loadData: function() {
                 var d = $.Deferred();
