@@ -219,10 +219,16 @@ function load_mask(snp_file_id, item, local_msa ){
 			local_msa.g.selcol.add(se2);
 			local_msa.g.selcol.add(se3);
 		}
-		
-
-
 	});
+
+
+	setTimeout(function(){
+		var nameWidth = $(".biojs_msa_labelblock").width();		
+		$(".biojs_msa_rheader").css('margin-left', nameWidth - 150);
+	}, 100);
+
+	
+
 }
 
 function setup_msa_div (div) {	

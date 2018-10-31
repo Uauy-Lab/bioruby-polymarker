@@ -19,3 +19,17 @@
 .jsgrid-grid-header { 
     overflow-y: auto;
 }
+
+.biojs_msa_rheader{
+	left: 12px !important;
+    position: relative !important;
+}
+
+.biojs_msa_seqblock{
+	position: relative;
+	left: 10px
+}
+
+.biojs_msa_labels{
+	width: auto !important;
+}
