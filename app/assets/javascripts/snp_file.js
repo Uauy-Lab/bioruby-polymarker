@@ -266,17 +266,22 @@ function update_highlighted_description(){
 
 function highlight_description(){
 
-	var refrence = $( "#snp_file_reference" ).val().replace(/[^a-zA-Z ]|[1-9]| /g,'');	
+	var refrence = $( "#snp_file_reference" ).val().replace(/[^a-zA-Z ]|[1-9]|\s/g,'');	
 	$( "#" + refrence ).css('color', 'red');
 
 }
 
 ready = (function() {
 
-	// add onchange attribute to select	
-	$( "#snp_file_reference" ).attr('onchange', 'update_highlighted_description()');
+	// add onchange attribute to select	 
+	var selectValue = $( "#snp_file_reference" ).val();
+	if(typeof selectValue != 'undefined'){
 
-	highlight_description();	
+		$( "#snp_file_reference" ).attr('onchange', 'update_highlighted_description()');
+
+		highlight_description();	
+
+	}	
 
 });
 
