@@ -31,7 +31,7 @@ class SnpFilesController < ApplicationController
       if @snp_file.save!
         #puts @snp_file.inspect
         PolyMarkerWorker.perform_async(@snp_file.id)
-        redirect_to snp_file_path(@snp_file), notice: "New snp file" and return
+        redirect_to snp_file_path(@snp_file), notice: "SNP file uploaded successfully" and return
       end
 
       render 'new'
