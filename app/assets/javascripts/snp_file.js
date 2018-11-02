@@ -225,10 +225,10 @@ function load_mask(snp_file_id, item, local_msa ){
 	setTimeout(function(){
 		var nameWidth = $(".biojs_msa_labelblock").width();		
 		$(".biojs_msa_rheader").css('margin-left', nameWidth - 150);
+		// var windowWidth = $(window).width();
+		// zoomerWidth = windowWidth - nameWidth - 100;		
+		// local_msa.g.zoomer.attributes.alignmentWidth = zoomerWidth;		
 	}, 100);
-
-	
-
 }
 
 function setup_msa_div (div) {	
@@ -258,3 +258,26 @@ function setup_msa_div (div) {
 	local_msa.g.config.set("registerMouseClicks", false);
 	return local_msa;
 };
+
+function update_highlighted_description(){	
+	$( ".refDes" ).css('color', 'black');
+	highlight_description();
+}
+
+function highlight_description(){
+
+	var refrence = $( "#snp_file_reference" ).val().replace(/[^a-zA-Z ]|[1-9]| /g,'');	
+	$( "#" + refrence ).css('color', 'red');
+
+}
+
+ready = (function() {
+
+	// add onchange attribute to select	
+	$( "#snp_file_reference" ).attr('onchange', 'update_highlighted_description()');
+
+	highlight_description();	
+
+});
+
+$( window ).on( "load", ready);

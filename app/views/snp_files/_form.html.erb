@@ -9,7 +9,7 @@
 		<%= f.label :reference %>
 		<%= f.select(:reference) do %>
 			<% Reference.all.each do |ref| -%>
-				<%= content_tag(:option, ref.name, value: ref.name, "data-descriptipn": ref.description) %>				
+				<%= content_tag(:option, ref.name, value: ref.name, "data-descriptipn": ref.description, class: "reference") %>				
 			<% end %>
 		<% end %>
 		<br/>
@@ -22,4 +22,14 @@
 		Your email will only be used to send you updates in the status of your job and will be deleted upon completion. 
 
 	<% end %>  
+
+	<br/>
+	<h3>Reference Description</h3>
+	<ul>
+		<% Reference.all.each do |ref| %>
+			<%= label_tag(ref.description, nil, id: ref.name.gsub(/[[:space:],\., \(, \)]/, '').tr("0-9", ""), class: "refDes") %><br><br>
+		<% end %>		
+	</ul>
+
+
 </div>
