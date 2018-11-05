@@ -81,10 +81,10 @@ class SnpFilesController < ApplicationController
 
   def get_mask
     @snp_file = SnpFile.find params["id"]
-    #puts @snp_file.mask_fasta
-    puts params["marker"]
-    puts @snp_file.mask_fasta.inspect
-    @fasta = @snp_file.mask_fasta[params["marker"]]#.gsub ':', '_'
+    #puts @snp_file.mask_fast a    
+    # puts params["marker"]
+    # puts @snp_file.mask_fasta.inspect
+    @fasta = @snp_file.mask_fasta[params["marker"]]#.gsub ':', '_'   
   end
 
   def get_snps_and_markers(snp_file)
@@ -106,7 +106,7 @@ class SnpFilesController < ApplicationController
   end
 
   def show_input
-    @snp_file = SnpFile.find params["id"]
+    @snp_file = SnpFile.find params["id"]    
      records = get_snps_and_markers(@snp_file)
      #records["value"] = records["records"]
      respond_to do |format|
@@ -120,4 +120,22 @@ class SnpFilesController < ApplicationController
   def snp_file_params
     params.require(:snp_file).permit(:email, :reference, :polymarker_input)
   end
+
+  def get_fasta
+
+    snp_file = SnpFile.find params["id"]    
+    fasta = snp_file.mask_fasta
+    fasta_data=''
+        
+
+    fasta.each do |key, value|
+      fasta_data += value  
+    end
+
+    puts "\n\n\n\n\n\nFASTA\n#{fasta_data}\n\n\n\n\n\n"
+
+    send_data fasta_data, filename: "test.fa"
+    
+  end
+
 end

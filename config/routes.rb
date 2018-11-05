@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'snp_files/:id' => "snp_files#show"
   get 'snp_files/:id/input' => "snp_files#show_input"
   get 'snp_files/:id/:marker' => "snp_files#get_mask"
+  get 'snp_files/:id/:marker/fasta' => "snp_files#get_fasta"
   get 'snp_files/index'
 
   get 'snp_files/new'

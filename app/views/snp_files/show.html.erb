@@ -6,6 +6,10 @@ Reference: <%= @snp_file.reference %> <br/>
 </div>
 
 <hr>
+<h3>Download Data</h3>
+<%= link_to "Mask", controller: "snp_files", action: "get_fasta", id: @snp_file.id, marker: "mask", format: "fa"%>
+
+<hr>
 <div>
 <h3>Markers file</h3>
 <div>
@@ -15,7 +19,7 @@ Reference: <%= @snp_file.reference %> <br/>
 </div>
 
 <hr>
-<h4>Ignored lines</h4>
+<h3>Ignored lines</h3>
 <div>
  <% @snp_file.not_parsed.each do |line| %>
  	<%= line %> </br>
