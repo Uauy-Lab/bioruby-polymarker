@@ -121,21 +121,47 @@ class SnpFilesController < ApplicationController
     params.require(:snp_file).permit(:email, :reference, :polymarker_input)
   end
 
-  def get_fasta
+  def get_mask
 
     snp_file = SnpFile.find params["id"]    
+
     fasta = snp_file.mask_fasta
     fasta_data=''
         
 
     fasta.each do |key, value|
       fasta_data += value  
-    end
+    end    
 
-    puts "\n\n\n\n\n\nFASTA\n#{fasta_data}\n\n\n\n\n\n"
-
-    send_data fasta_data, filename: "test.fa"
+    send_data fasta_data, filename: "exons_genes_and_contigs.fa"
     
   end
+
+
+  def get_primers
+
+    snp_file = SnpFile.find params["id"]
+
+    primer_data = snp_file.polymarker_output    
+    primer_headers = primer_data.values[0].keys.join(",")
+    primer_values = ''        
+
+    primer_output = CSV.generate do |csv|
+      csv << [primer_headers]
+    end
+
+    primer_data.each do |key, value|      
+      primer_values = value.values.join(",")      
+
+      primer_output += CSV.generate do |csv|
+        csv << [primer_values]
+      end
+
+    end    
+
+    send_data primer_output, filename: "Primers.csv"
+    
+  end
+
 
 end
