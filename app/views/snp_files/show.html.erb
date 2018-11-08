@@ -7,9 +7,9 @@ Reference: <%= @snp_file.reference %> <br/>
 
 <hr>
 <h3>Download Data</h3>
-<%= link_to "Mask", controller: "snp_files", action: "get_mask", id: @snp_file.id, format: "fa"%>
+<%= link_to "Mask", controller: "snp_files", action: "get_mask_file", marker: "mask_fasta", id: @snp_file.id, format: "fa"%>
 <br>
-<%= link_to "Primers", controller: "snp_files", action: "get_primers", id: @snp_file.id, format: "csv"%>
+<%= link_to "Primers", controller: "snp_files", action: "get_primers", marker: "polymarker_output", id: @snp_file.id, format: "csv"%>
 
 <hr>
 <div>

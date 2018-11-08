@@ -80,10 +80,7 @@ class SnpFilesController < ApplicationController
   end
 
   def get_mask
-    @snp_file = SnpFile.find params["id"]
-    #puts @snp_file.mask_fast a    
-    # puts params["marker"]
-    # puts @snp_file.mask_fasta.inspect
+    @snp_file = SnpFile.find params["id"]    
     @fasta = @snp_file.mask_fasta[params["marker"]]#.gsub ':', '_'   
   end
 
@@ -121,7 +118,7 @@ class SnpFilesController < ApplicationController
     params.require(:snp_file).permit(:email, :reference, :polymarker_input)
   end
 
-  def get_mask
+  def get_mask_file
 
     snp_file = SnpFile.find params["id"]    
 
