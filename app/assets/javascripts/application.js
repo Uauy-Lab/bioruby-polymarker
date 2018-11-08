@@ -26,15 +26,13 @@
 	}
 
 // Caldulate the margin between logos (Needs 300 milisecond delay for images to load first)
-	function calculateLogoMargin(){
-		setTimeout(function(){			
-			var totalWidth = 0;
-			$(".footer img").each(function(){
-				totalWidth =  totalWidth + $(this).width();    
-			});  
-			$(".logo").css("margin-left", ((window.innerWidth - totalWidth)/10)-10 );
-			$(".logo").css("margin-right", ((window.innerWidth - totalWidth)/10)-10 );
-		}, 300);		
+	function calculateLogoMargin(){		
+		var totalWidth = 0;
+		$(".footer img").each(function(){
+			totalWidth =  totalWidth + $(this).width();    
+		});  
+		$(".logo").css("margin-left", ((window.innerWidth - totalWidth)/10)-10 );
+		$(".logo").css("margin-right", ((window.innerWidth - totalWidth)/10)-10 );		
 	}
 
 // Resizing the logos dynamically when window resized
@@ -48,10 +46,39 @@
 		});
 	}	
 
+
+// Hightlight description
+	function highlightDescription(){
+
+		var selectValue = $( "#snp_file_reference" ).val();
+		if(typeof selectValue != 'undefined'){
+
+			$( ".refDes" ).css('color', 'black');
+
+			$( "#snp_file_reference" ).attr('onchange', 'highlightDescription()');
+
+			var refrence = $( "#snp_file_reference" ).val().replace(/[^a-zA-Z ]|[1-9]|\s/g,'');	
+			$( "#" + refrence ).css('color', 'red');
+
+		}
+
+	}
+
+
+// Run on page change
+	function runOnPageChange(){
+		setTimeout(function(){			
+			calculateLogoMargin();
+			highlightDescription();
+		}, 300);			
+	}
+
 // Execute functions when the content of the window are loaded
 var ready;
-ready = (function() {
-	
+ready = (function() {	
+
+	highlightDescription();
+
 	calculateLogoMargin();
 
 	spaceLogosDynamically()

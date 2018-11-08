@@ -258,31 +258,3 @@ function setup_msa_div (div) {
 	local_msa.g.config.set("registerMouseClicks", false);
 	return local_msa;
 };
-
-function update_highlighted_description(){	
-	$( ".refDes" ).css('color', 'black');
-	highlight_description();
-}
-
-function highlight_description(){
-
-	var refrence = $( "#snp_file_reference" ).val().replace(/[^a-zA-Z ]|[1-9]|\s/g,'');	
-	$( "#" + refrence ).css('color', 'red');
-
-}
-
-ready = (function() {
-
-	// add onchange attribute to select	 
-	var selectValue = $( "#snp_file_reference" ).val();
-	if(typeof selectValue != 'undefined'){
-
-		$( "#snp_file_reference" ).attr('onchange', 'update_highlighted_description()');
-
-		highlight_description();	
-
-	}	
-
-});
-
-$( window ).on( "load", ready);
