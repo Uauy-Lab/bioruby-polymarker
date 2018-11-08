@@ -2,7 +2,7 @@
 	var grid_div = $("#" + div);
 	var primers_url =  snp_file_id  +'/input.json';
 	var general = [
-		{name: 'ID', title:'ID', width: '100px'},
+		{name: 'ID', title:'ID', width: '200px'},
 		{name: 'Chr', title:'Chr', width: '40px'}
 	]
 	var polymarker_output = [
@@ -12,7 +12,7 @@
 	{name: 'B', title:'B', width: '150px'},
 	{name: 'common', title:'Common', width: '150px'},
 	{name: 'primer_type', title:'Primer type', width: '80px'},
-	{name: 'errors', title:'Errors', width: '205px'},
+	{name: 'errors', title:'Errors', width: '105px'},
 	]
 	var sequence = [
 		{name: 'Sequence', title:'Sequence', width: '810px'}
