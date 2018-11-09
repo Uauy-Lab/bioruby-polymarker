@@ -3,7 +3,7 @@ require 'bioruby-polyploid-tools'
 require 'csv'
 module SnpFilesHelper
 	def parse_file(snp_file, polymarker_input, reference)
-		#puts snp_file.inspect
+		#puts snp_file.inspect		
 		snp_file.snps = Hash.new
 		snp_file.not_parsed = Array.new
 		snp_file.output_saved = false
@@ -16,6 +16,24 @@ module SnpFilesHelper
 				snp_file.snps[snp.gene] = [snp.gene, snp.chromosome, snp.sequence_original]
 			end
 		end
+	end
+
+	def parse_manual_input(snp_file, polymarker_input, reference)
+
+		puts "\n\n\n\nWE parse manaul input\n\n\n\n"
+		snp_file.snps = Hash.new
+		snp_file.not_parsed = Array.new
+		snp_file.output_saved = false
+		polymarker_input.each_line do |line|
+			snp = Bio::PolyploidTools::SNPSequence.parse line
+			if  snp.nil? or not reference.valid_chromosome? snp.chromosome
+				snp_file.not_parsed << line
+			else
+				snp.gene.gsub!(".","_")
+				snp_file.snps[snp.gene] = [snp.gene, snp.chromosome, snp.sequence_original]
+			end
+		end
+		
 	end
 
 	def load_primers_output(snp_file)

@@ -78,6 +78,7 @@ example = `1DS_1905169_Cadenza0423_2404_C2404T,1D,ccgccgtcgtatggagcaggccggccaatt
 		setTimeout(function(){			
 			calculateLogoMargin();
 			highlightDescription();
+			toggleInputType();
 		}, 300);			
 	}
 
@@ -87,17 +88,22 @@ example = `1DS_1905169_Cadenza0423_2404_C2404T,1D,ccgccgtcgtatggagcaggccggccaatt
 		$( "#fileShow" ).on( "click", function(){
 			$( "#fileInput" ).prop('required', true);
 			$( "#fileInputCont" ).show('fast');
+			$( "#fileInput" ).attr('name', 'snp_file[polymarker_input]');
+
 
 			$( "#manInputCont" ).hide('fast');
 			$( "#manualInput" ).prop('required', false);
+			$( "#manualInput" ).removeAttr('name');
 		});
 
 		$( "#manInputShow" ).on( "click", function(){
 			$( "#manualInput" ).prop('required', true);
 			$( "#manInputCont" ).show('fast');
+			$( "#manualInput" ).attr('name', 'snp_file[polymarker_input]');
 
 			$( "#fileInputCont" ).hide('fast');
 			$( "#fileInput" ).prop('required', false);
+			$( "#fileInput" ).removeAttr('name');
 		});
 
 	}
