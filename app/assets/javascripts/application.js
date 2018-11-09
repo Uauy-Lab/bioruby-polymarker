@@ -46,7 +46,6 @@
 		});
 	}	
 
-
 // Hightlight description
 	function highlightDescription(){
 
@@ -64,6 +63,15 @@
 
 	}
 
+// Populate example
+	function populateExample(){		
+		$("#populateExample").on( "click", function(){
+example = `1DS_1905169_Cadenza0423_2404_C2404T,1D,ccgccgtcgtatggagcaggccggccaattccttcaaggagtcaaccacctggcgcaaggaccatgaggtccatgctcacgaggtctctttcgttgacgg[C/T]aaaaacaagacggcgccaggctttgagttgctcccggctgtggtggatcaccaaggcaacccgcagccgaccttggtggggatccacgttggccatcccaa
+1DS_40060_Cadenza0423_2998_G2998A,1D,ccagcagcgcccgtcccccttctcccccgaatccgccggagcccagcggacgccggccatgagcacctccgagtagtaagtccccggcgccgccgccgcc[G/A]ccgatctttctttctttctcgcttgatttgtctgcgtttcttttgttccgggtgattgattgatgtgcgtgggctgctgcagcgactacctcttcaagctg
+1DS_1847781_Cadenza0423_2703_G2703A,1D,tttcctctcaaatgtagcttctgcagattcggtggaagggcattcaaccggagaacctcattctcatcacttgcggtcacctctaggtaggacaaaaact[G/A]catctgaataagagactcacagaggcgttcacagtagattctcttcacattcaataacctcaggcttctcatttgcctcagctctcccagttgtctaacag`;
+			$("#manualInput").val(example);
+		});
+	}
 
 // Run on page change
 	function runOnPageChange(){
@@ -71,6 +79,27 @@
 			calculateLogoMargin();
 			highlightDescription();
 		}, 300);			
+	}
+
+// Toggle file/manaul input divs
+	function toggleInputType(){
+
+		$( "#fileShow" ).on( "click", function(){
+			$( "#fileInput" ).prop('required', true);
+			$( "#fileInputCont" ).show('fast');
+
+			$( "#manInputCont" ).hide('fast');
+			$( "#manualInput" ).prop('required', false);
+		});
+
+		$( "#manInputShow" ).on( "click", function(){
+			$( "#manualInput" ).prop('required', true);
+			$( "#manInputCont" ).show('fast');
+
+			$( "#fileInputCont" ).hide('fast');
+			$( "#fileInput" ).prop('required', false);
+		});
+
 	}
 
 // Execute functions when the content of the window are loaded
@@ -84,6 +113,10 @@ ready = (function() {
 	spaceLogosDynamically()
 
 	hideMessage();	
+
+	populateExample();
+
+	toggleInputType();
 
 });
 
