@@ -70,6 +70,7 @@ example = `1DS_1905169_Cadenza0423_2404_C2404T,1D,ccgccgtcgtatggagcaggccggccaatt
 1DS_40060_Cadenza0423_2998_G2998A,1D,ccagcagcgcccgtcccccttctcccccgaatccgccggagcccagcggacgccggccatgagcacctccgagtagtaagtccccggcgccgccgccgcc[G/A]ccgatctttctttctttctcgcttgatttgtctgcgtttcttttgttccgggtgattgattgatgtgcgtgggctgctgcagcgactacctcttcaagctg
 1DS_1847781_Cadenza0423_2703_G2703A,1D,tttcctctcaaatgtagcttctgcagattcggtggaagggcattcaaccggagaacctcattctcatcacttgcggtcacctctaggtaggacaaaaact[G/A]catctgaataagagactcacagaggcgttcacagtagattctcttcacattcaataacctcaggcttctcatttgcctcagctctcccagttgtctaacag`;
 			$("#manualInput").val(example);
+			$( "#fileInput" ).prop('disabled', true);
 		});
 	}
 
@@ -104,6 +105,33 @@ example = `1DS_1905169_Cadenza0423_2404_C2404T,1D,ccgccgtcgtatggagcaggccggccaatt
 
 	}
 
+// Check input elements
+	function checkInputElements(){
+
+		$( "#manualInput" ).blur(function(){
+
+			if($( "#manualInput" ).val() !== ""){				
+				$( "#fileInput" ).prop('disabled', true);
+			} else {				
+				$( "#fileInput" ).prop('disabled', false);
+			}
+
+		});	
+
+		$( "#fileInput" ).blur(function(){
+
+			if($( "#fileInput" ).val() !== ""){				
+				$( "#manualInput" ).prop('disabled', true);
+				$( "#populateExample" ).prop('disabled', true);
+			} else {				
+				$( "#manualInput" ).prop('disabled', false);
+				$( "#populateExample" ).prop('disabled', false);
+			}
+
+		});	
+
+	}
+
 // Execute functions when the content of the window are loaded
 var ready;
 ready = (function() {	
@@ -118,7 +146,9 @@ ready = (function() {
 
 	populateExample();
 
-	toggleInputType();
+	// toggleInputType();
+
+	checkInputElements();
 
 });
 
