@@ -12,7 +12,7 @@
 			<%= f.file_field :polymarker_input, :required => true, :accept => ".csv", class: "form-control-file", id: "fileInput" %>
 		</div>
 		<br/>
-		<span>OR</span>
+		<span style="color: red;">OR</span>
 		<br/>
 		<div id="manInputCont">
 			<label for="manualInput">Manual Input</label>			
@@ -22,12 +22,22 @@
 		</div>
 
 		<br/><br/>
-		<%= f.label :reference %>
-		<%= f.select(:reference) do %>
-			<% Reference.all.each do |ref| -%>
-				<%= content_tag(:option, ref.name, value: ref.name, "data-descriptipn": ref.description, class: "reference") %>				
+		<div class="refSelectContainer">
+			<%= f.label :reference %>
+			<%= f.select(:reference) do %>
+				<% Reference.all.each do |ref| -%>
+					<%= content_tag(:option, ref.name, value: ref.name, "data-descriptipn": ref.description, class: "reference") %>				
+				<% end %>
 			<% end %>
-		<% end %>
+		</div>		
+		<div class="refDesContainer">
+			<h3>Reference Description</h3>
+			<ul>
+				<% Reference.all.each do |ref| %>
+					<%= label_tag(ref.description, nil, id: ref.name.gsub(/[[:space:],\., \(, \)]/, '').tr("0-9", ""), class: "refDes") %><br><br>
+				<% end %>		
+			</ul>
+		</div>		
 		<br/>
 		<%= f.label :email %> 
 		<%= f.text_field :email, type:"email", class: "form-control" %> (optional)
@@ -40,12 +50,7 @@
 	<% end %>  
 
 	<br/>
-	<h3>Reference Description</h3>
-	<ul>
-		<% Reference.all.each do |ref| %>
-			<%= label_tag(ref.description, nil, id: ref.name.gsub(/[[:space:],\., \(, \)]/, '').tr("0-9", ""), class: "refDes") %><br><br>
-		<% end %>		
-	</ul>
+	
 
 
 </div>

@@ -98,6 +98,17 @@ input[type=submit]{
 	border: none;
 }
 
+.refSelectContainer{
+	display: inline-block;
+	width: 35%;
+	vertical-align: top;
+}
+
+.refDesContainer{
+	display: inline-block;
+	width: 60%;
+}
+
 // Content Styling
 #main-body{
 	background-color: white;
