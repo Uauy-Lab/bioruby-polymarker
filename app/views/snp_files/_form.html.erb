@@ -30,6 +30,11 @@
 				<% end %>
 			<% end %>
 		</div>		
+		<br/>
+		<div class="emailContainer">
+			<%= f.label :email %> 
+			<%= f.text_field :email, type:"email", class: "form-control" %> (optional)
+		</div>
 		<div class="refDesContainer">
 			<h3>Reference Description</h3>
 			<ul>
@@ -38,9 +43,7 @@
 				<% end %>		
 			</ul>
 		</div>		
-		<br/>
-		<%= f.label :email %> 
-		<%= f.text_field :email, type:"email", class: "form-control" %> (optional)
+		<br/>	
 		<br/><br/>
 		<%= f.submit "Create Primers" %>
 		<br/>

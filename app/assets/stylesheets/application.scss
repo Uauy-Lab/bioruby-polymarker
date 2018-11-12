@@ -32,11 +32,8 @@ body{
 
 // Logo Styling
 .logo_image{
-	width: 50%;
-	text-align: center;
-	margin: 0 auto;
-	display: block;
-	margin-bottom: 5px;
+	width: 20%;		
+	display: block;	
 }
 
 
@@ -104,9 +101,15 @@ input[type=submit]{
 	vertical-align: top;
 }
 
+.emailContainer{
+	width: 30%;
+	display: inline-block;
+}
+
 .refDesContainer{
 	display: inline-block;
 	width: 60%;
+	margin-left: 50px;
 }
 
 // Content Styling
