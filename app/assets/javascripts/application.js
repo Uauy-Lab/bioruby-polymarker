@@ -77,9 +77,8 @@ example = `1DS_1905169_Cadenza0423_2404_C2404T,1D,ccgccgtcgtatggagcaggccggccaatt
 // Run on page change
 	function runOnPageChange(){
 		setTimeout(function(){			
-			calculateLogoMargin();
-			highlightDescription();
-			toggleInputType();
+			ready();
+			
 		}, 300);			
 	}
 
