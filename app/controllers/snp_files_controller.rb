@@ -13,23 +13,23 @@ class SnpFilesController < ApplicationController
   def create
     
     begin      
-      @snp_file = SnpFile.new
+      @snp_file = SnpFile.new      
+      form_snp_file = snp_file_params      
+      @snp_file.email = form_snp_file[:email]          
+      @snp_file.filename = form_snp_file[:polymarker_input].original_filename unless form_snp_file[:polymarker_input].nil?
       puts "\n\n\n\nYOLO\n\n\n\n"
-      form_snp_file = snp_file_params
-      @snp_file.email = form_snp_file[:email]
-      @snp_file.filename = form_snp_file[:polymarker_input].original_filename if File.file?(form_snp_file[:polymarker_input]) # If input is file
       @snp_file.email_hash = Digest::MD5.hexdigest @snp_file.email
-      @snp_file.status = "New"
+      @snp_file.status = "New"      
 
       reference = Reference.find_by(name: form_snp_file[:reference])
 
-      @snp_file.reference = reference.name      
+      @snp_file.reference = reference.name
 
 
-      if File.file?(form_snp_file[:polymarker_input]) # If input is file
+      unless form_snp_file[:polymarker_input].nil?
         parsed_file = helpers.parse_file(@snp_file, form_snp_file[:polymarker_input], reference)
       else
-        parsed_file = helpers.parse_manual_input(@snp_file, form_snp_file[:polymarker_input], reference)
+        parsed_file = helpers.parse_manual_input(@snp_file, params[:polymarker_manual_input][:post], reference)
       end      
       
       #puts "___Aabout to save____"

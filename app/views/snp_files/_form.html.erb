@@ -12,8 +12,8 @@
 			<%= f.file_field :polymarker_input, :required => true, :accept => ".csv", class: "form-control-file", id: "fileInput" %>
 		</div>
 		<div id="manInputCont" style="display: none;">
-			<label for="manualInput">Manual Input</label>
-			<textarea id="manualInput" name="polymarker_manual_input" placeholder="Enter your input manually" class="form-control"></textarea>
+			<label for="manualInput">Manual Input</label>			
+			<%=text_area(:polymarker_manual_input, :post, class: "form-control", id: "manualInput", placeholder: "Enter your input manually")%>
 			<br/>
 			<button id="populateExample" class="btn btn-warning" type="button">Example</button>
 		</div>

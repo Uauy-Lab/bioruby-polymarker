@@ -19,7 +19,7 @@ module SnpFilesHelper
 	end
 
 	def parse_manual_input(snp_file, polymarker_input, reference)
-		
+		# puts "\n\n\n\nManual parse\n\n\n\n"
 		snp_file.snps = Hash.new
 		snp_file.not_parsed = Array.new
 		snp_file.output_saved = false

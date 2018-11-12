@@ -87,23 +87,19 @@ example = `1DS_1905169_Cadenza0423_2404_C2404T,1D,ccgccgtcgtatggagcaggccggccaatt
 
 		$( "#fileShow" ).on( "click", function(){
 			$( "#fileInput" ).prop('required', true);
-			$( "#fileInputCont" ).show('fast');
-			$( "#fileInput" ).attr('name', 'snp_file[polymarker_input]');
+			$( "#fileInputCont" ).show('fast');			
 
 
 			$( "#manInputCont" ).hide('fast');
-			$( "#manualInput" ).prop('required', false);
-			$( "#manualInput" ).removeAttr('name');
+			$( "#manualInput" ).prop('required', false);			
 		});
 
 		$( "#manInputShow" ).on( "click", function(){
 			$( "#manualInput" ).prop('required', true);
-			$( "#manInputCont" ).show('fast');
-			$( "#manualInput" ).attr('name', 'snp_file[polymarker_input]');
+			$( "#manInputCont" ).show('fast');			
 
 			$( "#fileInputCont" ).hide('fast');
-			$( "#fileInput" ).prop('required', false);
-			$( "#fileInput" ).removeAttr('name');
+			$( "#fileInput" ).prop('required', false);			
 		});
 
 	}
