@@ -82,26 +82,16 @@ example = `1DS_1905169_Cadenza0423_2404_C2404T,1D,ccgccgtcgtatggagcaggccggccaatt
 		}, 300);			
 	}
 
-// Toggle file/manaul input divs
-	function toggleInputType(){
+// Clear input
+	function clearInput(){
+		$( "#clearInput" ).on( "click", function(){
+			$( "#manualInput" ).val('');
+			$( "#manualInput" ).prop('disabled', false);
+			$( "#populateExample" ).prop('disabled', false);
 
-		$( "#fileShow" ).on( "click", function(){
-			$( "#fileInput" ).prop('required', true);
-			$( "#fileInputCont" ).show('fast');			
-
-
-			$( "#manInputCont" ).hide('fast');
-			$( "#manualInput" ).prop('required', false);			
+			$( "#fileInput" ).val('');
+			$( "#fileInput" ).prop('disabled', false);
 		});
-
-		$( "#manInputShow" ).on( "click", function(){
-			$( "#manualInput" ).prop('required', true);
-			$( "#manInputCont" ).show('fast');			
-
-			$( "#fileInputCont" ).hide('fast');
-			$( "#fileInput" ).prop('required', false);			
-		});
-
 	}
 
 // Check input elements
@@ -143,11 +133,11 @@ ready = (function() {
 
 	hideMessage();	
 
-	populateExample();
-
-	// toggleInputType();
+	populateExample();	
 
 	checkInputElements();
+
+	clearInput();
 
 });
 
