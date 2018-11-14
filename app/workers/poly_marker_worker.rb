@@ -1,5 +1,6 @@
 class PolyMarkerWorker
   include Sidekiq::Worker
+  require 'sidekiq/api'
 
   def update_status(snp_file, status)
     snp_file.status = status

@@ -1,4 +1,5 @@
 require 'digest'
+require 'sidekiq/api'
 
 class SnpFilesController < ApplicationController
   def index
@@ -13,13 +14,12 @@ class SnpFilesController < ApplicationController
   def create
     
     begin      
-      @snp_file = SnpFile.new      
-      form_snp_file = snp_file_params      
-      @snp_file.email = form_snp_file[:email]          
+      @snp_file = SnpFile.new
+      form_snp_file = snp_file_params
+      @snp_file.email = form_snp_file[:email]
       @snp_file.filename = form_snp_file[:polymarker_input].original_filename unless form_snp_file[:polymarker_input].nil?
-      puts "\n\n\n\nYOLO\n\n\n\n"
       @snp_file.email_hash = Digest::MD5.hexdigest @snp_file.email
-      @snp_file.status = "New"      
+      @snp_file.status = "New"
 
       reference = Reference.find_by(name: form_snp_file[:reference])
 
@@ -34,9 +34,9 @@ class SnpFilesController < ApplicationController
       
       #puts "___Aabout to save____"
       puts @snp_file.inspect
-      if @snp_file.save!
-        #puts @snp_file.inspect
-        PolyMarkerWorker.perform_async(@snp_file.id)
+      if @snp_file.save!        
+        # PolyMarkerWorker.perform_async(@snp_file.id)
+        PolyMarkerWorker.perform_in(1.minutes, @snp_file.id)        
         redirect_to snp_file_path(@snp_file), notice: "SNP file uploaded successfully" and return
       end
 
@@ -63,9 +63,22 @@ class SnpFilesController < ApplicationController
 
   def show
 
+    @scheduled_number = 0
     @snp_file = SnpFile.find params["id"]
     if @snp_file.status != "New"
       helpers.update_status  @snp_file
+    else
+      ss = Sidekiq::ScheduledSet.new   
+      que = Sidekiq::Queue.new   
+
+      ss.each do |job|
+        puts "\n\n\n\nSome job: #{ss.find_job(job.jid)}\n\n\n\n"
+        puts "\n\n\n\n@snp_file.id: #{@snp_file.id}\n\n\n\n"
+        # @scheduled_number = @snp_file.id if job.jid == @snp_file.id
+      end
+
+      @scheduled_number = ss.size
+      # @scheduled_number = que.latency
     end
 
     @is_done = ((@snp_file.status.include? "ERROR") || (@snp_file.status.include? "DONE"))
