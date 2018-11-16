@@ -68,17 +68,8 @@ class SnpFilesController < ApplicationController
     if @snp_file.status != "New"
       helpers.update_status  @snp_file
     else
-      ss = Sidekiq::ScheduledSet.new   
-      que = Sidekiq::Queue.new   
-
-      ss.each do |job|
-        puts "\n\n\n\nSome job: #{ss.find_job(job.jid)}\n\n\n\n"
-        puts "\n\n\n\n@snp_file.id: #{@snp_file.id}\n\n\n\n"
-        # @scheduled_number = @snp_file.id if job.jid == @snp_file.id
-      end
-
+      ss = Sidekiq::ScheduledSet.new
       @scheduled_number = ss.size
-      # @scheduled_number = que.latency
     end
 
     @is_done = ((@snp_file.status.include? "ERROR") || (@snp_file.status.include? "DONE"))

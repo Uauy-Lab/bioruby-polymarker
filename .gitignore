@@ -43,3 +43,5 @@ yarn-error.log*
 /node_modules
 yarn-debug.log*
 .yarn-integrity
+
+config/mail_properties.yml

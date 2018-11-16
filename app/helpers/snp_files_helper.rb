@@ -82,4 +82,22 @@ module SnpFilesHelper
 		snp_file.save!
 		snp_file
 	end
+
+	def send_email(to,id, status)
+    options = @properties
+
+    msg = <<END_OF_MESSAGE
+From: #{options['email_from_alias']} <#{options['email_from']}>
+To: <#{to}>
+Subject: Polymarker #{id} #{status}
+The current status of your request (#{id}) is #{status}
+The latest status and results (when done) are available in: #{options['web_domain']}/status?id=#{id}
+END_OF_MESSAGE
+    smtp = Net::SMTP.new options["email_server"], 587
+    smtp.enable_starttls
+    smtp.start( options["email_domain"], options["email_user"], options["email_pwd"], :login) do
+      smtp.send_message(msg, options["email_from"], to)
+    end
+  end
+
 end
