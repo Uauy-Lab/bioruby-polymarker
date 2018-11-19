@@ -31,8 +31,8 @@
 		$(".footer img").each(function(){
 			totalWidth =  totalWidth + $(this).width();    
 		});  
-		$(".logo").css("margin-left", ((window.innerWidth - totalWidth)/10)-10 );
-		$(".logo").css("margin-right", ((window.innerWidth - totalWidth)/10)-10 );		
+		$(".logo").css("margin-left", ((window.innerWidth - totalWidth)/8)-10 );
+		$(".logo").css("margin-right", ((window.innerWidth - totalWidth)/8)-10 );		
 	}
 
 // Resizing the logos dynamically when window resized
