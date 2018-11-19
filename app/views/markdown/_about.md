@@ -40,9 +40,11 @@ Example
 ### Input file ###
 The example input file contains three markers to design. 
 
-`Gene_1,6B,GATAAGCGATGACGATACGGACGACA[A/T]ACGGGGGACGAGGGATACGAT`<br>
-`Gene_2,2A,CGATAGCATAGCATGGCGTTAGCAGT[G/C]TAGTACGATAGATCAGTACGA`<br>
-`Ta#S58861868,1A,CATACTGATGACACGATTGGCTACSGGCCTTGAAGATAGMAGCAGAT[A/G]ACTTCAGTGTAATCCAAGTTGACTG`
+```
+1DS_1905169_Cadenza0423_2404_C2404T,1D,ccgccgtcgtatggagcaggccggccaattccttcaaggagtcaaccacctggcgcaaggaccatgaggtccatgctcacgaggtctctttcgttgacgg[C/T]aaaaacaagacggcgccaggctttgagttgctcccggctgtggtggatcaccaaggcaacccgcagccgaccttggtggggatccacgttggccatcccaa
+1DS_40060_Cadenza0423_2998_G2998A,1D,ccagcagcgcccgtcccccttctcccccgaatccgccggagcccagcggacgccggccatgagcacctccgagtagtaagtccccggcgccgccgccgcc[G/A]ccgatctttctttctttctcgcttgatttgtctgcgtttcttttgttccgggtgattgattgatgtgcgtgggctgctgcagcgactacctcttcaagctg
+1DS_1847781_Cadenza0423_2703_G2703A,1D,tttcctctcaaatgtagcttctgcagattcggtggaagggcattcaaccggagaacctcattctcatcacttgcggtcacctctaggtaggacaaaaact[G/A]catctgaataagagactcacagaggcgttcacagtagattctcttcacattcaataacctcaggcttctcatttgcctcagctctcccagttgtctaacag
+```
 
 ### Output: mask ###
 
