@@ -66,20 +66,36 @@
 // Populate example
 	function populateExample(){		
 		$("#populateExample").on( "click", function(){
-example = `1DS_1905169_Cadenza0423_2404_C2404T,1D,ccgccgtcgtatggagcaggccggccaattccttcaaggagtcaaccacctggcgcaaggaccatgaggtccatgctcacgaggtctctttcgttgacgg[C/T]aaaaacaagacggcgccaggctttgagttgctcccggctgtggtggatcaccaaggcaacccgcagccgaccttggtggggatccacgttggccatcccaa
-1DS_40060_Cadenza0423_2998_G2998A,1D,ccagcagcgcccgtcccccttctcccccgaatccgccggagcccagcggacgccggccatgagcacctccgagtagtaagtccccggcgccgccgccgcc[G/A]ccgatctttctttctttctcgcttgatttgtctgcgtttcttttgttccgggtgattgattgatgtgcgtgggctgctgcagcgactacctcttcaagctg
-1DS_1847781_Cadenza0423_2703_G2703A,1D,tttcctctcaaatgtagcttctgcagattcggtggaagggcattcaaccggagaacctcattctcatcacttgcggtcacctctaggtaggacaaaaact[G/A]catctgaataagagactcacagaggcgttcacagtagattctcttcacattcaataacctcaggcttctcatttgcctcagctctcccagttgtctaacag`;
-			$("#manualInput").val(example);
-			$( "#fileInput" ).prop('disabled', true);
+
+			example = '';
+
+			ref = $( "#snp_file_reference" ).val();
+
+			$.ajax({
+				url: '/example',
+				beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));},
+				type: 'POST',
+				dataType: 'json',
+				data: {ref: ref},
+			})
+			.done(function(data) {				
+				example = data.value.split(" ").join("\n");
+				$("#manualInput").val(example);
+				$( "#fileInput" ).prop('disabled', true);
+			})
+			.fail(function(response) {
+				console.error("error");
+				console.error(response);
+			});
+			
 		});
 	}
 
 // Run on page change
 	function runOnPageChange(){
 		setTimeout(function(){			
-			ready();
-			
-		}, 300);			
+			ready();			
+		}, 300);
 	}
 
 // Clear input

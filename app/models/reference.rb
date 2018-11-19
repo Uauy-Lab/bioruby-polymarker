@@ -8,6 +8,7 @@ class Reference
 	field :arm_selection, type: String
 	field :description, type: String
 	field :chromosomes, type: Array
+	field :example, type: String
 
 	def set_from_hash(h)
 		h.each {|k,v| public_send("#{k}=",v)}

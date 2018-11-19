@@ -21,6 +21,8 @@ Rails.application.routes.draw do
 
   get ':page' => 'markdown#show'
 
+  post '/example' => 'application#get_example'
+
   root to: "snp_files#new"
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

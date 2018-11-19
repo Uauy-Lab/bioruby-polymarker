@@ -57,7 +57,7 @@ function find_end_with_gaps(opts){
     if (opts.start) args.start = opts.start;
     if (opts.length)args.length = opts.length;
     if (opts.seq)args.seq = opts.seq;
-    console.log(args);
+    // console.log(args);
     var sequence = args.seq.toUpperCase();
     var to_count = args.length;
     var i;
@@ -182,13 +182,13 @@ function load_mask(snp_file_id, item, local_msa ){
 
 	
 	seqs.then(function(result) {
-		console.log(result);
+		// console.log(result);
 		//local_msa.seqs.add(result);
 		local_msa.seqs.reset(result);
 		local_msa.render();
 		var chr_index = find_target_sequence(item, result);
 		var coordinates = get_primer_coordinates(item,chr_index, result);
-		console.log(coordinates);
+		// console.log(coordinates);
 		
 		if(chr_index >= 0 && coordinates.c != coordinates.b){
 			
@@ -213,7 +213,7 @@ function load_mask(snp_file_id, item, local_msa ){
 				view_start = coordinates.common_start
 			}
 			local_msa.g.zoomer.setLeftOffset(view_start); 
-			console.log(local_msa.g.selcol);
+			// console.log(local_msa.g.selcol);
 			local_msa.g.selcol.reset()
 			local_msa.g.selcol.add(se);
 			local_msa.g.selcol.add(se2);
