@@ -100,9 +100,10 @@ input[type=submit]{
 }
 
 .refSelectContainer{
-	display: inline-block;
-	width: 35%;
+	display: inline-block;	
 	vertical-align: top;
+	float: right;
+	width: 50%
 }
 
 .emailContainer{
@@ -111,9 +112,7 @@ input[type=submit]{
 }
 
 .refDesContainer{
-	display: inline-block;
-	width: 60%;
-	margin-left: 50px;
+	display: inline-block;		
 }
 
 // Content Styling
