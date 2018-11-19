@@ -11,6 +11,6 @@ class ApplicationController < ActionController::Base
       format.json { render json: example}
     end
 
- 	end 	
+	end 	
 
 end

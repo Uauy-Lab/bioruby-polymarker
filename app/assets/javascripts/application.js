@@ -49,7 +49,7 @@
 // Assigining ID to reference description
 	function idToRefDes(){
 
-		$( "#refDesBlock" ).children('p').each(function(index, el) {
+		$( ".refDesContainer" ).children('p').each(function(index, el) {
 
 			refName = $( "#snp_file_reference" ).children(`option:nth-child(${index+1})`).val();
 			refName = refName.replace(/[^a-zA-Z ]|[1-9]|\s/g,'');

@@ -16,30 +16,30 @@
 			<br/>
 			<button id="populateExample" class="btn btn-warning" type="button">Example</button>
 			<button id="clearInput" class="btn" type="button">Clear Input</button>
+			<div class="refSelectContainer">
+				<h3>Reference Description</h3>				
+				<%= f.select(:reference) do %>
+					<% Reference.all.each do |ref| -%>
+						<%= content_tag(:option, ref.name, value: ref.name, "data-descriptipn": ref.description, class: "reference") %>				
+					<% end %>
+				<% end %>
+				<br/><br/>
+				<div class="refDesContainer">					
+					<% Reference.all.each do |ref| %>				
+						<%= MarkdownHandler::compile_md(ref.description) %>
+					<% end %>							
+				</div>				
+			</div>			
 		</div>
 
-		<br/><br/>
-		<div class="refSelectContainer">
-			<%= f.label :reference %>
-			<%= f.select(:reference) do %>
-				<% Reference.all.each do |ref| -%>
-					<%= content_tag(:option, ref.name, value: ref.name, "data-descriptipn": ref.description, class: "reference") %>				
-				<% end %>
-			<% end %>
-		</div>		
+		<br/>		
 		<br/>
 		<div class="emailContainer">
 			<%= f.label :email %> 
 			<%= f.text_field :email, type:"email", class: "form-control" %> (optional)
 		</div>
 		<div class="refDesContainer">
-			<h3>Reference Description</h3>
-			<ul id="refDesBlock">
-				<% Reference.all.each do |ref| %>				
-					<%= MarkdownHandler::compile_md(ref.description) %>
-				<% end %>		
-			</ul>
-		</div>		
+		</div>
 		<br/>	
 		<br/><br/>
 		<%= f.submit "Create Primers" %>
