@@ -10,7 +10,5 @@ class ApplicationController < ActionController::Base
   	respond_to do |format|
       format.json { render json: example}
     end
-
  	end 	
-
 end
