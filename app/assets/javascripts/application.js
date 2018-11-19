@@ -46,6 +46,20 @@
 		});
 	}	
 
+// Assigining ID to reference description
+	function idToRefDes(){
+
+		$( "#refDesBlock" ).children('p').each(function(index, el) {
+
+			refName = $( "#snp_file_reference" ).children(`option:nth-child(${index+1})`).val();
+			refName = refName.replace(/[^a-zA-Z ]|[1-9]|\s/g,'');
+			$( this ).attr('id', refName);
+			$( this ).attr('class', "refDes");
+
+		});
+
+	}
+
 // Hightlight description
 	function highlightDescription(){
 
@@ -141,6 +155,8 @@
 var ready;
 ready = (function() {	
 
+	idToRefDes();
+
 	highlightDescription();
 
 	calculateLogoMargin();
@@ -153,7 +169,7 @@ ready = (function() {
 
 	checkInputElements();
 
-	clearInput();
+	clearInput();	
 
 });
 

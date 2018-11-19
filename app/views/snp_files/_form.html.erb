@@ -2,11 +2,7 @@
 <div class="container form-group" id="sidebar">
 
 	<%= form_for @snp_file do |f| %>
-	
-
-		<!-- <button type="button" class="button-link-style" id="fileShow">File</button><span>/</span>
-		<button type="button" class="button-link-style" id="manInputShow">Manual Input</button> -->
-		<!-- <br/><br/> -->
+			
 		<div id="fileInputCont">
 			<%= f.label :file, for: "fileInput" %>
 			<%= f.file_field :polymarker_input, :required => true, :accept => ".csv", class: "form-control-file", id: "fileInput" %>
@@ -38,9 +34,9 @@
 		</div>
 		<div class="refDesContainer">
 			<h3>Reference Description</h3>
-			<ul>
-				<% Reference.all.each do |ref| %>
-					<%= label_tag(ref.description, nil, id: ref.name.gsub(/[[:space:],\., \(, \)]/, '').tr("0-9", ""), class: "refDes") %><br><br>
+			<ul id="refDesBlock">
+				<% Reference.all.each do |ref| %>				
+					<%= MarkdownHandler::compile_md(ref.description) %>
 				<% end %>		
 			</ul>
 		</div>		
