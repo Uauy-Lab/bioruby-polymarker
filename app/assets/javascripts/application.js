@@ -66,12 +66,12 @@
 		var selectValue = $( "#snp_file_reference" ).val();
 		if(typeof selectValue != 'undefined'){
 
-			$( ".refDes" ).css('color', 'black');
+			$( ".refDes" ).css('display', 'none');
 
 			$( "#snp_file_reference" ).attr('onchange', 'highlightDescription()');
 
 			var refrence = $( "#snp_file_reference" ).val().replace(/[^a-zA-Z ]|[1-9]|\s/g,'');	
-			$( "#" + refrence ).css('color', 'red');
+			$( "#" + refrence ).css('display', 'block');
 
 		}
 
