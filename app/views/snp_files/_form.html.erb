@@ -3,23 +3,58 @@
 
 	<%= form_for @snp_file do |f| %>
 	
-		<%= f.label :file %> 
-		<%= f.file_field :polymarker_input, :required => true, :accept => ".csv" %>
-		<br/><br/>
-		<%= f.label :reference %>
-		<%= f.select(:reference) do %>
-			<% Reference.all.each do |ref| -%>
-				<%= content_tag(:option, ref.name, value: ref.name, "data-descriptipn": ref.description) %>				
-			<% end %>
-		<% end %>
+
+		<!-- <button type="button" class="button-link-style" id="fileShow">File</button><span>/</span>
+		<button type="button" class="button-link-style" id="manInputShow">Manual Input</button> -->
+		<!-- <br/><br/> -->
+		<div id="fileInputCont">
+			<%= f.label :file, for: "fileInput" %>
+			<%= f.file_field :polymarker_input, :required => true, :accept => ".csv", class: "form-control-file", id: "fileInput" %>
+		</div>
 		<br/>
-		<%= f.label :email %> 
-		<%= f.text_field :email, type:"email", class: "form-control" %> (optional)
+		<span style="color: red;">OR</span>
+		<br/>
+		<div id="manInputCont">
+			<label for="manualInput">Manual Input</label>			
+			<%=text_area(:polymarker_manual_input, :post, class: "form-control", id: "manualInput", placeholder: "Enter your input manually", :required => true)%>
+			<br/>
+			<button id="populateExample" class="btn btn-warning" type="button">Example</button>
+			<button id="clearInput" class="btn" type="button">Clear Input</button>
+		</div>
+
 		<br/><br/>
-		<%= f.submit "Upload" %>
+		<div class="refSelectContainer">
+			<%= f.label :reference %>
+			<%= f.select(:reference) do %>
+				<% Reference.all.each do |ref| -%>
+					<%= content_tag(:option, ref.name, value: ref.name, "data-descriptipn": ref.description, class: "reference") %>				
+				<% end %>
+			<% end %>
+		</div>		
+		<br/>
+		<div class="emailContainer">
+			<%= f.label :email %> 
+			<%= f.text_field :email, type:"email", class: "form-control" %> (optional)
+		</div>
+		<div class="refDesContainer">
+			<h3>Reference Description</h3>
+			<ul>
+				<% Reference.all.each do |ref| %>
+					<%= label_tag(ref.description, nil, id: ref.name.gsub(/[[:space:],\., \(, \)]/, '').tr("0-9", ""), class: "refDes") %><br><br>
+				<% end %>		
+			</ul>
+		</div>		
+		<br/>	
+		<br/><br/>
+		<%= f.submit "Create Primers" %>
 		<br/>
 
 		Your email will only be used to send you updates in the status of your job and will be deleted upon completion. 
 
 	<% end %>  
+
+	<br/>
+	
+
+
 </div>

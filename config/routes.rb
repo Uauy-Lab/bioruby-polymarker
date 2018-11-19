@@ -3,8 +3,10 @@ Rails.application.routes.draw do
 
   resources :snp_files, except: [:show]
   get 'snp_files/:id' => "snp_files#show"
-  get 'snp_files/:id/input' => "snp_files#show_input"
+  get 'snp_files/:id/input' => "snp_files#show_input"  
   get 'snp_files/:id/:marker' => "snp_files#get_mask"
+  get 'snp_files/:id/mask/mask_file' => "snp_files#get_mask_file"
+  get 'snp_files/:id/primers/primer_file' => "snp_files#get_primers"
   get 'snp_files/index'
 
   get 'snp_files/new'
@@ -18,6 +20,8 @@ Rails.application.routes.draw do
   get 'snp_files/destroy'
 
   get ':page' => 'markdown#show'
+
+  post '/example' => 'application#get_example'
 
   root to: "snp_files#new"
 

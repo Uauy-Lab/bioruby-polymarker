@@ -32,11 +32,8 @@ body{
 
 // Logo Styling
 .logo_image{
-	width: 50%;
-	text-align: center;
-	margin: 0 auto;
-	display: block;
-	margin-bottom: 5px;
+	width: 20%;		
+	display: inline-block;	
 }
 
 
@@ -52,7 +49,7 @@ nav a{
 	padding: 10px 0;
 	text-align: center;
 	margin: 0px 0px 0px -4px;
-	width: calc(100%/3);
+	width: calc(75%/3);
 	border-radius: 10px;
 }
 
@@ -64,23 +61,60 @@ nav a:hover{
     text-decoration: underline;
 }
 
-
-// Button Styling
-input, select{
-	background-color: #337ab7;
-	color: white;
-	border-radius: 7px;
-	cursor: pointer;
-	padding: 5px 8px;
-	box-shadow: 2px 2px 3px grey;
+input, select, button{
+	color: black ;
+	border-radius: 7px !important;
+	cursor: pointer !important;
+	padding: 5px 8px !important;
+	box-shadow: 2px 2px 3px grey !important;
 	border: none;
 }
 
 // Color specific for select 
 select{
-	background-color: #489e47;
+	background-color: #489e47;	
+	color: white !important;
 }
 
+input[type=submit]{
+	background-color: #337ab7 !important;	
+	color: white !important;
+	border-radius: 7px !important;
+	cursor: pointer !important;
+	padding: 5px 8px !important;
+	box-shadow: 2px 2px 3px grey !important;
+	border: none;
+}
+
+#populateExample{
+	color: black !important;
+	border-radius: 7px !important;
+	cursor: pointer !important;
+	padding: 5px 8px !important;
+	box-shadow: 2px 2px 3px grey !important;
+	border: none;
+}
+
+#clearInput{
+	background-color: #af9dd1;
+}
+
+.refSelectContainer{
+	display: inline-block;
+	width: 35%;
+	vertical-align: top;
+}
+
+.emailContainer{
+	width: 30%;
+	display: inline-block;
+}
+
+.refDesContainer{
+	display: inline-block;
+	width: 60%;
+	margin-left: 50px;
+}
 
 // Content Styling
 #main-body{
@@ -90,6 +124,12 @@ select{
 	margin-bottom: 80px;		// footer height + 5
 }
 
+.button-link-style{
+	color: #337ab7 !important;
+	border: none !important;
+	box-shadow: none !important;
+	background-color: white !important;
+}
 
 // Footer Styling
 div.footer{
@@ -119,14 +159,14 @@ img.logo{
     cursor:pointer;
     width:500px;            
     text-align: left;
-    padding: 0px 0px 1px 45px;   
+    padding: 35px;   
     border:1px solid #E77D7B;
     overflow:auto;
 }
 .alert p{
 	margin: 0;
 	display: inline;
-	padding-right: 20px;
+	padding-right: 30px;
 }
 
 .error{

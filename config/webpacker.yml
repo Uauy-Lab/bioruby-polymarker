@@ -18,6 +18,9 @@ default: &default
     - .sass
     - .scss
     - .css
+    - .module.sass
+    - .module.scss
+    - .module.css
     - .png
     - .svg
     - .gif
@@ -62,4 +65,4 @@ production:
   compile: false
 
   # Cache manifest.json for performance
-  cache_manifest: false
+  cache_manifest: true

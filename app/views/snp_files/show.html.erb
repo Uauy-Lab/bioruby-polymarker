@@ -1,10 +1,17 @@
 <h2><%= @snp_file.filename%></h2>
 
 <div>
-Status: <%= @snp_file.status %> <br/>
+Status: <%= @snp_file.status %> | Queue Numbe: <%= @scheduled_number %><br/>
 Reference: <%= @snp_file.reference %> <br/>
 </div>
 
+<hr>
+<h3>Download Data</h3>
+<%= link_to "Mask", controller: "snp_files", action: "get_mask_file", marker: "mask_fasta", id: @snp_file.id, format: "fa"%>
+<br>
+<%= link_to "Primers", controller: "snp_files", action: "get_primers", marker: "polymarker_output", id: @snp_file.id, format: "csv"%>
+
+<hr>
 <div>
 <h3>Markers file</h3>
 <div>
@@ -12,7 +19,9 @@ Reference: <%= @snp_file.reference %> <br/>
 <div id="input_grid"  style="width: 100%; height: 500px"></div>
 
 </div>
-<h4>Ignored lines</h4>
+
+<hr>
+<h3>Ignored lines</h3>
 <div>
  <% @snp_file.not_parsed.each do |line| %>
  	<%= line %> </br>
@@ -20,8 +29,7 @@ Reference: <%= @snp_file.reference %> <br/>
 </div>
 </div>
 
-<div id="alignment_mask" style="max-width: 100%;
-overflow-x: scroll" >
+<div id="alignment_mask" style="max-width: 100%; overflow-x: scroll" >
 
 </div>
 

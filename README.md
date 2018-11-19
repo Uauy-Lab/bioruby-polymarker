@@ -42,3 +42,20 @@ The file is formated as ```yaml```. It can contain several references with the f
     The reference contains the chromosomes assembled as pseudomolecules,
     hence it is possible to distinguish duplications in the same chromosome.
 ```
+
+## Important Note
+On some machines due to version differences (either ruby/rails/os etc.), webpacker/webpack can malfunction and an error could occur such as:
+* the following error
+```
+[Webpacker] Compilation failed:
+  /usr/lib/ruby/vendor_ruby/bundler/rubygems_integration.rb:458:in `block in replace_bin_path': can't find executable webpack for gem webpacker (Gem::Exception)
+	from /usr/lib/ruby/vendor_ruby/bundler/rubygems_integration.rb:489:in `block in replace_bin_path
+```
+In this case do the following:
+* `gem install webpacker`
+    * yes to all except:
+      * **app/javascript/packs/application.js**
+      * **config/webpack/environment.js**
+    * Modify **config/webpack/environment.js**
+      * `environment.plugins.provide` --> `environment.plugins.prepend`
+      * `module.exports = environment.toWebpackConfig()` --> `module.exports = environment`

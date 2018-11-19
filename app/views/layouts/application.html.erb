@@ -15,13 +15,13 @@
 	<!-- Header -->
 	<div id="header">
 		<!-- Logo -->		
-		<%= image_tag "polymarker_header.png", :class => "logo_image"%>				
+		<%= image_tag "Logo.png", :class => "logo_image"%>				
 
 	    <!-- Navigation -->
 		<nav class="navbar">		
-			<%= link_to "Request primers", root_path, :onclick => "calculateLogoMargin()"%>			
-			<%= link_to "Designed primers", "/designed_primers", :onclick => "calculateLogoMargin()" %>
-			<%= link_to "About", "/about", :onclick => "calculateLogoMargin()" %>			
+			<%= link_to "Create Primers", root_path, :onclick => "runOnPageChange()"%>
+			<%= link_to "Primers for SNP-chips", "/designed_primers", :onclick => "runOnPageChange()" %>
+			<%= link_to "About", "/about", :onclick => "runOnPageChange()" %>
 		</nav>
 	</div>	
 
@@ -41,8 +41,7 @@
 
 	<!-- Footer -->
 	<div class="footer" >
-		<%= image_tag("jic.png", class: "logo" ) %>
-		<%= image_tag("EI.png", class: "logo" ) %>
+		<%= image_tag("jic.png", class: "logo" ) %>		
 		<%= image_tag("bbsrc.png", class: "logo" ) %>
 		<%= image_tag("iwyp.png", class: "logo" ) %>
 		<%= image_tag("DFW.jpg", class: "logo" ) %>

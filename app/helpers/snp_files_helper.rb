@@ -1,9 +1,10 @@
 require 'bio'
 require 'bioruby-polyploid-tools'
 require 'csv'
+require 'net/smtp'
 module SnpFilesHelper
 	def parse_file(snp_file, polymarker_input, reference)
-		#puts snp_file.inspect
+		#puts snp_file.inspect		
 		snp_file.snps = Hash.new
 		snp_file.not_parsed = Array.new
 		snp_file.output_saved = false
@@ -16,6 +17,23 @@ module SnpFilesHelper
 				snp_file.snps[snp.gene] = [snp.gene, snp.chromosome, snp.sequence_original]
 			end
 		end
+	end
+
+	def parse_manual_input(snp_file, polymarker_input, reference)
+		# puts "\n\n\n\nManual parse\n\n\n\n"
+		snp_file.snps = Hash.new
+		snp_file.not_parsed = Array.new
+		snp_file.output_saved = false
+		polymarker_input.each_line do |line|
+			snp = Bio::PolyploidTools::SNPSequence.parse line
+			if  snp.nil? or not reference.valid_chromosome? snp.chromosome
+				snp_file.not_parsed << line
+			else
+				snp.gene.gsub!(".","_")
+				snp_file.snps[snp.gene] = [snp.gene, snp.chromosome, snp.sequence_original]
+			end
+		end
+		
 	end
 
 	def load_primers_output(snp_file)
@@ -53,6 +71,8 @@ module SnpFilesHelper
 	end
 
 	def update_status(snp_file)
+		
+		send_email(snp_file.email,snp_file.id, snp_file.status) if snp_file.email != ""		
 		puts "About to return because: #{snp_file.output_saved}"
 		#return snp_file if snp_file.output_saved == true
 		snp_file.status = snp_file.run_status[0] if snp_file.run_status.size > 0
@@ -65,4 +85,33 @@ module SnpFilesHelper
 		snp_file.save!
 		snp_file
 	end
+
+	def get_mail_opt
+		
+		client_path = Rails.root.join('config', 'mail_properties.yml')
+        config_mongo = YAML.load_file(client_path)
+        opts = config_mongo["mail_opt"]
+        opts
+
+	end
+
+	def send_email(to,id, status)
+
+		options = get_mail_opt
+
+msg = <<END_OF_MESSAGE
+From: #{options['email_from_alias']} <#{options['email_from']}>
+To: <#{to}>
+Subject: Polymarker #{id} #{status}
+
+The current status of your request (#{id}) is #{status}
+The latest status and results (when done) are available in: #{request.original_url}
+END_OF_MESSAGE
+	    smtp = Net::SMTP.new options["email_server"], 587
+	    smtp.enable_starttls
+	    smtp.start( options["email_domain"], options["email_user"], options["email_pwd"], :login) do
+		smtp.send_message(msg, options["email_from"], to)
+    end
+  end
+
 end
