@@ -56,7 +56,7 @@ module SnpFilesHelper
 					current_marker += entry.to_s if print_this
 					if entry.definition.start_with? "MASK"
 						print_next = false
-						puts "Saving: #{current_id}"
+						#puts "Saving: #{current_id}"
 						masks[current_id] = current_marker
 						current_marker=""
 					else
@@ -66,15 +66,13 @@ module SnpFilesHelper
 					end
 				end
 		end
-		puts "Now the keys are: #{masks.keys}"
+		#puts "Now the keys are: #{masks.keys}"
 		snp_file.mask_fasta = masks
 	end
 
 	def update_status(snp_file)
-		
-		send_email(snp_file.email,snp_file.id, snp_file.status) if snp_file.email != ""		
-		puts "About to return because: #{snp_file.output_saved}"
-		#return snp_file if snp_file.output_saved == true
+		return snp_file if snp_file.output_saved == true
+		send_email(snp_file.email,snp_file.id, snp_file.status) if snp_file.email.nil? == false and snp_file.email != ""
 		snp_file.status = snp_file.run_status[0] if snp_file.run_status.size > 0
 		if snp_file.status.include? "DONE"
 			snp_file.polymarker_log = snp_file.run_lines.join("")
@@ -87,12 +85,11 @@ module SnpFilesHelper
 	end
 
 	def get_mail_opt
-		
-		client_path = Rails.root.join('config', 'mail_properties.yml')
-        config_mongo = YAML.load_file(client_path)
-        opts = config_mongo["mail_opt"]
-        opts
-
+		return @mail_opt if @mail_opt
+		client_path  = Rails.root.join('config', 'mail_properties.yml')
+        config_mail = YAML.load_file(client_path)
+        @mail_opt = config_mail["mail_opt"]
+        @mail_opt
 	end
 
 	def send_email(to,id, status)
