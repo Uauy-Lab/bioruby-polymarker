@@ -7,7 +7,9 @@ namespace :reference do
 	Mongoid.load!("config/mongoid.yml")
 	task :add, [:file] => :environment do |t, args|
 		refs = YAML.load_file(args[:file])
-		refs.each_pair do | k, v|
+		#pp refs
+		refs.each do | v|
+			pp v
 			insert = false
 			ref = Reference.find_by({:name => v["name"]})
 			insert = true if ref.nil?

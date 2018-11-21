@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
   def get_example
   	reference = Reference.find_by(name: params[:ref])
-  	example = {"value" => reference.example.chomp!}  	  	
+  	example = {"value" => reference.example}  	  	
   	respond_to do |format|
       format.json { render json: example}
     end

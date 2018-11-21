@@ -17,7 +17,8 @@
 			<button id="populateExample" class="btn btn-warning" type="button">Example</button>
 			<button id="clearInput" class="btn" type="button">Clear Input</button>
 			<div class="refSelectContainer">
-				<h3>Reference Description</h3>				
+				<h3>Reference</h3>
+				<br/>				
 				<%= f.select(:reference) do %>
 					<% Reference.all.each do |ref| -%>
 						<%= content_tag(:option, ref.name, value: ref.name, "data-descriptipn": ref.description, class: "reference") %>				
