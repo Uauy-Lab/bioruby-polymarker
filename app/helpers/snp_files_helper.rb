@@ -72,7 +72,8 @@ module SnpFilesHelper
 
 	def update_status(snp_file)
 		return snp_file if snp_file.output_saved == true
-		send_email(snp_file.email,snp_file.id, snp_file.status) if snp_file.email.nil? == false and snp_file.email != ""
+		# Send an email if the status is done or has encountered an error
+		send_email(snp_file.email,snp_file.id, snp_file.status) if snp_file.email.nil? == false and snp_file.email != "" and (snp_file.status.include? "DONE" or snp_file.status.include? "ERROR")
 		snp_file.status = snp_file.run_status[0] if snp_file.run_status.size > 0
 		if snp_file.status.include? "DONE"
 			snp_file.polymarker_log = snp_file.run_lines.join("")
