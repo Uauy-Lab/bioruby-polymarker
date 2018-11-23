@@ -46,7 +46,7 @@
                 return d.promise();
             }
         },
-		rowClick: function(event) {
+		rowClick: function(event) {					
 			load_mask(snp_file_id, event.item, local_msa);
 		}
 	});
@@ -116,7 +116,8 @@ function find_target_sequence(item, seqs){
 
 
 function get_primer_coordinates(item, chr_index, seqs){
-	//console.log(seqs)
+	// console.log(seqs);
+	// console.log(item);
 	var a=seqs[0].seq;
 	var b=seqs[1].seq;
 	var c=b;
@@ -186,8 +187,14 @@ function load_mask(snp_file_id, item, local_msa ){
 		//local_msa.seqs.add(result);
 		local_msa.seqs.reset(result);
 		local_msa.render();
+		local_msa.g.selcol.reset()
 		var chr_index = find_target_sequence(item, result);
-		var coordinates = get_primer_coordinates(item,chr_index, result);
+		var coordinates = null;
+		if(item.primer_type != null){
+			coordinates = get_primer_coordinates(item,chr_index, result);
+		} else {
+			return;
+		}
 		// console.log(coordinates);
 		
 		if(chr_index >= 0 && coordinates.c != coordinates.b){
@@ -214,7 +221,7 @@ function load_mask(snp_file_id, item, local_msa ){
 			}
 			local_msa.g.zoomer.setLeftOffset(view_start); 
 			// console.log(local_msa.g.selcol);
-			local_msa.g.selcol.reset()
+			
 			local_msa.g.selcol.add(se);
 			local_msa.g.selcol.add(se2);
 			local_msa.g.selcol.add(se3);

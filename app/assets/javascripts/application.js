@@ -60,15 +60,36 @@
 
 	}
 
+// Dataset change response
+	function datasetChangeReponse(){
+
+		sessionStorage.setItem('dataset', $( "#snp_file_reference" ).val());
+
+		$( ".refDes" ).css('display', 'none');
+
+		var refrence = $( "#snp_file_reference" ).val().replace(/[^a-zA-Z ]|[1-9]|\s/g,'');	
+
+		$( "#" + refrence ).css('display', 'block');
+
+	}
+
+
 // Hightlight description
-	function highlightDescription(){
+	function showDescription(){
+
+		dataset = sessionStorage.getItem('dataset');
+		if(dataset != null){
+			$( "#snp_file_reference" ).val(dataset);
+		} else {
+			sessionStorage.setItem('dataset', $( "#snp_file_reference" ).val());
+		}
 
 		var selectValue = $( "#snp_file_reference" ).val();
-		if(typeof selectValue != 'undefined'){
+		if(typeof selectValue != 'undefined'){			
 
 			$( ".refDes" ).css('display', 'none');
 
-			$( "#snp_file_reference" ).attr('onchange', 'highlightDescription()');
+			$( "#snp_file_reference" ).attr('onchange', "datasetChangeReponse()");
 
 			var refrence = $( "#snp_file_reference" ).val().replace(/[^a-zA-Z ]|[1-9]|\s/g,'');	
 			$( "#" + refrence ).css('display', 'block');
@@ -157,7 +178,7 @@ ready = (function() {
 
 	idToRefDes();
 
-	highlightDescription();
+	showDescription();
 
 	calculateLogoMargin();
 
