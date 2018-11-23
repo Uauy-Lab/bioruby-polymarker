@@ -1,0 +1,55 @@
+- name : Brassica napus cv Darmor-bzh v4.1 
+  path: /home/afsharb/Documents/PolyMarker_Data/Bn/Brassica_napus_v4.1.chromosomes.fa
+  genome_count: 1
+  arm_selection: _,0
+  description: >
+    The assembly was produced with a misture of Sanger BAC libraries, GS FLX Titanium (450bp) and Illumina HiSeq (100bp) and assembled with SOAP. 
+    The scaffolds where assigned to their corresponding genome by comparing the diploid progenitors and the scaffolds where anchored with the aid of genetic maps.  
+    Reference sequence available in [genoscope](http://www.genoscope.cns.fr/brassicanapus/data/).
+    The assembly is described in [Chalhoub, B. et al (2014)](https://doi.org/10.1126/science.1253435)
+  example: >
+    b_napus_test1,chrC04,AGAATCACAGAACAAGCTGGTGTTGTCCTAACACTTGATCCCAAACCGATTGAGGGTGACT[G/C]GAACGGTGCTGGTTGCCATACCAATTACAGCACAAAGAGCATGAGAGAGGACGGAGGA
+    b_napus_test2,chrA08,CAAAGACGCTCCAATCCACGACACTTCCGGTGTTGTTTCCATCTCTGACGATGGAAACCTC[G/C]TGGTTACCGATGGTCGAAACCGTCTTATATGGTCGACGAACGTCACGGTACCAGTGGC
+    b_napus_test3,chrC08,CGCCGGAAAACAAACCCTGCTCCCGGCCACGGCCTCGCCTTCATCGTGGTCCCTACCATT[A/T]ACAACGACGGCGCCGCCGGAAAAGGCTTCATCGGTCTGTTAAACCAAACCAATAAGGGA
+    b_napus_test4,chrA01,GTTCCTTTCTCTCCATAGATAGTAGATAACTCCTTTCCAGCATAGAAGAATCAAACGCTT[G/C]AAGAGCCTATTTCCACGAAGGGATATCATCTGATTCATCGTTTCCTCCCAGACCGGTGA
+
+- name : Brassica oloracea kale-like type TO1000DH 
+  path: /home/afsharb/Documents/PolyMarker_Data/Bo/Brassica_oleracea.BOL.dna_sm.toplevel.fa
+  genome_count: 1
+  arm_selection: scaffold
+  description: >
+    The genomic sequence within this version of Ensembl includes 33,459 scaffolds (>200 bp) with an N50 of 850 kb that was assembled 
+    at NRC-Saskatoon using a hybrid approach from Illumina, Roche 454 and Sanger sequence data. 
+    The assembly has been orientated and assigned to the nine pseudochromosomes using dense genotype-by-sequencing genetic maps.
+    Reference sequence available in [ensembl!](http://plants.ensembl.org/Brassica_oleracea/Info/Index)[fasta](ftp://ftp.ensemblgenomes.org/pub/plants/release-41/fasta/brassica_oleracea/dna/).
+    The assembly is described in [Parkin, I. et al (2014)](https://doi.org/10.1186/gb-2014-15-6-r77)
+  example: >
+    b_oloracea_test1,C4,AGAATCACAGAACAAGCTGGTGTTGTCCTAACACTTGATCCCAAACCGATTGAGGGTGACT[G/C]GAACGGTGCTGGTTGCCATACCAATTACAGCACAAAGAGCATGAGAGAGGACGGAGGA
+    b_oloracea_test2,C8,CGCCGGAAAACAAACCCTGCTCCCGGCCACGGCCTCGCCTTCATCGTGGTCCCTACCATT[A/T]ACAACGACGGCGCCGCCGGAAAAGGCTTCATCGGTCTGTTAAACCAAACCAATAAGGGA
+    b_oloracea_test3,C9,ATGGCACCACGAGGCCTTTTTTATATTTCTTATACAAACAGTAGTTCATTTAAG[A/G]TTTAGTTTTCTTCTATAAACTAGTTTATCCGATACAAAAACTGACAACTTTCAGCCTGTGTTGTT
+    b_oloracea_test4,Scaffold01088,ATCATGTTCAGGTTCTGTAGTCAACATGAGGAAAAATGGCTTCCCTCCCAACATTC[T/G]CAGATGCTTTTGTCATGTTCATTCAACTAAGACTATGAACATGGTGGCAAAAATTCAACATCC
+- name : Brassica rapa ssp. pekinensis line Chiifu 401-42 
+  path: /home/afsharb/Documents/PolyMarker_Data/Br/Brassica_rapa.Brapa_1.0.dna_sm.toplevel.fa
+  genome_count: 1
+  arm_selection: scaffold
+  description: >
+    The genomic sequence within this version of Ensembl includes 193 large scaffolds assembled by CAAS-IVF, 
+    which have been orientated and assigned to pseudochromosomes using publicly available genetic markers.
+    Reference sequence available in [ensembl!](http://plants.ensembl.org/Brassica_rapa/Info/Index)[fasta](ftp://ftp.ensemblgenomes.org/pub/plants/release-41/fasta/brassica_rapa/dna/).
+    The assembly is described in [The Brassica rapa Genome Sequencing Project Consortium  (2011)](https://www.nature.com/articles/ng.919)
+  example: >
+    b_rapa_test1,A08,CAAAGACGCTCCAATCCACGACACTTCCGGTGTTGTTTCCATCTCTGACGATGGAAACCTC[G/C]TGGTTACCGATGGTCGAAACCGTCTTATATGGTCGACGAACGTCACGGTACCAGTGGC
+    b_rapa_test2,A01,GTTCCTTTCTCTCCATAGATAGTAGATAACTCCTTTCCAGCATAGAAGAATCAAACGCTT[G/C]AAGAGCCTATTTCCACGAAGGGATATCATCTGATTCATCGTTTCCTCCCAGACCGGTGA
+    b_rapa_test3,A10,CTCCTTGGAATTTTCAATATTGGCCAGTTGTAAATATGCCAAAATCAGGTCCACCAAGT[T/A]CCCTAAAATTGTAAACTATTGCGCCGGAGAAGAATGTGGATTTGGAGTTTATGTAACTCT
+    b_rapa_test4,Scaffold000096,TTTCCGAGACCTGAAACTGAAAGTCACTTTCTGAATTTCGTAAACCCTAGCTTTCCAATC[T/G]CCGACGCTCTCCATCTTCTCTTGCCGCCGCCAATTCATCCTCCCGACGAGCTCAGCTTT
+
+-   name : Rye (Secale cereale L.) inbred line Lo7 v2
+    path: /home/afsharb/Documents/PolyMarker_Data/Rye/Secale_cereale_Lo7_v2_Sc.dna.genome.fa
+    genome_count: 1
+    arm_selection: first_two
+    description: >
+      The scaffolds  were constructed using the Whole Genome Shotgun (WGS) assembly of Lo7. 
+      To link WGS contigs the scaffolding software SSPACE (version 2.3) was used. 
+      The assmebly contains 1.29 million scaffolds with a cumulative length of 2.8 Gbp.
+      Reference sequence available from [IPK](https://doi.org/10.5447/IPK/2016/56).
+      The assembly is described in [Bauer, E. et al (2014)](https://doi.org/10.1111/tpj.13436)
