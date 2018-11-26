@@ -110,10 +110,15 @@
 				dataType: 'json',
 				data: {ref: ref},
 			})
-			.done(function(data) {				
-				example = data.value.split(" ").join("\n");
-				$("#manualInput").val(example);
-				$( "#fileInput" ).prop('disabled', true);
+			.done(function(data) {
+				if(data.value != null){
+					example = data.value.split(" ").join("\n");
+					$("#manualInput").val(example);
+					$( "#fileInput" ).prop('disabled', true);
+				} else {
+					alert("No example is available for this reference");
+					$("#manualInput").val("");
+				}
 			})
 			.fail(function(response) {
 				console.error("error");
