@@ -1,7 +1,6 @@
 require 'bio'
 require 'bioruby-polyploid-tools'
 require 'csv'
-require 'net/smtp'
 require 'fileutils'
 module SnpFilesHelper
 	def parse_file(snp_file, polymarker_input, reference)
@@ -80,62 +79,13 @@ module SnpFilesHelper
 			load_primers_output(snp_file)
 			load_masks(snp_file)
 			snp_file.output_saved = true			
-		end
+		end		
 
-		# Remove the temporary folder and file where PolyMarker ran
-		if snp_file.status.include? "DONE" or snp_file.status.include? "ERROR"
-			# Email the status and remove it
-			send_stat_email snp_file
-			remove_temp_files snp_file.id.to_s
-		end
+		dir_name = snp_file.id.to_s + "_out"
+    	FileUtils.remove_dir(dir_name) if snp_file.status.include? "DONE" or snp_file.status.include? "ERROR"
 
 		snp_file.save!
 		snp_file
 	end
-
-	def get_mail_opt
-		return @mail_opt if @mail_opt
-		client_path  = Rails.root.join('config', 'mail_properties.yml')
-        config_mail = YAML.load_file(client_path)
-        @mail_opt = config_mail["mail_opt"]
-        @mail_opt
-	end
-
-	def remove_temp_files(snp_id)
-		
-		dir_name = snp_id + "_out"
-		FileUtils.remove_dir(dir_name)
-		FileUtils.rm(snp_id)
-		
-	end
-
-	def send_stat_email(snp_file)
-
-		if snp_file.email.nil? == false and snp_file.email != ""
-			send_email(snp_file.email,snp_file.id, snp_file.status)
-			# Removing email from the database when process is finished or encountered an error
-			snp_file.email = ""
-		end		
-		
-	end
-
-	def send_email(to,id, status)
-
-		options = get_mail_opt
-
-msg = <<END_OF_MESSAGE
-From: #{options['email_from_alias']} <#{options['email_from']}>
-To: <#{to}>
-Subject: Polymarker #{id} #{status}
-
-The current status of your request (#{id}) is #{status}
-The latest status and results (when done) are available in: #{request.original_url}
-END_OF_MESSAGE
-	    smtp = Net::SMTP.new options["email_server"], 587
-	    smtp.enable_starttls
-	    smtp.start( options["email_domain"], options["email_user"], options["email_pwd"], :login) do
-		smtp.send_message(msg, options["email_from"], to)
-    end
-  end
 
 end
