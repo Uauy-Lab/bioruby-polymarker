@@ -2,6 +2,7 @@ require 'bio'
 require 'bioruby-polyploid-tools'
 require 'csv'
 require 'net/smtp'
+require 'fileutils'
 module SnpFilesHelper
 	def parse_file(snp_file, polymarker_input, reference)
 		#puts snp_file.inspect		
@@ -71,16 +72,23 @@ module SnpFilesHelper
 	end
 
 	def update_status(snp_file)
-		return snp_file if snp_file.output_saved == true
-		# Send an email if the status is done or has encountered an error
-		send_email(snp_file.email,snp_file.id, snp_file.status) if snp_file.email.nil? == false and snp_file.email != "" and (snp_file.status.include? "DONE" or snp_file.status.include? "ERROR")
-		snp_file.status = snp_file.run_status[0] if snp_file.run_status.size > 0
+		return snp_file if snp_file.output_saved == true			
+		snp_file.status = snp_file.run_status[0] if snp_file.run_status.size > 0		
+
 		if snp_file.status.include? "DONE"
 			snp_file.polymarker_log = snp_file.run_lines.join("")
 			load_primers_output(snp_file)
 			load_masks(snp_file)
-			snp_file.output_saved = true
+			snp_file.output_saved = true			
 		end
+
+		# Remove the temporary folder and file where PolyMarker ran
+		if snp_file.status.include? "DONE" or snp_file.status.include? "ERROR"
+			# Email the status and remove it
+			send_stat_email snp_file
+			remove_temp_files snp_file.id.to_s
+		end
+
 		snp_file.save!
 		snp_file
 	end
@@ -91,6 +99,24 @@ module SnpFilesHelper
         config_mail = YAML.load_file(client_path)
         @mail_opt = config_mail["mail_opt"]
         @mail_opt
+	end
+
+	def remove_temp_files(snp_id)
+		
+		dir_name = snp_id + "_out"
+		FileUtils.remove_dir(dir_name)
+		FileUtils.rm(snp_id)
+		
+	end
+
+	def send_stat_email(snp_file)
+
+		if snp_file.email.nil? == false and snp_file.email != ""
+			send_email(snp_file.email,snp_file.id, snp_file.status)
+			# Removing email from the database when process is finished or encountered an error
+			snp_file.email = ""
+		end		
+		
 	end
 
 	def send_email(to,id, status)
