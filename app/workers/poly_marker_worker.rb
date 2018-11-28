@@ -12,7 +12,6 @@ class PolyMarkerWorker
 
     # Remove the temporary folder and file where PolyMarker ran
     if snp_file.status.include? "DONE" or snp_file.status.include? "ERROR"
-      puts "\n\n\nIt is done\n\n\n"
       # Email the status and remove it
       send_stat_email snp_file
       FileUtils.rm(snp_file.id.to_s)
@@ -105,7 +104,7 @@ class PolyMarkerWorker
     if snp_file.email.nil? == false and snp_file.email != ""
       send_email(snp_file.email,snp_file.id, snp_file.status, snp_file.id.to_s)
       # Removing email from the database when process is finished or encountered an error
-      snp_file.email = ""
+      snp_file.email = "" if snp_file.status != "New"
     end   
     
   end
