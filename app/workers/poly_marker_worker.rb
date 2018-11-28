@@ -128,6 +128,6 @@ END_OF_MESSAGE
       smtp.start( options["email_domain"], options["email_user"], options["email_pwd"], :login) do
     smtp.send_message(msg, options["email_from"], to)
     end
-  end
+  end  
 
 end

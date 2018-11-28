@@ -82,10 +82,42 @@ module SnpFilesHelper
 		end		
 
 		dir_name = snp_file.id.to_s + "_out"
-    	FileUtils.remove_dir(dir_name) if snp_file.status.include? "DONE" or snp_file.status.include? "ERROR"
+
+    if snp_file.status.include? "DONE" or snp_file.status.include? "ERROR"
+    	FileUtils.remove_dir(dir_name)
+    	# Remove job from queue
+    	remove_job_from_queue snp_file.id.to_s
+  	end
 
 		snp_file.save!
 		snp_file
 	end
+
+	def store_job_in_local_queue snp_id
+    
+    $job_queue.push(snp_id) unless $job_queue.include?(snp_id)
+
+  end
+
+  def remove_job_from_queue snp_id
+
+  	$job_queue.delete(snp_id)
+  	
+  end
+
+  def get_job_queue_index snp_id
+
+  	if $job_queue.size > 0 and $job_queue.include?(snp_id)
+  		hash = Hash[$job_queue.map.with_index.to_a]
+			return hash[snp_id] + 1
+		else
+			return 0
+  	end		
+  	
+  end
+
+  private
+  
+  $job_queue = []
 
 end
