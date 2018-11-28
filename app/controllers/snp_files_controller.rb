@@ -34,10 +34,9 @@ class SnpFilesController < ApplicationController
       
       #puts "___Aabout to save____"
       puts @snp_file.inspect
-      if @snp_file.save!        
-        PolyMarkerWorker.perform_async(@snp_file.id)        
-        helpers.send_email(@snp_file.email,@snp_file.id, @snp_file.status) if @snp_file.email != ""
-        # PolyMarkerWorker.perform_in(1.minutes, @snp_file.id)        
+      if @snp_file.save!
+        puts "\n\n\n\nbase url:\n#{request.base_url}\n\n\n\n"
+        PolyMarkerWorker.perform_async(@snp_file.id, request.base_url)        
         redirect_to snp_file_path(@snp_file), notice: "SNP file uploaded successfully" and return
       end
 
