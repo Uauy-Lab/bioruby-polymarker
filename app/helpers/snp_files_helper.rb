@@ -9,13 +9,7 @@ module SnpFilesHelper
 		snp_file.not_parsed = Array.new
 		snp_file.output_saved = false
 		polymarker_input.tempfile.each_line do |line|
-			snp = Bio::PolyploidTools::SNPSequence.parse line
-			if  snp.nil? or not reference.valid_chromosome? snp.chromosome
-				snp_file.not_parsed << line
-			else
-				snp.gene.gsub!(".","_")
-				snp_file.snps[snp.gene] = [snp.gene, snp.chromosome, snp.sequence_original]
-			end
+			polyploid_parse_input(snp_file, line, reference)
 		end
 	end
 
@@ -25,13 +19,7 @@ module SnpFilesHelper
 		snp_file.not_parsed = Array.new
 		snp_file.output_saved = false
 		polymarker_input.each_line do |line|
-			snp = Bio::PolyploidTools::SNPSequence.parse line
-			if  snp.nil? or not reference.valid_chromosome? snp.chromosome
-				snp_file.not_parsed << line
-			else
-				snp.gene.gsub!(".","_")
-				snp_file.snps[snp.gene] = [snp.gene, snp.chromosome, snp.sequence_original]
-			end
+			polyploid_parse_input(line, reference)
 		end
 		
 	end
@@ -79,16 +67,10 @@ module SnpFilesHelper
 			load_primers_output(snp_file)
 			load_masks(snp_file)
 			snp_file.output_saved = true			
+			remove_directory_and_remove_job(snp_file)
 		end		
 
-		if snp_file.status.include? "DONE" or snp_file.status.include? "ERROR"
-			path_pref = Preference.find_by( {key:"execution_path"})
-			dir_name = "#{snp_file.id.to_s}_out"
-      dir_name = "#{path_pref.value}/#{snp_file.id.to_s}_out" if path_pref
-    	FileUtils.remove_dir(dir_name)
-    	# Remove job from queue
-    	remove_job_from_queue snp_file.id.to_s
-  	end
+		remove_directory_and_remove_job(snp_file) if snp_file.status.include? "ERROR"
 
 		snp_file.save!
 		snp_file
@@ -100,11 +82,6 @@ module SnpFilesHelper
 
   end
 
-  def remove_job_from_queue snp_id
-
-  	$job_queue.delete(snp_id)
-  	
-  end
 
   def get_job_queue_index snp_id
 
@@ -116,6 +93,26 @@ module SnpFilesHelper
   	end		
   	
   end
+
+	def polyploid_parse_input(snp_file, line_input, reference)
+		snp = Bio::PolyploidTools::SNPSequence.parse line_input
+		if  snp.nil? or not reference.valid_chromosome? snp.chromosome
+			snp_file.not_parsed << line_input
+		else
+			snp.gene.gsub!(".","_")
+			snp_file.snps[snp.gene] = [snp.gene, snp.chromosome, snp.sequence_original]
+		end
+	end
+
+	def remove_directory_and_remove_job(snp_file)
+
+		path_pref = Preference.find_by( {key:"execution_path"})
+		dir_name = "#{snp_file.id.to_s}_out"
+		dir_name = "#{path_pref.value}/#{snp_file.id.to_s}_out" if path_pref
+		FileUtils.remove_dir(dir_name)
+		$job_queue.delete(snp_file.id)
+
+	end
 
   private
   
