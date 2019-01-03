@@ -1,10 +1,27 @@
 class PolyMarkerWorker
   include Sidekiq::Worker
   require 'sidekiq/api'
+  require 'net/smtp'
+  require 'fileutils'
 
   def update_status(snp_file, status)
-    snp_file.status = status
+
+    send_stat_email snp_file if snp_file.status == "New"
+
+    snp_file.status = status    
+
+    # Remove the temporary folder and file where PolyMarker ran
+    if snp_file.status.include? "DONE" or snp_file.status.include? "ERROR"
+      path_pref = Preference.find_by( {key:"execution_path"})
+      # Email the status and remove it
+      send_stat_email snp_file      
+      file_path = snp_file.id.to_s
+      file_path = "#{path_pref.value}/#{snp_file.id.to_s}" if path_pref
+      FileUtils.rm(file_path)
+    end
+
     snp_file.save!
+
   end
 
   def execute_command(command, type=:text, skip_comments=true, comment_char="#", &block)
@@ -70,9 +87,50 @@ class PolyMarkerWorker
     update_status(snp_file, "Input file ready")
   end
 
-  def perform(new_id)
+  def perform(new_id, base_url)
+    $base_url = base_url
     snp_file = SnpFile.find new_id
     write_polymarker_input snp_file
     execute_polymarker(snp_file)
   end
+
+  def get_mail_opt
+    return @mail_opt if @mail_opt
+    client_path  = Rails.root.join('config', 'mail_properties.yml')
+        config_mail = YAML.load_file(client_path)
+        @mail_opt = config_mail["mail_opt"]
+        @mail_opt
+  end
+
+  def send_stat_email(snp_file)
+
+    if snp_file.email.nil? == false and snp_file.email != ""
+      send_email(snp_file.email,snp_file.id, snp_file.status, snp_file.id.to_s)
+      # Removing email from the database when process is finished or encountered an error
+      snp_file.email = "" if snp_file.status != "New"
+    end   
+    
+  end
+
+  def send_email(to,id, status, snp_id)
+
+    options = get_mail_opt
+
+    results_url = "#{$base_url}/snp_files/#{snp_id}"
+
+msg = <<END_OF_MESSAGE
+From: #{options['email_from_alias']} <#{options['email_from']}>
+To: <#{to}>
+Subject: Polymarker #{id} #{status}
+
+The current status of your request (#{id}) is #{status}
+The latest status and results (when done) are available in: #{results_url}
+END_OF_MESSAGE
+      smtp = Net::SMTP.new options["email_server"], 587
+      smtp.enable_starttls
+      smtp.start( options["email_domain"], options["email_user"], options["email_pwd"], :login) do
+    smtp.send_message(msg, options["email_from"], to)
+    end
+  end  
+
 end

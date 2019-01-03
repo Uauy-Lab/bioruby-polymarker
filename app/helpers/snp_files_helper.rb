@@ -1,7 +1,7 @@
 require 'bio'
 require 'bioruby-polyploid-tools'
 require 'csv'
-require 'net/smtp'
+require 'fileutils'
 module SnpFilesHelper
 	def parse_file(snp_file, polymarker_input, reference)
 		#puts snp_file.inspect		
@@ -9,13 +9,7 @@ module SnpFilesHelper
 		snp_file.not_parsed = Array.new
 		snp_file.output_saved = false
 		polymarker_input.tempfile.each_line do |line|
-			snp = Bio::PolyploidTools::SNPSequence.parse line
-			if  snp.nil? or not reference.valid_chromosome? snp.chromosome
-				snp_file.not_parsed << line
-			else
-				snp.gene.gsub!(".","_")
-				snp_file.snps[snp.gene] = [snp.gene, snp.chromosome, snp.sequence_original]
-			end
+			polyploid_parse_input(snp_file, line, reference)
 		end
 	end
 
@@ -25,13 +19,7 @@ module SnpFilesHelper
 		snp_file.not_parsed = Array.new
 		snp_file.output_saved = false
 		polymarker_input.each_line do |line|
-			snp = Bio::PolyploidTools::SNPSequence.parse line
-			if  snp.nil? or not reference.valid_chromosome? snp.chromosome
-				snp_file.not_parsed << line
-			else
-				snp.gene.gsub!(".","_")
-				snp_file.snps[snp.gene] = [snp.gene, snp.chromosome, snp.sequence_original]
-			end
+			polyploid_parse_input(line, reference)
 		end
 		
 	end
@@ -71,44 +59,63 @@ module SnpFilesHelper
 	end
 
 	def update_status(snp_file)
-		return snp_file if snp_file.output_saved == true
-		send_email(snp_file.email,snp_file.id, snp_file.status) if snp_file.email.nil? == false and snp_file.email != ""
-		snp_file.status = snp_file.run_status[0] if snp_file.run_status.size > 0
+		return snp_file if snp_file.output_saved == true			
+		snp_file.status = snp_file.run_status[0] if snp_file.run_status.size > 0		
+
 		if snp_file.status.include? "DONE"
 			snp_file.polymarker_log = snp_file.run_lines.join("")
 			load_primers_output(snp_file)
 			load_masks(snp_file)
-			snp_file.output_saved = true
-		end
+			snp_file.output_saved = true			
+			remove_directory_and_remove_job(snp_file)
+		end		
+
+		remove_directory_and_remove_job(snp_file) if snp_file.status.include? "ERROR"
+
 		snp_file.save!
 		snp_file
 	end
 
-	def get_mail_opt
-		return @mail_opt if @mail_opt
-		client_path  = Rails.root.join('config', 'mail_properties.yml')
-        config_mail = YAML.load_file(client_path)
-        @mail_opt = config_mail["mail_opt"]
-        @mail_opt
+	def store_job_in_local_queue snp_id
+    
+    $job_queue.push(snp_id) unless $job_queue.include?(snp_id)
+
+  end
+
+
+  def get_job_queue_index snp_id
+
+  	if $job_queue.size > 0 and $job_queue.include?(snp_id)
+  		hash = Hash[$job_queue.map.with_index.to_a]
+			return hash[snp_id] + 1
+		else
+			return 0
+  	end		
+  	
+  end
+
+	def polyploid_parse_input(snp_file, line_input, reference)
+		snp = Bio::PolyploidTools::SNPSequence.parse line_input
+		if  snp.nil? or not reference.valid_chromosome? snp.chromosome
+			snp_file.not_parsed << line_input
+		else
+			snp.gene.gsub!(".","_")
+			snp_file.snps[snp.gene] = [snp.gene, snp.chromosome, snp.sequence_original]
+		end
 	end
 
-	def send_email(to,id, status)
+	def remove_directory_and_remove_job(snp_file)
 
-		options = get_mail_opt
+		path_pref = Preference.find_by( {key:"execution_path"})
+		dir_name = "#{snp_file.id.to_s}_out"
+		dir_name = "#{path_pref.value}/#{snp_file.id.to_s}_out" if path_pref
+		FileUtils.remove_dir(dir_name)
+		$job_queue.delete(snp_file.id)
 
-msg = <<END_OF_MESSAGE
-From: #{options['email_from_alias']} <#{options['email_from']}>
-To: <#{to}>
-Subject: Polymarker #{id} #{status}
+	end
 
-The current status of your request (#{id}) is #{status}
-The latest status and results (when done) are available in: #{request.original_url}
-END_OF_MESSAGE
-	    smtp = Net::SMTP.new options["email_server"], 587
-	    smtp.enable_starttls
-	    smtp.start( options["email_domain"], options["email_user"], options["email_pwd"], :login) do
-		smtp.send_message(msg, options["email_from"], to)
-    end
-  end
+  private
+  
+  $job_queue = []
 
 end

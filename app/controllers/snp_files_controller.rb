@@ -35,9 +35,7 @@ class SnpFilesController < ApplicationController
       #puts "___Aabout to save____"
       puts @snp_file.inspect
       if @snp_file.save!        
-        PolyMarkerWorker.perform_async(@snp_file.id)        
-        helpers.send_email(@snp_file.email,@snp_file.id, @snp_file.status) if @snp_file.email != ""
-        # PolyMarkerWorker.perform_in(1.minutes, @snp_file.id)        
+        PolyMarkerWorker.perform_async(@snp_file.id, request.base_url)
         redirect_to snp_file_path(@snp_file), notice: "SNP file uploaded successfully" and return
       end
 
@@ -68,9 +66,11 @@ class SnpFilesController < ApplicationController
     @snp_file = SnpFile.find params["id"]
     if @snp_file.status != "New"
       helpers.update_status  @snp_file
+      @scheduled_number = helpers.get_job_queue_index @snp_file.id.to_s
     else
-      ss = Sidekiq::ScheduledSet.new
-      @scheduled_number = ss.size
+      queue = Sidekiq::Queue.new
+      helpers.store_job_in_local_queue(@snp_file.id.to_s) if queue.size > 0
+      @scheduled_number = helpers.get_job_queue_index @snp_file.id.to_s
     end
 
     @is_done = ((@snp_file.status.include? "ERROR") || (@snp_file.status.include? "DONE"))

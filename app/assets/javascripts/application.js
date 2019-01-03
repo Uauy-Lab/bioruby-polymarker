@@ -73,29 +73,26 @@
 
 	}
 
-
-// Hightlight description
+// Show description
 	function showDescription(){
 
-		dataset = sessionStorage.getItem('dataset');
-		if(dataset != null){
-			$( "#snp_file_reference" ).val(dataset);
-		} else {
-			sessionStorage.setItem('dataset', $( "#snp_file_reference" ).val());
-		}
-
 		var selectValue = $( "#snp_file_reference" ).val();
-		if(typeof selectValue != 'undefined'){			
+		if(typeof selectValue != 'undefined'){
+			dataset = sessionStorage.getItem('dataset');
+			if(dataset != null && typeof dataset != 'undefined'){
+				$( "#snp_file_reference" ).val(dataset);
+			} else {				
+				sessionStorage.setItem('dataset', $( "#snp_file_reference" ).val());	
+			}
 
 			$( ".refDes" ).css('display', 'none');
 
 			$( "#snp_file_reference" ).attr('onchange', "datasetChangeReponse()");
 
-			var refrence = $( "#snp_file_reference" ).val().replace(/[^a-zA-Z ]|[1-9]|\s/g,'');	
-			$( "#" + refrence ).css('display', 'block');
+			var reference = $( "#snp_file_reference" ).val().replace(/[^a-zA-Z ]|[1-9]|\s/g,'');	
+			$( "#" + reference ).css('display', 'block');
 
 		}
-
 	}
 
 // Populate example
@@ -113,10 +110,15 @@
 				dataType: 'json',
 				data: {ref: ref},
 			})
-			.done(function(data) {				
-				example = data.value.split(" ").join("\n");
-				$("#manualInput").val(example);
-				$( "#fileInput" ).prop('disabled', true);
+			.done(function(data) {
+				if(data.value != null){
+					example = data.value.split(" ").join("\n");
+					$("#manualInput").val(example);
+					$( "#fileInput" ).prop('disabled', true);
+				} else {
+					alert("No example is available for this reference");
+					$("#manualInput").val("");
+				}
 			})
 			.fail(function(response) {
 				console.error("error");
