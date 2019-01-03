@@ -19,7 +19,7 @@ module SnpFilesHelper
 		snp_file.not_parsed = Array.new
 		snp_file.output_saved = false
 		polymarker_input.each_line do |line|
-			polyploid_parse_input(line, reference)
+			polyploid_parse_input(snp_file, line, reference)
 		end
 		
 	end
