@@ -81,9 +81,10 @@ module SnpFilesHelper
 			snp_file.output_saved = true			
 		end		
 
-		dir_name = snp_file.id.to_s + "_out"
-
-    if snp_file.status.include? "DONE" or snp_file.status.include? "ERROR"
+		if snp_file.status.include? "DONE" or snp_file.status.include? "ERROR"
+			path_pref = Preference.find_by( {key:"execution_path"})
+			dir_name = "#{snp_file.id.to_s}_out"
+      dir_name = "#{path_pref.value}/#{snp_file.id.to_s}_out" if path_pref
     	FileUtils.remove_dir(dir_name)
     	# Remove job from queue
     	remove_job_from_queue snp_file.id.to_s

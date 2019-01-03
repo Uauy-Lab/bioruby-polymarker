@@ -12,9 +12,12 @@ class PolyMarkerWorker
 
     # Remove the temporary folder and file where PolyMarker ran
     if snp_file.status.include? "DONE" or snp_file.status.include? "ERROR"
+      path_pref = Preference.find_by( {key:"execution_path"})
       # Email the status and remove it
-      send_stat_email snp_file
-      FileUtils.rm(snp_file.id.to_s)
+      send_stat_email snp_file      
+      file_path = snp_file.id.to_s
+      file_path = "#{path_pref.value}/#{snp_file.id.to_s}" if path_pref
+      FileUtils.rm(file_path)
     end
 
     snp_file.save!
