@@ -5,14 +5,14 @@
 			
 		<div id="fileInputCont">
 			<%= f.label :file, for: "fileInput" %>
-			<%= f.file_field :polymarker_input, :required => true, :accept => ".csv", class: "form-control-file", id: "fileInput" %>
+			<%= f.file_field :polymarker_input, :required => false, :accept => ".csv", class: "form-control-file", id: "fileInput" %>
 		</div>
 		<br/>
 		<span style="color: red;">OR</span>
 		<br/>
 		<div id="manInputCont">
 			<label for="manualInput">Manual Input</label>			
-			<%=text_area(:polymarker_manual_input, :post, class: "form-control", id: "manualInput", placeholder: "Enter your input manually", :required => true)%>
+			<%=text_area(:polymarker_manual_input, :post, class: "form-control", id: "manualInput", placeholder: "Enter your input manually", :required => false)%>
 			<br/>
 			<button id="populateExample" class="btn btn-warning" type="button">Example</button>
 			<button id="clearInput" class="btn" type="button">Clear Input</button>

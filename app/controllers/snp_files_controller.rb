@@ -32,8 +32,7 @@ class SnpFilesController < ApplicationController
         parsed_file = helpers.parse_manual_input(@snp_file, params[:polymarker_manual_input][:post], reference)
       end      
       
-      #puts "___Aabout to save____"
-      puts @snp_file.inspect
+      throw "0 SNPs found" if @snp_file.snps.size == 0
       if @snp_file.save!        
         PolyMarkerWorker.perform_async(@snp_file.id, request.base_url)
         redirect_to snp_file_path(@snp_file), notice: "SNP file uploaded successfully" and return
@@ -42,8 +41,7 @@ class SnpFilesController < ApplicationController
       render 'new'
 
     rescue => e    
-      flash[:error] = "Please attach a CSV file with the correct data format"
-      puts e
+      flash[:error] = "Please attach a CSV file with the correct data format\n #{e.to_s} " 
       session[:return_to] ||= request.referer
       redirect_to session.delete(:return_to)
       return
