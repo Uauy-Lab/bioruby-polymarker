@@ -95,10 +95,11 @@ module SnpFilesHelper
   end
 
 	def polyploid_parse_input(snp_file, line_input, reference)
+		line_input.gsub!("\t",",")
 		arr = line_input.split(",")
 		arr[2] = arr[2].upcase
 		line_input = arr.join(",")
-		
+
 		snp = Bio::PolyploidTools::SNPSequence.parse line_input
 		if  snp.nil? or not reference.valid_chromosome? snp.chromosome
 			snp_file.not_parsed << line_input

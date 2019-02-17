@@ -1,12 +1,6 @@
 Request primers
 ===============
-   
-PolyMarker is an automated bioinformatics pipeline for SNP assay development which increases the probability of generating homoeologue-specific assays for polyploid wheat. PolyMarker generates a multiple alignment between the target SNP sequence and the IWGSC chromosome survey sequences ([IWGSC, 2014](http://dx.doi.org/10.1126/science.1251788) ) for each of the three wheat genomes. It then generates a mask with informative positions which are highlighted with respect to the target genome.
 
+PolyMarker is an automated bioinformatics pipeline for SNP assay development which increases the probability of generating homoeologue-specific assays for polyploid species. PolyMarker generates a multiple alignment between the target SNP sequence and the selected reference genome (from the drop off menu in green below). It then generates a mask with informative polymorphic positions between homoeologs which are highlighted with respect to the target genome.
 
-See [About](/about) to know how to prepare your input.
- 
-We have [designed primers](/designed_primers) for the iSelect 90K chip and the Axiom 820k chip.
-
-
-
+See [About](/about) to know how to prepare your input. For wheat, we have [designed primers](/designed_primers) for the iSelect 90K chip and the Axiom 820k chip.
