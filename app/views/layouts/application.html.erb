@@ -3,7 +3,7 @@
 <head>
 	<title>PolyMarker</title>
 	<%= csrf_meta_tags %>
-
+	<%= render :partial =>"layouts/analytics" rescue nil %>
 	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 	<%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
@@ -20,8 +20,9 @@
 	    <!-- Navigation -->
 		<nav class="navbar">		
 			<%= link_to "Create Primers", root_path, :onclick => "runOnPageChange()"%>
-			<%= link_to "Primers for SNP-chips", "/designed_primers", :onclick => "runOnPageChange()" %>
+			<%= link_to "Primers for wheat SNP-Chips", "/designed_primers", :onclick => "runOnPageChange()" %>
 			<%= link_to "About", "/about", :onclick => "runOnPageChange()" %>
+			<%= link_to "Cite", "/cite", :onclick => "runOnPageChange()" %>
 		</nav>
 	</div>	
 
