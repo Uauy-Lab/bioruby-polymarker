@@ -13,7 +13,7 @@ These positions include (see figure for example):
 * **Genome semi-specific:** this is a homoeologous polymorphism which is found in 2 of the 3 genomes, hence it discriminates against one of the off-target genomes (lowercase)
 * **Homoeologous:** if the target varietal SNP is also a homoeologous polymorphism between genomes (e.g. A, B and D genomes in the wheat reference Chinese Spring)
 
-PolyMarker will generate KASP assays (read more) which are based on a three primer system. Two diagnostic primers incorporate the alternative varietal SNP at the 3' end, but are otherwise similar (black boxed primers in figure). The third common primer is preferentially selected to incorporate a genome-specific base at the 3' end (red boxed primer in figure), or a semi-specific base in the absence of an adequate genome specific position.
+PolyMarker will generate KASP assays which are based on a three primer system. Two diagnostic primers incorporate the alternative varietal SNP at the 3' end, but are otherwise similar (black boxed primers in figure). The third common primer is preferentially selected to incorporate a genome-specific base at the 3' end (red boxed primer in figure), or a semi-specific base in the absence of an adequate genome specific position.
 
 The code of the PolyMarker pipeline is available in [github](https://github.com/Uauy-Lab/bioruby-polyploid-tools).
 
