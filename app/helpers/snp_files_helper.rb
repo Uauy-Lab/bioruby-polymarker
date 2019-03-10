@@ -70,7 +70,7 @@ module SnpFilesHelper
 			remove_directory_and_remove_job(snp_file)
 		end		
 
-		remove_directory_and_remove_job(snp_file) if snp_file.status.include? "DONE"
+		#remove_directory_and_remove_job(snp_file) if snp_file.status.include? "ERROR"
 
 		snp_file.save!
 		snp_file
