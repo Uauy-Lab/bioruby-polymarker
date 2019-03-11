@@ -11,7 +11,7 @@ class MarkdownController < ApplicationController
 		 
 		@path = MarkDownPath.new
 		@path.path = params[:page]
-		puts @path
+		#puts @path
 		render 'show'
 	end
 end
