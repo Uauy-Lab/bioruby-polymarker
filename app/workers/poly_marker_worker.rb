@@ -24,29 +24,37 @@ class PolyMarkerWorker
 
   end
 
-  def execute_command(command, type=:text, skip_comments=true, comment_char="#", &block)
-    puts "Executing #{command}"
-    stdin, pipe, stderr, wait_thr = Open3.popen3(command)
-    pid = wait_thr[:pid]  # pid of the started process.
-    if type == :text
-      while (line = pipe.gets)
-        next if skip_comments and line[0] == comment_char
-        yield line.chomp if block_given?
+  def execute_command(command, timeout: 600,type: :text, skip_comments: true, comment_char: "#", &block)
+    logger.debug  "Executing #{command}"
+
+    Open3.popen3(command) do |stdin,pipe,stderr,wait_thr|
+      pid = wait_thr[:pid]  # pid of the started process.
+      begin
+        Timeout.timeout(timeout) do 
+          if type == :text
+            while line = pipe.gets
+              next if skip_comments and line[0] == comment_char
+              yield line.chomp if block_given?
+            end
+          elsif type == :binary
+            while (c = pipe.gets(nil))
+              yield c if block_given?
+            end
+          end
+        end
+      rescue Timeout::Error 
+        Process.kill "KILL", pid
       end
-    elsif type == :binary
-      while (c = pipe.gets(nil))
-        yield c if block_given?
-      end
+      exit_status = wait_thr.value  # Process::Status object returned.
+      
+      errors = stderr.read
+      loggger.error "Error running '#{command}': \n#{error.to_s}"
+      return exit_status
     end
-    exit_status = wait_thr.value  # Process::Status object returned.
-    puts stderr.read
-    stdin.close
-    pipe.close
-    stderr.close
-    return exit_status
+    return nil 
   end
 
-  def execute_polymarker(snp_file)
+  def execute_polymarker(snp_file, timeout: 600)
 
     update_status(snp_file, "Running")
     ref = Reference.find_by({name: snp_file.reference})
@@ -59,7 +67,7 @@ class PolyMarkerWorker
     cmd << "-A blast"
     #cmd << @properties['wrapper_suffix']
     #polymarker.rb -m 1_GWAS_SNPs.csv -o 1_test -c /Users/ramirezr/Documents/TGAC/references/Triticum_aestivum.IWGSP1.21.dna_rm.genome.fa
-    execute_command(cmd)
+    execute_command(cmd, timeout: timeout)
 
     update_status(snp_file, snp_file.run_status)
   end
