@@ -26,7 +26,7 @@ class SnpFilesController < ApplicationController
         parsed_file = helpers.parse_manual_input(@snp_file, params[:polymarker_manual_input][:post], reference)
       end      
       throw "0 SNPs found" if @snp_file.snps.size == 0
-      throw "More than 10 SNPs found." if @snp_file.snps.size > 10
+      throw "More than 250 SNPs found." if @snp_file.snps.size > 250
       if @snp_file.save!        
         PolyMarkerWorker.perform_async(@snp_file.id, request.base_url)
         redirect_to snp_file_path(@snp_file), notice: "SNP file uploaded successfully" and return
@@ -58,7 +58,7 @@ class SnpFilesController < ApplicationController
       @scheduled_number = helpers.get_job_queue_index @snp_file.id.to_s
     else
       queue = Sidekiq::Queue.new
-      helpers.store_job_in_local_queue(@snp_file.id.to_s) if queue.size > 0
+      helpers.store_job_in_local_queue(@snp_file.id.to_s) 
       @scheduled_number = helpers.get_job_queue_index @snp_file.id.to_s
     end
     @is_done = ((@snp_file.status.include? "ERROR") || (@snp_file.status.include? "DONE"))

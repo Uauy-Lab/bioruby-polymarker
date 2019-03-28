@@ -7,11 +7,10 @@ class PolyMarkerWorker
   def update_status(snp_file, status)
 
     send_stat_email snp_file if snp_file.status == "New"
-
     snp_file.status = status    
 
     # Remove the temporary folder and file where PolyMarker ran
-    if snp_file.status.include? "DONE" or snp_file.status.include? "ERROR"
+    if snp_file.status.include? "DONE" #or snp_file.status.include? "ERROR"
       path_pref = Preference.find_by( {key:"execution_path"})
       # Email the status and remove it
       send_stat_email snp_file      
@@ -27,6 +26,8 @@ class PolyMarkerWorker
   def execute_command(command, timeout: 600,type: :text, skip_comments: true, comment_char: "#", &block)
     logger.debug  "Executing #{command}"
 
+    exit_status = nil
+    term = false
     Open3.popen3(command) do |stdin,pipe,stderr,wait_thr|
       pid = wait_thr[:pid]  # pid of the started process.
       begin
@@ -43,22 +44,20 @@ class PolyMarkerWorker
           end
         end
       rescue Timeout::Error 
-        Process.kill "KILL", pid
+        Process.kill "TERM", pid
+        term = true
       end
       exit_status = wait_thr.value  # Process::Status object returned.
-      
       errors = stderr.read
-      loggger.error "Error running '#{command}': \n#{error.to_s}"
-      return exit_status
+      logger.error "Error running '#{command}': \n#{errors.to_s}" unless exit_status.success?
     end
-    return nil 
+    exit_status = :timeout if term
+    return exit_status
   end
 
   def execute_polymarker(snp_file, timeout: 600)
-
     update_status(snp_file, "Running")
     ref = Reference.find_by({name: snp_file.reference})
-
     #cmd=@properties['wrapper_prefix']
     cmd = "polymarker.rb -m #{snp_file.polymarker_path} -o #{snp_file.polymarker_path}_out "
     cmd << "-c #{ref.path} "
@@ -67,8 +66,11 @@ class PolyMarkerWorker
     cmd << "-A blast"
     #cmd << @properties['wrapper_suffix']
     #polymarker.rb -m 1_GWAS_SNPs.csv -o 1_test -c /Users/ramirezr/Documents/TGAC/references/Triticum_aestivum.IWGSP1.21.dna_rm.genome.fa
-    execute_command(cmd, timeout: timeout)
-
+    ret = execute_command(cmd, timeout: timeout)
+    if ret == :timeout
+      status_file = "#{snp_file.polymarker_path}_out/status.txt"
+      open(status_file, 'a') { |f| f.puts "Timeout. Please design less markers." }
+    end
     update_status(snp_file, snp_file.run_status)
   end
 
@@ -99,7 +101,7 @@ class PolyMarkerWorker
     $base_url = base_url
     snp_file = SnpFile.find new_id
     write_polymarker_input snp_file
-    execute_polymarker(snp_file)
+    execute_polymarker(snp_file, timeout: 600)
   end
 
   def get_mail_opt
