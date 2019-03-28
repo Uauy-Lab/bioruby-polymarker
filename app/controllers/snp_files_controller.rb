@@ -1,5 +1,6 @@
 require 'digest'
 require 'sidekiq/api'
+require 'mail'
 
 class SnpFilesController < ApplicationController
   def index
@@ -12,8 +13,9 @@ class SnpFilesController < ApplicationController
 
   def create
     begin      
-      @snp_file = SnpFile.new
       form_snp_file = snp_file_params
+      Mail::Address.new(form_snp_file[:email]) if form_snp_file[:email].length > 0
+      @snp_file = SnpFile.new
       @snp_file.email = form_snp_file[:email]
       @snp_file.filename = form_snp_file[:polymarker_input].original_filename unless form_snp_file[:polymarker_input].nil?
       @snp_file.email_hash = Digest::MD5.hexdigest @snp_file.email
@@ -33,7 +35,7 @@ class SnpFilesController < ApplicationController
       end
       render 'new'
     rescue => e    
-      flash[:error] = "Please attach a CSV file with the correct data format\n #{e.to_s} " 
+      flash[:error] = "Please attach a CSV file with the correct data format\n and make sure the email is correct\n #{e.to_s} " 
       session[:return_to] ||= request.referer
       redirect_to session.delete(:return_to)
       return
@@ -57,7 +59,7 @@ class SnpFilesController < ApplicationController
       helpers.update_status  @snp_file
       @scheduled_number = helpers.get_job_queue_index @snp_file.id.to_s
     else
-      queue = Sidekiq::Queue.new
+      #queue = Sidekiq::Queue.new
       helpers.store_job_in_local_queue(@snp_file.id.to_s) 
       @scheduled_number = helpers.get_job_queue_index @snp_file.id.to_s
     end
