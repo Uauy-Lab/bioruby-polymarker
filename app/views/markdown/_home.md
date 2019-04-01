@@ -5,4 +5,4 @@ PolyMarker is an automated bioinformatics pipeline for SNP assay development whi
 
 See [About](/about) to know how to prepare your input. For wheat, we have [designed primers](/designed_primers) for the iSelect 90K chip and the Axiom 820k chip.
 
-**Please only submit 10 primers per request**
+If your request is terminated due a timeout, try with less markers and make sure the SNPs are not in low complexity regions. 

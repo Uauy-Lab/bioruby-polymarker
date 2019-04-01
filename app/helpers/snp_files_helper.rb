@@ -84,13 +84,12 @@ module SnpFilesHelper
 
 
   def get_job_queue_index snp_id
-
   	if $job_queue.size > 0 and $job_queue.include?(snp_id)
   		hash = Hash[$job_queue.map.with_index.to_a]
-			return hash[snp_id] + 1
-		else
-			return 0
-  	end		
+		return hash[snp_id] + 1
+	else
+		return 0
+  	end	
   	
   end
 

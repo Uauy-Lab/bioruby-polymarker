@@ -57,12 +57,10 @@ class SnpFilesController < ApplicationController
     @snp_file = SnpFile.find params["id"]
     if @snp_file.status != "New"
       helpers.update_status  @snp_file
-      @scheduled_number = helpers.get_job_queue_index @snp_file.id.to_s
     else
-      #queue = Sidekiq::Queue.new
       helpers.store_job_in_local_queue(@snp_file.id.to_s) 
-      @scheduled_number = helpers.get_job_queue_index @snp_file.id.to_s
     end
+    @scheduled_number = helpers.get_job_queue_index @snp_file.id.to_s
     @is_done = ((@snp_file.status.include? "ERROR") || (@snp_file.status.include? "DONE"))
   end
 
