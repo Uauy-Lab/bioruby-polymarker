@@ -107,9 +107,10 @@ class PolyMarkerWorker
   def get_mail_opt
     return @mail_opt if @mail_opt
     client_path  = Rails.root.join('config', 'mail_properties.yml')
-        config_mail = YAML.load_file(client_path)
-        @mail_opt = config_mail["mail_opt"]
-        @mail_opt
+    return nil unless File.exist? client_path
+    config_mail = YAML.load_file(client_path)
+    @mail_opt = config_mail["mail_opt"]
+    @mail_opt
   end
 
   def send_stat_email(snp_file)
@@ -125,7 +126,7 @@ class PolyMarkerWorker
   def send_email(to,id, status, snp_id)
 
     options = get_mail_opt
-
+    return if options.nil?
     results_url = "#{$base_url}/snp_files/#{snp_id}"
 
 msg = <<END_OF_MESSAGE
