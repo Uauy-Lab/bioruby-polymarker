@@ -140,13 +140,13 @@ development:
     # Application name that is printed to the mongodb logs upon establishing a
     # connection in server versions >= 3.4. Note that the name cannot exceed 128 bytes.
     # app_name: MyApplicationName
+
 test:
-  clients:
-    default:
-      database: bioruby_polymarker_test
-      hosts:
-        - 127.0.0.0.1
-      options:
-        read:
-          mode: :primary
-        max_pool_size: 1
+    clients:
+    # Defines the default client. (required)
+        default:
+            uri: 'mongodb://0.0.0.0:27017/bioruby_polymarker_test'
+    options:
+        raise_not_found_error: false
+        log_level: :debug
+
