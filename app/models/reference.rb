@@ -15,7 +15,10 @@ class Reference
 	end
 
 	def valid_chromosome?(chr)
-		chromosomes.include? chr
+		return chromosomes.include? chr if chromosomes
+		fasta_file = ReferenceHelper.index_reference(self) unless @local_chromosomes
+		@local_chromosomes =  ReferenceHelper.get_chromosomes(self, fasta_file) unless @local_chromosomes
+		@local_chromosomes.include? chr
 	end
 
 end

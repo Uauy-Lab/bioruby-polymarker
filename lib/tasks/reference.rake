@@ -9,7 +9,7 @@ namespace :reference do
 		refs = YAML.load_file(args[:file])
 		#pp refs
 		refs.each do | v|
-			pp v
+			#pp v
 			insert = false
 			ref = Reference.find_by({:name => v["name"]})
 			insert = true if ref.nil?
@@ -19,8 +19,8 @@ namespace :reference do
 
 
 			chromosomes = ReferenceHelper.get_chromosomes(ref, fasta_file)
-			$stdout.puts "Observed chromosomes: #{chromosomes.join(", ")}"
-			ref.chromosomes = chromosomes
+			$stdout.puts "Observed chromosomes: #{chromosomes.size}"
+			ref.chromosomes = chromosomes  if chromosomes.size < 50000
 			if insert
 				ref.save!
 			else
