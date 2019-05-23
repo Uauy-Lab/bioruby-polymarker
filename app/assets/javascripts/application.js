@@ -48,9 +48,7 @@
 
 // Assigining ID to reference description
 	function idToRefDes(){
-
 		$( ".refDesContainer" ).children('p').each(function(index, el) {
-
 			refName = $( "#snp_file_reference" ).children(`option:nth-child(${index+1})`).val();
 			refName = refName.replace(/[^a-zA-Z ]|[1-9]|\s/g,'');
 			$( this ).attr('id', refName);
@@ -62,20 +60,14 @@
 
 // Dataset change response
 	function datasetChangeReponse(){
-
 		sessionStorage.setItem('dataset', $( "#snp_file_reference" ).val());
-
 		$( ".refDes" ).css('display', 'none');
-
 		var refrence = $( "#snp_file_reference" ).val().replace(/[^a-zA-Z ]|[1-9]|\s/g,'');	
-
 		$( "#" + refrence ).css('display', 'block');
-
 	}
 
 // Show description
 	function showDescription(){
-
 		var selectValue = $( "#snp_file_reference" ).val();
 		if(typeof selectValue != 'undefined'){
 			dataset = sessionStorage.getItem('dataset');
@@ -84,25 +76,18 @@
 			} else {				
 				sessionStorage.setItem('dataset', $( "#snp_file_reference" ).val());	
 			}
-
 			$( ".refDes" ).css('display', 'none');
-
 			$( "#snp_file_reference" ).attr('onchange', "datasetChangeReponse()");
-
 			var reference = $( "#snp_file_reference" ).val().replace(/[^a-zA-Z ]|[1-9]|\s/g,'');	
 			$( "#" + reference ).css('display', 'block');
-
 		}
 	}
 
 // Populate example
 	function populateExample(){		
 		$("#populateExample").on( "click", function(){
-
 			example = '';
-
 			ref = $( "#snp_file_reference" ).val();
-
 			$.ajax({
 				url: '/example',
 				beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));},
@@ -141,7 +126,6 @@
 			$( "#manualInput" ).val('');
 			$( "#manualInput" ).prop('disabled', false);
 			$( "#populateExample" ).prop('disabled', false);
-
 			$( "#fileInput" ).val('');
 			$( "#fileInput" ).prop('disabled', false);
 		});
@@ -151,7 +135,6 @@
 	function checkInputElements(){
 
 		$( "#manualInput" ).blur(function(){
-
 			if($( "#manualInput" ).val() !== ""){				
 				$( "#fileInput" ).prop('disabled', true);
 			} else {				
@@ -179,21 +162,13 @@ var ready;
 ready = (function() {	
 
 	idToRefDes();
-
 	showDescription();
-
 	calculateLogoMargin();
-
 	spaceLogosDynamically()
-
 	hideMessage();	
-
 	populateExample();	
-
 	checkInputElements();
-
 	clearInput();	
-
 });
 
 $( window ).on( "load", ready);
