@@ -38,11 +38,12 @@ class PolyMarkerWorker
         if buff.size > 0
           yield line if block_given?
         end
-        logger.info("Timeout: #{timeout}")
+        
         timeout -= 1 
         
         
         if timeout < 1 and buff.size != 0
+          logger.info("Timeout: #{timeout} (#{command})")
            Process.kill("KILL", pid)
            term = true
         end
