@@ -23,30 +23,32 @@ class PolyMarkerWorker
 
   end
 
-  def execute_command(command, timeout: 600,type: :text, skip_comments: true, comment_char: "#", &block)
+  def execute_command(command, 
+    timeout: 600,
+    max_len: 500,
+     &block)
     logger.debug  "Executing #{command}"
 
     exit_status = nil
     term = false
     Open3.popen3(command) do |stdin,pipe,stderr,wait_thr|
       pid = wait_thr[:pid]  # pid of the started process.
-      begin
-        Timeout.timeout(timeout) do 
-          if type == :text
-            while line = pipe.gets
-              next if skip_comments and line[0] == comment_char
-              yield line.chomp if block_given?
-            end
-          elsif type == :binary
-            while (c = pipe.gets(nil))
-              yield c if block_given?
-            end
-          end
+      until pipe.eof? do
+        buff = pipe.read_nonblock(max_len)
+        if buff.size > 0
+          yield line if block_given?
         end
-      rescue Timeout::Error 
-        Process.kill "TERM", pid
-        term = true
+        logger.info("Timeout: #{timeout}")
+        timeout -= 1 
+        
+        
+        if timeout < 1 and buff.size != 0
+           Process.kill("KILL", pid)
+           term = true
+        end
+        sleep(1) 
       end
+      
       exit_status = wait_thr.value  # Process::Status object returned.
       errors = stderr.read
       logger.error "Error running '#{command}': \n#{errors.to_s}" unless exit_status.success?
