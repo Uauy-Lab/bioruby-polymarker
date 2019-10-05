@@ -42,7 +42,7 @@ namespace :reference do
 	  			runtime: e.created_at - e.updated_at
 	  		}	
 			puts tmp.inspect
-			month = "#{tmp[:updated].year} - #{tmp[:updated].month}" 
+			month = "#{tmp[:updated].strftime "%Y-%m"}" 
 			puts month
 
 		end
