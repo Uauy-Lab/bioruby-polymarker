@@ -39,11 +39,11 @@ module SnpFilesHelper
 		print_next = true
 		current_id = ""
 		Bio::FlatFile.open(Bio::FastaFormat, snp_file.mask_file) do |fasta_file|
-		    fasta_file.each do |entry|
-					print_this = print_next
-					current_marker += entry.to_s if print_this
-					if entry.definition.start_with? "MASK"
-						print_next = false
+			fasta_file.each do |entry|
+				print_this = print_next
+				current_marker += entry.to_s if print_this
+				if entry.definition.start_with? "MASK"
+					print_next = false
 						#puts "Saving: #{current_id}"
 						masks[current_id] = current_marker
 						current_marker=""
@@ -53,7 +53,7 @@ module SnpFilesHelper
 						current_id.chomp!
 					end
 				end
-		end
+			end
 		#puts "Now the keys are: #{masks.keys}"
 		snp_file.mask_fasta = masks
 	end
@@ -77,21 +77,21 @@ module SnpFilesHelper
 	end
 
 	def store_job_in_local_queue snp_id
-    
-    $job_queue.push(snp_id) unless $job_queue.include?(snp_id)
 
-  end
+		$job_queue.push(snp_id) unless $job_queue.include?(snp_id)
+
+	end
 
 
-  def get_job_queue_index snp_id
-  	if $job_queue.size > 0 and $job_queue.include?(snp_id)
-  		hash = Hash[$job_queue.map.with_index.to_a]
-		return hash[snp_id] + 1
-	else
-		return 0
-  	end	
-  	
-  end
+	def get_job_queue_index snp_id
+		if $job_queue.size > 0 and $job_queue.include?(snp_id)
+			hash = Hash[$job_queue.map.with_index.to_a]
+			return hash[snp_id] + 1
+		else
+			return 0
+		end	
+
+	end
 
 	def polyploid_parse_input(snp_file, line_input, reference)
 		line_input.gsub!("\t",",")
@@ -109,17 +109,16 @@ module SnpFilesHelper
 	end
 
 	def remove_directory_and_remove_job(snp_file)
-
 		path_pref = Preference.find_by( {key:"execution_path"})
-		dir_name = "#{snp_file.id.to_s}_out"
-		dir_name = "#{path_pref.value}/#{snp_file.id.to_s}_out" if path_pref
+		prefix = "."
+		prefix = path_pref.value if path_pref
+		dir_name = "#{prefix}/#{snp_file.id.to_s}_out"
 		FileUtils.remove_dir(dir_name)
 		$job_queue.delete(snp_file.id)
-
 	end
 
-  private
-  
-  $job_queue = []
+	private
+
+	$job_queue = []
 
 end

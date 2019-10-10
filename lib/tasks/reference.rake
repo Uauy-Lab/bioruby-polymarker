@@ -34,19 +34,7 @@ namespace :reference do
 
 	desc "Prints a summary of how many requests happened per month"
 	task :summary => :environment do |t, args|
-		SnpFile.each do |e|
-	  		tmp = {
-	  			reference: e.reference,
-	  			status: e.status,
-	  			updated: e.updated_at,
-	  			runtime: e.created_at - e.updated_at
-	  		}	
-			puts tmp.inspect
-			month = "#{tmp[:updated].strftime "%Y-%m"}" 
-			puts month
-
-		end
-
+		ReferenceHelper.summary_by_month
 	end
 
 end

@@ -4,6 +4,7 @@
   "dependencies": {
     "@rails/webpacker": "3.5",
     "biojs-io-fasta": "^0.1.17",
+    "chart.js": "^2.8.0",
     "css-loader": "^0.28.9",
     "expose-loader": "^0.7.4",
     "jquery": "^3.3.1",

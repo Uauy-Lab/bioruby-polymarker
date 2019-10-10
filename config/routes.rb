@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'status/summary'
+  get 'status/load'
   get 'reference/show'
 
   resources :snp_files, except: [:show]

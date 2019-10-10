@@ -36,4 +36,18 @@ module ReferenceHelper
 			s 
 		end.uniq
 	end
+
+	def self.summary_by_month
+		SnpFile.each do |e|
+			tmp = {
+				reference: e.reference,
+				status: e.status,
+				updated: e.updated_at,
+				runtime: e.created_at - e.updated_at
+			}	
+			puts tmp.inspect
+			month = "#{tmp[:updated].strftime "%Y-%m"}" 
+			puts month
+		end		
+	end
 end
