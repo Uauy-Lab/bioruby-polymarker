@@ -1,2 +1,35 @@
+
+
 <h1>Status#summary</h1>
 <p>Find me in app/views/status/summary.html.erb</p>
+
+ <button id="renderBtn">
+ 	Render
+</button>
+<div class="container">
+	<canvas id="myChart"></canvas>
+</div>
+
+<script type="text/javascript">
+function renderChart(data, labels) {
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'This week',
+                data: data,
+            }]
+        },
+    });
+}
+
+$("#renderBtn").click(
+    function () {
+        data = [20000, 14000, 12000, 15000, 18000, 19000, 22000];
+        labels =  ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+        renderChart(data, labels);
+    }
+);
+</script>
