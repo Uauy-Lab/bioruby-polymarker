@@ -1,3 +1,5 @@
+require "daru"
+
 module ReferenceHelper
 	def self.index_reference(reference)
 		fasta_file = reference.path
@@ -38,16 +40,34 @@ module ReferenceHelper
 	end
 
 	def self.summary_by_month
+
+		reference   = []
+		status      = []
+		updated     = []
+		runtime     = []
+		month       = []
+
 		SnpFile.each do |e|
+			reference << e.reference
+			status    << e.status
+			updated   << e.updated_at
+			runtime   << e.created_at - e.updated_at
+			month     << "#{e.updated_at.strftime "%Y-%m"}" 
+
 			tmp = {
 				reference: e.reference,
 				status: e.status,
 				updated: e.updated_at,
 				runtime: e.created_at - e.updated_at
 			}	
-			puts tmp.inspect
-			month = "#{tmp[:updated].strftime "%Y-%m"}" 
-			puts month
-		end		
+		end
+		df = Daru::DataFrame.new(
+			month: month,
+			reference: reference,
+			status: status,
+			updated: updated,
+			runtime: runtime,
+			)
+		df
 	end
 end
