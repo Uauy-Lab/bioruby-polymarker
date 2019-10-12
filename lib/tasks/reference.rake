@@ -42,7 +42,7 @@ namespace :reference do
 	desc "Prints a summary of how many requests happened per month"
 	task :summary => :environment do |t, args|
 		summ = ReferenceHelper.summary_by_month
-		daru_to_console summ , STDERR
+		#daru_to_console summ , STDERR
 	end
 
 end

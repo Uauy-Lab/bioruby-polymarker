@@ -51,23 +51,24 @@ module ReferenceHelper
 			reference << e.reference
 			status    << e.status
 			updated   << e.updated_at
-			runtime   << e.created_at - e.updated_at
+			runtime   <<  e.updated_at - e.created_at
 			month     << "#{e.updated_at.strftime "%Y-%m"}" 
-
-			tmp = {
-				reference: e.reference,
-				status: e.status,
-				updated: e.updated_at,
-				runtime: e.created_at - e.updated_at
-			}	
 		end
+
 		df = Daru::DataFrame.new(
-			month: month,
-			reference: reference,
-			status: status,
-			updated: updated,
-			runtime: runtime,
+			{
+				month: month,
+				reference: reference,
+				status: status,
+				updated: updated,
+				runtime: runtime
+			},
+			order: [:month] 
 			)
-		df
+		
+		groups = df.group_by([:month, :reference])
+		groups.each_group do |dfg|
+			$stderr.puts dfg.inspect
+		end
 	end
 end
