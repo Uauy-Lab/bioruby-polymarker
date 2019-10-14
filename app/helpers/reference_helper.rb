@@ -40,35 +40,44 @@ module ReferenceHelper
 	end
 
 	def self.summary_by_month
-
-		reference   = []
-		status      = []
-		updated     = []
-		runtime     = []
-		month       = []
-
+		tmp_rows = []
 		SnpFile.each do |e|
-			reference << e.reference
-			status    << e.status
-			updated   << e.updated_at
-			runtime   <<  e.updated_at - e.created_at
-			month     << "#{e.updated_at.strftime "%Y-%m"}" 
+			tmp_rows  << [
+				e.reference ,
+				e.status ,
+				e.updated_at ,
+			 	e.updated_at - e.created_at ,
+			 	"#{e.updated_at.strftime "%Y-%m"}",
+			 	e.snps.size,
+			 	e.status.include?( "DONE" ) ? 1 : 0
+			 	] 
 		end
 
-		df = Daru::DataFrame.new(
-			{
-				month: month,
-				reference: reference,
-				status: status,
-				updated: updated,
-				runtime: runtime
-			},
-			order: [:month] 
-			)
+		df = Daru::DataFrame.rows(tmp_rows, 
+			order: [:reference, :status, :updated, :runtime, :month, :markers_no, :done])
 		
+
 		groups = df.group_by([:month, :reference])
+
+		summary = []
 		groups.each_group do |dfg|
-			$stderr.puts dfg.inspect
+			month = dfg[:month].first
+			reference = dfg[:reference].first
+			summary << [
+				month,
+				reference,
+				dfg[:markers_no].sum,
+				dfg[:markers_no].size,
+				dfg[:runtime].mean,
+				dfg[:done].sum
+			]
+			#$stderr.puts dfg.inspect
+			#$stderr.puts dfg[:markers_no].sum
 		end
+		 
+		df = Daru::DataFrame.rows(summary, 
+			order: [:month, :reference, :count_markers, :count_requests, :mean_runtime, :done])
+		#$stderr.puts df.inspect
+		df
 	end
 end

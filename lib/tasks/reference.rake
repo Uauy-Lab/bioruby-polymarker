@@ -32,16 +32,10 @@ namespace :reference do
 	task select_order: :environment do
 	end
 
-	def self.daru_to_console(dataframe, writer) 
-		#writer << dataframe.vectors.to_a .join "\t"
-        dataframe.each_row do |row|
-        	writer <<  row.to_a.join("\t")
-         end
-	end
-
 	desc "Prints a summary of how many requests happened per month"
 	task :summary => :environment do |t, args|
 		summ = ReferenceHelper.summary_by_month
+		$stderr.puts summ.inspect
 		#daru_to_console summ , STDERR
 	end
 
