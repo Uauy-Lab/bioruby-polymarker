@@ -1,14 +1,17 @@
 class StatusController < ApplicationController
-  
+  PlotDesc = Struct.new(:div_id, :column, :description)
 
   def summary
+  	@plot_ids = [
+  		PlotDesc.new("requests",:count_requests, "Total requests"),
+  		PlotDesc.new("markers",:count_markers, "Total requested markers")
+  	]
   	summ = ReferenceHelper.summary_by_month
-
   	@plots = Hash.new
-
-  	@plots["requests"] = df_to_plot(summ, :count_requests)
-
-
+  	@plot_ids.each do |p|
+  		@plots[p.div_id] = df_to_plot(summ, p.column)
+  	end
+  	
 
 
   end
@@ -20,14 +23,17 @@ class StatusController < ApplicationController
   def df_to_plot(df, column)
   	groups = df.group_by([:reference])
   	ret = Hash.new
+  	all_months = df[:month].uniq.sort
   	groups.each_group do |dfg|
   		ref = dfg[:reference].first
   		months = Hash.new
+  		all_months.each { |e| months[e] = 0  }
   		dfg.each_row do |row|
   			months[row[:month]] = row[column]
   		end
   		ret[ref] = months
   	end
+  	ret[:all_months] = all_months
   	ret
   end
 end

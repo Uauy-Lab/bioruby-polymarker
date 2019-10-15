@@ -6,15 +6,21 @@
  <button id="renderBtn">
  	Render
 </button>
-<div class="container">
-	<canvas id="myChart"></canvas>
-</div>
 
-<%= @plots.inspect  %>
+<% @plot_ids.each do |p| %>
+<div class="container">
+	<h3><%= p.description %></h3>
+	<canvas id="<%= p.div_id %>"></canvas>
+</div>
+<% end %>
+
+<%= @plots.to_json  %>
 
 <script type="text/javascript">
-function renderChart(data, data2, labels) {
-    var ctx = document.getElementById("myChart").getContext('2d');
+data = <%= raw @plots.to_json  %>
+console.log(data)
+function renderChart(data, labels, div_id) {
+    var ctx = document.getElementById(div_id).getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -31,6 +37,7 @@ function renderChart(data, data2, labels) {
 }
 
 $("#renderBtn").click(
+	
     function () {
         data   = [20000, 14000, 12000, 15000, 18000, 19000, 22000];
         data2  = [14000, 12000, 15000, 18000, 19000, 22000,20000 ];
@@ -38,4 +45,6 @@ $("#renderBtn").click(
         renderChart(data,data2, labels);
     }
 );
+
+
 </script>
