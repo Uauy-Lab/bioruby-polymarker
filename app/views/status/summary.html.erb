@@ -17,32 +17,33 @@
 <%= @plots.to_json  %>
 
 <script type="text/javascript">
-data = <%= raw @plots.to_json  %>
+var data = <%= raw @plots.to_json  %>
 console.log(data)
-function renderChart(data, labels, div_id) {
+function renderChart(data, div_id) {
     var ctx = document.getElementById(div_id).getContext('2d');
+    var labels = data["all_months"];
+    var datasets =  data["datasets"]; 
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
-            datasets: [{
-                label: 'This week',
-                data: data,
-                },{
-                label: 'next week',
-                data: data2,
-            }]
+            datasets: datasets
         },
     });
 }
 
+
 $("#renderBtn").click(
 	
     function () {
-        data   = [20000, 14000, 12000, 15000, 18000, 19000, 22000];
-        data2  = [14000, 12000, 15000, 18000, 19000, 22000,20000 ];
-        labels = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-        renderChart(data,data2, labels);
+        //data   = [20000, 14000, 12000, 15000, 18000, 19000, 22000];
+        //data2  = [14000, 12000, 15000, 18000, 19000, 22000,20000 ];
+        //labels = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+        <% @plot_ids.each do |p| %>
+        var tmp_data = data["<%= p.div_id %>"] ;
+
+        renderChart(tmp_data, "<%= p.div_id %>");
+        <% end %>
     }
 );
 

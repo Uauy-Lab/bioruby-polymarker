@@ -11,9 +11,6 @@ class StatusController < ApplicationController
   	@plot_ids.each do |p|
   		@plots[p.div_id] = df_to_plot(summ, p.column)
   	end
-  	
-
-
   end
 
   def load
@@ -24,16 +21,22 @@ class StatusController < ApplicationController
   	groups = df.group_by([:reference])
   	ret = Hash.new
   	all_months = df[:month].uniq.sort
+  	dataset = []
   	groups.each_group do |dfg|
   		ref = dfg[:reference].first
+  		data = Hash.new
+  		data[:label] = ref 
   		months = Hash.new
+
   		all_months.each { |e| months[e] = 0  }
   		dfg.each_row do |row|
   			months[row[:month]] = row[column]
   		end
-  		ret[ref] = months
+  		data[:data] = months.values
+  		dataset << data
   	end
   	ret[:all_months] = all_months
+  	ret[:datasets]    = dataset
   	ret
   end
 end
