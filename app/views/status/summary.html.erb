@@ -14,21 +14,44 @@
 </div>
 <% end %>
 
-<%= @plots.to_json  %>
-
 <script type="text/javascript">
-var data = <%= raw @plots.to_json  %>
-console.log(data)
-function renderChart(data, div_id) {
-    var ctx = document.getElementById(div_id).getContext('2d');
-    var labels = data["all_months"];
-    var datasets =  data["datasets"]; 
-    var myChart = new Chart(ctx, {
+    //var colorNames = Object.keys(window.chartColors);
+    var data = <%= raw @plots.to_json  %>
+    console.log(data)
+    function renderChart(data, div_id, title) {
+        var ctx = document.getElementById(div_id).getContext('2d');
+        var labels = data["all_months"];
+        var datasets =  data["datasets"]; 
+        var myChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
             datasets: datasets
         },
+        options: {
+            responsive: true,
+            title: {
+                display: true,
+                text: title
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: false,
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            scales: {
+                xAxes: [{
+                    display: true,
+                }],
+                yAxes: [{
+                    display: true,
+                    type: 'logarithmic',
+                }]
+            }
+        }
     });
 }
 
@@ -36,13 +59,10 @@ function renderChart(data, div_id) {
 $("#renderBtn").click(
 	
     function () {
-        //data   = [20000, 14000, 12000, 15000, 18000, 19000, 22000];
-        //data2  = [14000, 12000, 15000, 18000, 19000, 22000,20000 ];
-        //labels = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
         <% @plot_ids.each do |p| %>
         var tmp_data = data["<%= p.div_id %>"] ;
 
-        renderChart(tmp_data, "<%= p.div_id %>");
+        renderChart(tmp_data, "<%= p.div_id %>", "<%= p.description %>");
         <% end %>
     }
 );
