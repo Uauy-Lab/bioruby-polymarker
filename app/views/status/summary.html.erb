@@ -1,18 +1,15 @@
 
-
-<h1>Status#summary</h1>
-<p>Find me in app/views/status/summary.html.erb</p>
-
- <button id="renderBtn">
- 	Render
-</button>
-
+ 
+<select id="chartSelect">
 <% @plot_ids.each do |p| %>
-<div class="container">
-	<h3><%= p.description %></h3>
-	<canvas id="<%= p.div_id %>"></canvas>
-</div>
+   <option value=<%= p.div_id %> > <%= p.description %> </option>
 <% end %>
+</select>
+
+<div class="container">
+	<canvas id="chart_canvas"></canvas>
+</div>
+
 
 <script type="text/javascript">
     //var colorNames = Object.keys(window.chartColors);
@@ -55,16 +52,17 @@
     });
 }
 
+$(function() {
+  // Handler for .ready() called.
+  var first="<%= @plot_ids.first.div_id %>"
+  var desc="<%= @plot_ids.first.description %>"
+  var tmp_data = data[first] ;
+  renderChart(tmp_data, "chart_canvas", desc);
+});
 
-$("#renderBtn").click(
+$("#chartSelect").click(
 	
-    function () {
-        <% @plot_ids.each do |p| %>
-        var tmp_data = data["<%= p.div_id %>"] ;
-
-        renderChart(tmp_data, "<%= p.div_id %>", "<%= p.description %>");
-        <% end %>
-    }
+   
 );
 
 
