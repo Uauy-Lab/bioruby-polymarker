@@ -20,7 +20,7 @@
         var labels = data["all_months"];
         var datasets =  data["datasets"]; 
         var myChart = new Chart(ctx, {
-        type: 'line',
+        type: 'bar',
         data: {
             labels: labels,
             datasets: datasets
@@ -42,10 +42,13 @@
             scales: {
                 xAxes: [{
                     display: true,
+                    stacked: true,
+
                 }],
                 yAxes: [{
                     display: true,
-                    type: 'logarithmic',
+                    stacked: true,
+                    //type: 'logarithmic',
                 }]
             }
         }
