@@ -39,23 +39,14 @@ module ReferenceHelper
 		end.uniq
 	end
 
-	def self.summary_by_month_mongo
+	def self.summary_by_month
 		project = {"$project" => 
 			{
 				"reference" => "$reference",
-				#{}"snps_size" => {"$size" => "$snps.keys" } ,
+				"snps_size" => {"$size" => {  "$objectToArray" => "$snps" }} ,
 				"year"    => { "$year"  => "$created_at"}, 
 				"month"   => { "$month" => "$created_at"}
 			}
-		}
-		group =  { 
-			"$group" => { 
-				"_id" => {
-					"year"=>"$year",
-					"month"=>"$month"
-				}, 
-				"count" => { "$sum" => 1 },
-				"markers count" => { "$sum" => "$snps_size" } } 
 		}
 
 		references_agg =  { 
@@ -65,24 +56,34 @@ module ReferenceHelper
 					"year" => "$year", 
 					"month" => "$month"
 				},
-				"total" => { "$sum" => 1 } } 
+				"total" => { "$sum" => 1 },
+				"markers_count" => { "$sum" => "$snps_size" }
+				 } 
 			}
 
 		tmp = SnpFile.collection.aggregate([project, references_agg])
 		summary = []
 		tmp.each do |e|
-			$stderr.puts e.inspect
+			id = e["_id"]
+			extra = ""
+			extra = "0" if id["month"] < 10
+			arr = []
+			arr << id["reference"]
+			arr << id["year"].to_s + "-"  + extra +   id["month"].to_s
+			arr << e["total"]
+			arr << e["markers_count"]
+			summary << arr
 		end
-		tmp
-		#df = Daru::DataFrame.rows(
-		#	summary, 
-		#	order: [:year, :month, :count_markers, :count_requests]
+		
+		df = Daru::DataFrame.rows(
+			summary, 
+			order: [:reference, :month, :count_markers, :count_requests] )
 			#order: [:month, :reference, :count_markers, :count_requests, :mean_runtime, :done])
 		#$stderr.puts df.inspect
-		#df
+		df
 	end
 
-	def self.summary_by_month
+	def self.summary_by_month_outside_mongo
 		tmp_rows = []
 		SnpFile.each do |e|
 			tmp_rows  << [
