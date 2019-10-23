@@ -77,7 +77,7 @@ module ReferenceHelper
 		
 		df = Daru::DataFrame.rows(
 			summary, 
-			order: [:reference, :month, :count_markers, :count_requests] )
+			order: [:reference, :month, :count_requests, :count_markers] )
 			#order: [:month, :reference, :count_markers, :count_requests, :mean_runtime, :done])
 		#$stderr.puts df.inspect
 		df
