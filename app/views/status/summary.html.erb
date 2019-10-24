@@ -13,62 +13,75 @@
 
 <script type="text/javascript">
     //var colorNames = Object.keys(window.chartColors);
-    var data = <%= raw @plots.to_json  %>
-    console.log(data)
-    function renderChart(data, div_id, title) {
-        var ctx = document.getElementById(div_id).getContext('2d');
-        var labels = data["all_months"];
-        var datasets =  data["datasets"]; 
-        var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: datasets
-        },
-        options: {
-            responsive: true,
-            title: {
-                display: true,
-                text: title
-            },
-            tooltips: {
-                mode: 'index',
-                intersect: false,
-            },
-            hover: {
-                mode: 'nearest',
-                intersect: true
-            },
-            scales: {
-                xAxes: [{
-                    display: true,
-                    stacked: true,
+    var all_data = <%= raw @plots.to_json  %>
+    var myChart;
+    //console.log(data)
+    
 
-                }],
-                yAxes: [{
-                    display: true,
-                    stacked: true,
+    function setDataset(myChart,data){
+    	myChart.data.datasets = data["datasets"];
+    	myChart.update();
+    }
+
+
+
+    function renderChart(data, div_id, title) {
+    	var ctx = document.getElementById(div_id).getContext('2d');
+    	var labels = data["all_months"];
+    	var datasets =  data["datasets"]; 
+    	 myChart = new Chart(ctx, {
+    		type: 'bar',
+    		data: {
+    			labels: labels,
+    			//datasets: datasets
+    		},
+    		options: {
+    			responsive: true,
+    			title: {
+    				display: true,
+    				text: title
+    			},
+    			tooltips: {
+    				mode: 'index',
+    				intersect: false,
+    			},
+    			hover: {
+    				mode: 'nearest',
+    				intersect: true
+    			},
+    			scales: {
+    				xAxes: [{
+    					display: true,
+    					stacked: true,
+
+    				}],
+    				yAxes: [{
+    					display: true,
+    					stacked: true,
                     //type: 'logarithmic',
                 }]
             }
-        }
+        }});
+         setDataset(myChart, data);
+    }
+
+    $(function() {
+    	var e  = document.getElementById("chartSelect"); 
+    	var first=e.options[e.selectedIndex].value;
+    	var desc=e.options[e.selectedIndex].text;
+    	var tmp_data = all_data[first] ;
+    	renderChart(tmp_data, "chart_canvas", desc);
     });
-}
 
-$(function() {
-  // Handler for .ready() called.
-  var first="<%= @plot_ids.first.div_id %>"
-  var desc="<%= @plot_ids.first.description %>"
-  var tmp_data = data[first] ;
-  renderChart(tmp_data, "chart_canvas", desc);
-});
-
-$("#chartSelect").change( function(){
-
-	console.log("hi");
-}
-   
-);
+    $("#chartSelect").change( function(){
+    	var e  = document.getElementById("chartSelect"); 
+    	var first=e.options[e.selectedIndex].value;
+    	var desc=e.options[e.selectedIndex].text;
+    	var tmp_data = all_data[first] ;
+    	setDataset(myChart, tmp_data);
+    
+    }
+    );
 
 
 </script>
