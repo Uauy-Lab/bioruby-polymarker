@@ -1,3 +1,5 @@
+require "daru"
+
 module ReferenceHelper
 	def self.index_reference(reference)
 		fasta_file = reference.path
@@ -35,5 +37,91 @@ module ReferenceHelper
 			raise Exception.new "Invalid chromosome name '#{e.id}' for parser #{arm_selection}" if s.nil? or s.length == 0
 			s 
 		end.uniq
+	end
+
+	def self.summary_by_month
+		project = {"$project" => 
+			{
+				"reference" => "$reference",
+				"snps_size" => {"$size" => {  "$objectToArray" => "$snps" }} ,
+				"year"    => { "$year"  => "$created_at"}, 
+				"month"   => { "$month" => "$created_at"}
+			}
+		}
+
+		references_agg =  { 
+			"$group"=> { 
+				"_id"   => { 
+					"reference" => "$reference", 
+					"year" => "$year", 
+					"month" => "$month"
+				},
+				"total" => { "$sum" => 1 },
+				"markers_count" => { "$sum" => "$snps_size" }
+				 } 
+			}
+
+		tmp = SnpFile.collection.aggregate([project, references_agg])
+		summary = []
+		tmp.each do |e|
+			id = e["_id"]
+			extra = ""
+			extra = "0" if id["month"] < 10
+			arr = []
+			arr << id["reference"]
+			arr << id["year"].to_s + "-"  + extra +   id["month"].to_s
+			arr << e["total"]
+			arr << e["markers_count"]
+			summary << arr
+		end
+		
+		df = Daru::DataFrame.rows(
+			summary, 
+			order: [:reference, :month, :count_requests, :count_markers] )
+			#order: [:month, :reference, :count_markers, :count_requests, :mean_runtime, :done])
+		#$stderr.puts df.inspect
+		df
+	end
+
+	def self.summary_by_month_outside_mongo
+		tmp_rows = []
+		SnpFile.each do |e|
+			tmp_rows  << [
+				e.reference ,
+				e.status ,
+				e.updated_at ,
+			 	e.updated_at - e.created_at ,
+			 	"#{e.updated_at.strftime "%Y-%m"}",
+			 	e.snps.size,
+			 	e.status.include?( "DONE" ) ? 1 : 0
+			 	] 
+		end
+
+		df = Daru::DataFrame.rows(tmp_rows, 
+			order: [:reference, :status, :updated, :runtime, :month, :markers_no, :done])
+		
+
+		groups = df.group_by([:month, :reference])
+
+		summary = []
+		groups.each_group do |dfg|
+			month = dfg[:month].first
+			reference = dfg[:reference].first
+			summary << [
+				month,
+				reference,
+				dfg[:markers_no].sum,
+				dfg[:markers_no].size,
+				dfg[:runtime].mean,
+				dfg[:done].sum
+			]
+			#$stderr.puts dfg.inspect
+			#$stderr.puts dfg[:markers_no].sum
+		end
+		 
+		df = Daru::DataFrame.rows(summary, 
+			order: [:month, :reference, :count_markers, :count_requests, :mean_runtime, :done])
+		#$stderr.puts df.inspect
+		df
 	end
 end

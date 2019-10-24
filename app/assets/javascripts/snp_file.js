@@ -145,7 +145,7 @@ function get_primer_coordinates(item, chr_index, seqs){
 	});
 
 	//console.log("We passed the first search")
-	var a_c_end = end_obj.end -1;
+	var a_c_end = end_obj.end - 1;
 
 	var start_obj = find_start_with_gaps({
 		end:end_obj.end,

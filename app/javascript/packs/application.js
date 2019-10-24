@@ -10,6 +10,7 @@
 require('jquery')
 require('jquery-ui')
 require('w2ui')
+require('chart')
 require('msa')
 require('biojs-io-fasta')
 require('jsgrid')

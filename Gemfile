@@ -41,7 +41,7 @@ gem 'sidekiq' #For the message queue
 
 gem 'inifile' #To parse the preference file.
 
-gem 'bio-polyploid-tools', '~> 0.10.1'
+gem 'bio-polyploid-tools', '>= 1.1'
 
 gem 'bootstrap'
 
@@ -75,3 +75,7 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+#For the plots
+
+gem "daru", "~> 0.2.2"

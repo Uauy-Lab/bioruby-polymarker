@@ -16,8 +16,6 @@ namespace :reference do
 			ref = Reference.new unless ref
 			ref.set_from_hash v
 			fasta_file = ReferenceHelper.index_reference(ref)
-
-
 			chromosomes = ReferenceHelper.get_chromosomes(ref, fasta_file)
 			$stdout.puts "Observed chromosomes: #{chromosomes.size}"
 			ref.chromosomes = chromosomes  if chromosomes.size < 50000
@@ -32,6 +30,13 @@ namespace :reference do
 
 	desc "TODO"
 	task select_order: :environment do
+	end
+
+	desc "Prints a summary of how many requests happened per month"
+	task :summary => :environment do |t, args|
+		summ = ReferenceHelper.summary_by_month
+		$stderr.puts summ.inspect
+		#daru_to_console summ , STDERR
 	end
 
 end

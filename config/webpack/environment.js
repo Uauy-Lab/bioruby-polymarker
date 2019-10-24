@@ -10,6 +10,8 @@ environment.plugins.prepend('Provide',  new webpack.ProvidePlugin({
     jQuery: 'jquery',
     jquery: 'jquery',
     w2ui: 'w2ui',
+    chart: 'chart',
+    Chart: 'chart'
   })
 )
 
@@ -18,5 +20,6 @@ const config = environment.toWebpackConfig()
 config.resolve.alias = {
   jquery: "jquery/src/jquery",
   w2ui: "w2ui/w2ui",
+  chart: "chart.js/dist/Chart"
 }
 module.exports = environment
