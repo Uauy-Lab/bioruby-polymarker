@@ -18,8 +18,9 @@
     //console.log(data)
     
 
-    function setDataset(myChart,data){
+    function setDataset(myChart,data, title){
     	myChart.data.datasets = data["datasets"];
+        myChart.options.title.text = title;
     	myChart.update();
     }
 
@@ -29,7 +30,7 @@
     	var ctx = document.getElementById(div_id).getContext('2d');
     	var labels = data["all_months"];
     	var datasets =  data["datasets"]; 
-    	 myChart = new Chart(ctx, {
+    	myChart = new Chart(ctx, {
     		type: 'bar',
     		data: {
     			labels: labels,
@@ -62,7 +63,7 @@
                 }]
             }
         }});
-         setDataset(myChart, data);
+         setDataset(myChart, data,title);
     }
 
     $(function() {
@@ -78,7 +79,7 @@
     	var first=e.options[e.selectedIndex].value;
     	var desc=e.options[e.selectedIndex].text;
     	var tmp_data = all_data[first] ;
-    	setDataset(myChart, tmp_data);
+    	setDataset(myChart, tmp_data, desc);
     
     }
     );
