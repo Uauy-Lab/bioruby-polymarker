@@ -12,12 +12,13 @@ class SnpFilesController < ApplicationController
   end
 
   def create
-    begin      
+    #begin      
       form_snp_file = snp_file_params
       Mail::Address.new(form_snp_file[:email]) if form_snp_file[:email].length > 0
       @snp_file = SnpFile.new
       @snp_file.email = form_snp_file[:email]
-      @snp_file.filename = form_snp_file[:polymarker_input].original_filename unless form_snp_file[:polymarker_input].nil?
+      @snp_file.filename = ""
+      @snp_file.filename = form_snp_file[:polymarker_input].original_filename if form_snp_file[:polymarker_input]
       @snp_file.email_hash = Digest::MD5.hexdigest @snp_file.email
       @snp_file.status = "New"
       reference = Reference.find_by(name: form_snp_file[:reference])
@@ -29,17 +30,33 @@ class SnpFilesController < ApplicationController
       end      
       throw "0 SNPs found" if @snp_file.snps.size == 0
       throw "More than 250 SNPs found." if @snp_file.snps.size > 250
+
+      
+      #puts respond_to
       if @snp_file.save!        
         PolyMarkerWorker.perform_async(@snp_file.id, request.base_url)
-        redirect_to snp_file_path(@snp_file), notice: "SNP file uploaded successfully" and return
+        respond_to do |format|
+          format.json do
+            status = {id: @snp_file.id.to_s,
+              url: url_for(@snp_file),
+              path: snp_file_path(@snp_file)}
+            render json:  status.to_json and return
+          end
+          format.html do 
+            redirect_to snp_file_path(@snp_file), notice: "SNP file uploaded successfully" and return
+          end
+        end
+
       end
       render 'new'
-    rescue => e    
-      flash[:error] = "Please attach a CSV file with the correct data format\n and make sure the email is correct\n #{e.to_s} " 
-      session[:return_to] ||= request.referer
-      redirect_to session.delete(:return_to)
-      return
-    end     
+    # rescue => e    
+    #   flash[:error] = "Please attach a CSV file with the correct data format\n and make sure the email is correct\n #{e.to_s} " 
+    #   session[:return_to] ||= request.referer
+    #   throw e
+    #   redirect_to session.delete(:return_to)
+      
+       return
+    # end     
 
   end
 
@@ -109,7 +126,7 @@ class SnpFilesController < ApplicationController
   end
 
   def snp_file_params
-    params.require(:snp_file).permit(:email, :reference, :polymarker_input)
+    params.require(:snp_file).permit(:email, :reference)
   end
 
   def get_mask_file
