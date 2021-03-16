@@ -49,3 +49,43 @@ The input text box supports to have the table separated by TAB, so you can paste
 The mask contains the details of the local alignment 
 
 <img src='<%= image_path("mask.png") %>' alt="Drawing" style="width: 800px;"/>
+
+
+REST API
+--------
+
+PolyMarker jobs can be submitted via a REST API. To do this you need to submit a POST request to the url ```'http://www.polymarker.info/snp_files.json'```
+
+The ```body``` of the request must follow the following structure:
+
+```json
+{
+	"snp_file":
+	{
+		"reference":"RefSeq v1.0",
+		"email":""
+	},
+	"polymarker_manual_input":
+	{
+		"post":"1DS_1905169_Cadenza0423_2404_C2404T,1D,ccgccgtcgtatggagcaggccggccaattccttcaaggagtcaaccacctggcgcaaggaccatgaggtccatgctcacgaggtctctttcgttgacgg[C/T]aaaaacaagacggcgccaggctttgagttgctcccggctgtggtggatcaccaaggcaacccgcagccgaccttggtggggatccacgttggccatcccaa\n1DS_40060_Cadenza0423_2998_G2998A,1D,ccagcagcgcccgtcccccttctcccccgaatccgccggagcccagcggacgccggccatgagcacctccgagtagtaagtccccggcgccgccgccgcc[G/A]ccgatctttctttctttctcgcttgatttgtctgcgtttcttttgttccgggtgattgattgatgtgcgtgggctgctgcagcgactacctcttcaagctg\n1DS_1847781_Cadenza0423_2703_G2703A,1D,tttcctctcaaatgtagcttctgcagattcggtggaagggcattcaaccggagaacctcattctcatcacttgcggtcacctctaggtaggacaaaaact[G/A]catctgaataagagactcacagaggcgttcacagtagattctcttcacattcaataacctcaggcttctcatttgcctcagctctcccagttgtctaacag"
+	}
+}
+```
+
+The response will contain the ID (```XXXXXXXXXXXXXXXXXXXX``` in the example) of the request and the URL with the link to the results as follow:
+
+```json
+{
+	"id":"XXXXXXXXXXXXXXXXXXXX",
+	"url":"http://www.polymarker.info/snp_files/XXXXXXXXXXXXXXXXXXXX",
+	"path":"/snp_files/XXXXXXXXXXXXXXXXXXXX"
+}
+```
+
+The valid ```reference``` values for this instance are:
+
+```
+<% Reference.all.each do |ref| %>				
+	'<%= ref.name %>'
+<% end %>
+```	
