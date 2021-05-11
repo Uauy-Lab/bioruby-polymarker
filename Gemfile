@@ -41,7 +41,7 @@ gem 'sidekiq' #For the message queue
 
 gem 'inifile' #To parse the preference file.
 
-gem 'bio-polyploid-tools', '>= 1.1'
+gem 'bio-polyploid-tools', '>= 1.2.1'
 
 gem 'bootstrap'
 
