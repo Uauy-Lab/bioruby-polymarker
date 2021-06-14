@@ -3,8 +3,7 @@ require 'bioruby-polyploid-tools'
 require 'csv'
 require 'fileutils'
 module SnpFilesHelper
-	def parse_file(snp_file, polymarker_input, reference)
-		#puts snp_file.inspect		
+	def parse_file(snp_file, polymarker_input, reference)		
 		snp_file.snps = Hash.new
 		snp_file.not_parsed = Array.new
 		snp_file.output_saved = false

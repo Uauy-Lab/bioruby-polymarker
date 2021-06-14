@@ -12,7 +12,7 @@ class SnpFilesController < ApplicationController
   end
 
   def create
-    #begin      
+    begin      
       form_snp_file = snp_file_params
       Mail::Address.new(form_snp_file[:email]) if form_snp_file[:email].length > 0
       @snp_file = SnpFile.new
@@ -23,6 +23,7 @@ class SnpFilesController < ApplicationController
       @snp_file.status = "New"
       reference = Reference.find_by(name: form_snp_file[:reference])
       @snp_file.reference = reference.name
+      
       unless form_snp_file[:polymarker_input].nil?
         parsed_file = helpers.parse_file(@snp_file, form_snp_file[:polymarker_input], reference)
       else
@@ -49,14 +50,13 @@ class SnpFilesController < ApplicationController
 
       end
       render 'new'
-    # rescue => e    
-    #   flash[:error] = "Please attach a CSV file with the correct data format\n and make sure the email is correct\n #{e.to_s} " 
-    #   session[:return_to] ||= request.referer
+     rescue => e    
+        flash[:error] = "Please attach a CSV file with the correct data format\n and make sure the email is correct\n #{e.to_s} " 
+        session[:return_to] ||= request.referer
     #   throw e
-    #   redirect_to session.delete(:return_to)
-      
+        redirect_to session.delete(:return_to)
        return
-    # end     
+     end     
 
   end
 
@@ -126,7 +126,7 @@ class SnpFilesController < ApplicationController
   end
 
   def snp_file_params
-    params.require(:snp_file).permit(:email, :reference)
+    params.require(:snp_file).permit(:email, :reference, :polymarker_input)
   end
 
   def get_mask_file
